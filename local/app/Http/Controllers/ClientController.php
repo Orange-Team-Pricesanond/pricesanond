@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\tb_client;
-use App\districts;
 use App\ClientModel;
 use DB;
 use Image;
@@ -133,16 +132,6 @@ class ClientController extends Controller
         
         return redirect('about');
     }   
-    
-    public function viewProvince(){
-        $districts = districts::select('province')->groupBy('province')->get();
-//        $districts = DB::table('districts')->select('province')->groupBy('province')->get();
-        return view('clientinert', [
-            'province' => $districts
-        ]);
-    }
-     
- 
     
     
 }
