@@ -32,12 +32,6 @@ Route::post('/submitclient', 'ClientController@Submit');
 Route::get('editclient/{id}', 'ClientController@view');
 Route::post('submiteditclient', 'ClientController@edit');
 
-Route::get('insertclient', 'ClientController@viewProvince');
-
-Route::post('getDistrict', 'ClientController@getDistrict');
-Route::post('getSubdistrict', 'ClientController@getSubdistrict');
-Route::post('getPostal', 'ClientController@getPostal');
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
