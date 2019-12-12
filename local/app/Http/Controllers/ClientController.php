@@ -141,21 +141,8 @@ class ClientController extends Controller
             'province' => $districts
         ]);
     }
-    
-    public function getDistrict(Request $request){
-        $districts = districts::select('amphoe')->groupBy('amphoe')->where('province','LIKE',$request->input('val'))->get();
-        echo $districts;
-    }
-    
-    public function getSubdistrict(Request $request){
-        $districts = districts::select('district')->groupBy('district')->where('amphoe','LIKE',$request->input('val'))->get();
-        echo $districts;
-    }
-    
-    public function getPostal(Request $request){
-        $districts = districts::select('zipcode')->groupBy('zipcode')->where('district','LIKE',$request->input('val'))->get();
-        echo $districts;
-    }   
+     
+ 
     
     
 }
