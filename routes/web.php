@@ -42,8 +42,6 @@ Route::post('getDistrict', 'ClientController@getDistrict');
 Route::post('getSubdistrict', 'ClientController@getSubdistrict');
 Route::post('getPostal', 'ClientController@getPostal');
 
-
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
