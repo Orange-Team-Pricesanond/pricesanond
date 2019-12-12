@@ -15,8 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-
 Route::get('/about', function () {
     return view('about');
 });
@@ -26,8 +24,6 @@ Route::get('/insertclient', function () {
 Route::get('/editclient', function () {
     return view('clientedit');
 });
-
-
 
 // Cliecnt
 Route::get('deleteclient/{id}' , 'ClientController@delete');
