@@ -32,6 +32,7 @@ Route::get('/newtask', function () {
     return view('yellowfileInsert');
 });
 
+
 // Cliecnt
 Route::get('deleteclient/{id}' , 'ClientController@delete');
 Route::get('about', 'ClientController@index');
@@ -44,3 +45,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 //Yellowfile
 Route::get('tasks', 'yellowfileController@index');
+Route::get('newtask', 'yellowfileController@viewClient');
+Route::post('/submityellowfile', 'yellowfileController@Submit');
