@@ -15,7 +15,6 @@ class CreateAddressTable extends Migration
     {
         Schema::create('tb_address_clients', function (Blueprint $table) {
             $table->bigIncrements('ct_ad_id');
-            $table->integer('id_ct_fk');
             $table->text('ct_ad');
             $table->text('ct_ad_branch');
             $table->text('ct_ad_road');
@@ -29,6 +28,7 @@ class CreateAddressTable extends Migration
             $table->text('ct_ad_mail');
             $table->text('ct_ad_atten');
             $table->text('ct_ad_invoice');
+            $table->text('ct_ad_ref')->nullable();
             $table->timestamps();
         });
     }

@@ -12,57 +12,34 @@
     <script type="text/javascript" src="{{ asset('asset/DataTables/datatables.min.js')}}"></script>
    
    
-    <title>Cliect</title>
+    <title>Yellow Files</title>
   </head>
   <body>
   
       <div class="container">
-          <h1>Client Name</h1>
-              <a href="{{ url('insertclient') }}">
-                  <button type="button" class="btn btn-dark">Add New Client</button>
+          <h1>Yellow Name</h1>
+              <a href="{{ url('newtask') }}">
+                  <button type="button" class="btn btn-dark">New Task</button>
               </a> <br><br>
              <table class="table table-hover">
               <thead>
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Full Name</th>
-                  <th scope="col">Invoice Name</th>
-                  <th scope="col">Tax Number</th>
-                  <th scope="col">Images</th>
-                  <th scope="col">Action</th>
+                  <th scope="col">Matter</th>
                 </tr>
               </thead>
               <tbody>
-                @foreach ($client as $val)
+              @foreach ($yellowfile as $val)
                 <tr>
-                  <th scope="row">{{$val->id_ct}}</th>
-                  <td>{{$val->ct_fn}}</td>
-                  <td>{{$val->ct_inn}}</td>
-                  <td>{{$val->ct_tax}}</td>
-                  <td>
-                     @if(!empty($val->ct_images))
-                        <img src="{{url('local/public/client/').'/'.$val->ct_images}}" style="width: 150px;">
-                     @endif
-                  </td>
-                  <td>
-                          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">tool</a>
-                          <div class="dropdown-menu">
-                           
-                            <a class="dropdown-item" href="{{ url('editclient') }}/{{$val->id_ct}}">แก้ไข</a>
-                            <a class="dropdown-item" href="{{ url('deleteclient') }}/{{$val->id_ct}}">ลบข้อมูล</a>
-<!--
-                            <div role="separator" class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ url('addressclient') }}/{{$val->ct_ad_ref}}">Address</a>
--->
-                          </div>
-                  </td>
+                  <td>{{ $val->id_yf} }</td>
+                  <td>{{ $val->id_ct_yf} }</td>
+                  <td>{{ $val->yf_mtt} }</td>
                 </tr>
-                @endforeach
+             @endforeach 
               </tbody>
             </table>
       </div>
-      
-          
       
   
     <!-- Optional JavaScript -->

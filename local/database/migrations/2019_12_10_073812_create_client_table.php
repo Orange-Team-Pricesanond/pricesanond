@@ -18,6 +18,7 @@ class CreateClientTable extends Migration
             $table->text('ct_fn')->nullable();
             $table->text('ct_inn')->nullable();
             $table->text('ct_tax')->nullable();
+            $table->text('ct_ad_ref')->nullable();
             $table->text('ct_images')->nullable();
             $table->timestamps();
         });
