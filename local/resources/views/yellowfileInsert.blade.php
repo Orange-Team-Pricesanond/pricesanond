@@ -1,6 +1,3 @@
-
-
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -16,7 +13,7 @@
   <body>
   
        
-        <form method="post" action="submityellowfile" enctype="multipart/form-data">
+        <form method="post" action=" {{ url('submityellowfile') }} " enctype="multipart/form-data">
  
             <div class="container">
                 <div class="row">
@@ -87,9 +84,18 @@
                             <label for="yf_taxnumber">Invoice name</label>
                             <input type="text" class="form-control" id="yf_taxnumber" name="yf_inv_num" />
                         </div>
+                        
                         <div class="form-group">
                             <label for="yf_address">Address</label>
                             <input type="text" class="form-control" id="yf_address" name="yf_address" />
+                        </div>
+                        <div class="form-group">
+                            <label for="yf_branch">Branch</label>
+                            <select id="yf_branch" name="yf_branch" class="form-control" onchange="changBranch(this.value)" >
+                            @foreach ($address as $val)
+                                <option value="{{ $val->ct_ad_id }}"> {{ $val->ct_ad_branch }} </option>
+                            @endforeach
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="yf_road">Road</label>
@@ -194,6 +200,20 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
+    <script>
+        function changBranch(id){
+            console.log(id);
+            $.ajax({
+                type:'POST',
+                url:"{{ url('appendAddress') }}",
+                data:{id:id},
+                success:function(data){
+                    // alert(data.success);
+                }
+            });
+
+        }
+    </script>
     
   </body>
 </html>
