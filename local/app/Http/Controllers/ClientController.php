@@ -39,7 +39,7 @@ class ClientController extends Controller
         if(!empty($request->file('images'))){
                 
                 $oldpic = DB::table('tb_clients')->where('id_ct',$request->input('id'))->first();
-                @unlink(public_path('/public/client/').$oldpic->ct_images); // delete old picture
+                @unlink(public_path('/client/').$oldpic->ct_images); // delete old picture
             
                 $file = $request->file('images');
                 $ext = $file->getClientOriginalExtension();
@@ -47,7 +47,7 @@ class ClientController extends Controller
                 $imagename = '';
                 $imagename = date('Y-m-d-H-i-s').rand().'.'.$ext;
             
-                $destinationPath_origi = public_path('/public/client/');            
+                $destinationPath_origi = public_path('/client/');            
                 $thumb_img_origi = Image::make($file->getRealPath());
                 $thumb_img_origi->save($destinationPath_origi.$imagename);
 
