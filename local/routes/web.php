@@ -48,4 +48,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('tasks', 'yellowfileController@index');
 Route::get('newtask', 'yellowfileController@viewClient');
 Route::post('/submityellowfile', 'yellowfileController@Submityf');
-Route::post('appendAddress', 'yellowfileController@getAddress');
+Route::get('appendAddress', 'yellowfileController@getAddress');

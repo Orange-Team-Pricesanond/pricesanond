@@ -108,9 +108,9 @@ class yellowfileController extends Controller
         // dd($data);
         DB::table('tb_yellowfiles')->insert($data);
     }
-    public function getAddress($id)
+    public function getAddress(Request $request)
     {
-        $get = DB::table('tb_address_clients')->where('ct_ad_id',$id)->get();
-        return $get;
+        $get = DB::table('tb_address_clients')->where('ct_ad_id',$request->input('id'))->first();
+        return json_encode($get);
     }
 }

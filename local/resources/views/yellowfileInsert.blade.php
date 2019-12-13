@@ -92,6 +92,7 @@
                         <div class="form-group">
                             <label for="yf_branch">Branch</label>
                             <select id="yf_branch" name="yf_branch" class="form-control" onchange="changBranch(this.value)" >
+                            <option>Please select</option>
                             @foreach ($address as $val)
                                 <option value="{{ $val->ct_ad_id }}"> {{ $val->ct_ad_branch }} </option>
                             @endforeach
@@ -204,11 +205,13 @@
         function changBranch(id){
             console.log(id);
             $.ajax({
-                type:'POST',
+                type:'get',
                 url:"{{ url('appendAddress') }}",
                 data:{id:id},
+                dataType:'json',
                 success:function(data){
                     // alert(data.success);
+                    console.log(data.ct_ad_road);
                 }
             });
 
