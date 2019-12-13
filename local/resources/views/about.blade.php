@@ -41,7 +41,7 @@
                   <td>{{$val->ct_tax}}</td>
                   <td>
                      @if(!empty($val->ct_images))
-                        <img src="{{asset('client/').'/'.$val->ct_images}}" style="width: 150px;">
+                        <img src="{{url('local/public/client/').'/'.$val->ct_images}}" style="width: 150px;">
                      @endif
                   </td>
                   <td>
