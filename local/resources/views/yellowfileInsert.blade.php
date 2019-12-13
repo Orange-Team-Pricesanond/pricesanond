@@ -124,11 +124,11 @@
                         </div>
                         <div class="form-group">
                             <label for="yf_phone">Phone</label>
-                            <input type="number" class="form-control" id="yf_phone" name="yf_phone" />
+                            <input type="text" class="form-control" id="yf_phone" name="yf_phone" />
                         </div>
                         <div class="form-group">
                             <label for="yf_fax">Fax</label>
-                            <input type="number" class="form-control" id="yf_fax" name="yf_fax" />
+                            <input type="text" class="form-control" id="yf_fax" name="yf_fax" />
                         </div>
                         <div class="form-group">
                             <label for="yf_email">Email Address</label>
@@ -187,7 +187,26 @@
                 </div>
             </div>
             
-
+            <div class="container">
+                <div class="row">
+                        <div class="col-6" style="padding-top:10px;" >
+                        <h3>5. Confict Check Completed</h3>
+                            <hr>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="yf_confict_1" name="yf_confict" value="1">
+                                <label class="form-check-label" for="yf_refer_1">
+                                    YES
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="yf_confict_2" name="yf_refer" value="2">
+                                <label class="form-check-label" for="yf_confict_2">
+                                   No
+                                </label>
+                            </div>
+                        </div>
+                </div>
+            </div>
             <div class="clonefile" id="div_1"></div>
             <div class="container" style="padding-top: 5px;"><button type="submit" class="btn btn-primary">Submit</button></div>
        
@@ -212,6 +231,18 @@
                 success:function(data){
                     // alert(data.success);
                     console.log(data.ct_ad_road);
+                    $('#yf_road').val(data.ct_ad_road);
+                    $('#yf_address').val(data.ct_ad);
+                    $('#yf_dis').val(data.ct_ad_area);
+                    $('#yf_subdis').val(data.ct_ad_subarea);
+                    $('#yf_provice').val(data.ct_ad_province);
+                    $('#yf_code').val(data.ct_ad_code);
+                    $('#yf_country').val(data.ct_ad_country);
+                    $('#yf_phone').val(data.ct_ad_phone);
+                    $('#yf_fax').val(data.ct_ad_fax);
+                    $('#yf_email').val(data.ct_ad_mail);
+                    $('#yf_atten').val(data.ct_ad_atten);
+                    
                 }
             });
 

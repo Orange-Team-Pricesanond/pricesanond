@@ -32,9 +32,9 @@
               <tbody>
               @foreach ($yellowfile as $val)
                 <tr>
-                  <td>{{ $val->id_yf} }</td>
-                  <td>{{ $val->id_ct_yf} }</td>
-                  <td>{{ $val->yf_mtt} }</td>
+                  <td>{{ $val->id_yf }}</td>
+                  <td>{{ $val->id_ct_yf }}</td>
+                  <td>{{ $val->yf_mtt }}</td>
                 </tr>
              @endforeach 
               </tbody>

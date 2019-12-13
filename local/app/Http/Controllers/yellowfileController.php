@@ -23,7 +23,8 @@ class yellowfileController extends Controller
     }
     public function index()
     {
-        $yellow = yellowfileModel::all();
+        $yellow =  DB::table('tb_yellowfiles')->join('tb_clients', 'tb_yellowfiles.id_ct_yf', '=', 'tb_clients.id_ct');
+        // $yellow = yellowfileModel::all();
         return view('yellowfile', [
             'yellowfile' => $yellow
         ]);
@@ -39,7 +40,6 @@ class yellowfileController extends Controller
     }
     public function Submityf(Request $request)
     {
-        dd($request);
         $fullname = $request->input('id_ct_yf');
         $matter = $request->input('yf_mtt');
         $currency = $request->input('yf_currency');
@@ -107,6 +107,7 @@ class yellowfileController extends Controller
         ];
         // dd($data);
         DB::table('tb_yellowfiles')->insert($data);
+        return redirect('task');
     }
     public function getAddress(Request $request)
     {
