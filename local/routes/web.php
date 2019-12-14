@@ -25,13 +25,16 @@ Route::get('/editclient', function () {
     return view('clientedit');
 });
 
+
 Route::get('/tasks', function () {
     return view('yellowfile');
 });
 Route::get('/newtask', function () {
     return view('yellowfileInsert');
 });
-
+Route::get('/edityellow', function () {
+    return view('yellowfiledit');
+});
 
 
 // Cliecnt
@@ -49,3 +52,8 @@ Route::get('tasks', 'yellowfileController@index');
 Route::get('newtask', 'yellowfileController@viewClient');
 Route::post('/submityellowfile', 'yellowfileController@Submityf');
 Route::get('appendAddress', 'yellowfileController@getAddress');
+Route::get('edityellow/{id}', 'yellowfileController@view');
+Route::post('/submityellowfile', 'yellowfileController@edit');
+Route::get('deleteYellow/{id}' , 'yellowfileController@delete');
+
+

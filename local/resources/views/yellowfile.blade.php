@@ -27,14 +27,24 @@
                   <th scope="col">#</th>
                   <th scope="col">Full Name</th>
                   <th scope="col">Matter</th>
+                  <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
               @foreach ($yellowfile as $val)
                 <tr>
-                  <td>{{ $val->id_yf }}</td>
-                  <td>{{ $val->id_ct_yf }}</td>
-                  <td>{{ $val->yf_mtt }}</td>
+                  <td>{{$val->id_yf}}</td>
+                  <td>{{$val->ct_fn}}</td>
+                  <td>{{$val->yf_mtt}}</td>
+                  <td>
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">tool</a>
+                          <div class="dropdown-menu">
+                           
+                            <a class="dropdown-item" href="{{ url('edityellow') }}/{{$val->id_ct}}">แก้ไข</a>
+                            <a class="dropdown-item" href="{{ url('deleteYellow') }}/{{$val->id_ct}}">ลบข้อมูล</a>
+
+                          </div>
+                  </td>
                 </tr>
              @endforeach 
               </tbody>
