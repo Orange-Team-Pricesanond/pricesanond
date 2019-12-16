@@ -20,7 +20,11 @@
           <h1>Client Name</h1>
               <a href="{{ url('insertclient') }}">
                   <button type="button" class="btn btn-dark">Add New Client</button>
-              </a> <br><br>
+              </a> 
+              <a href="{{ url('tasks') }}">
+                <button type="button" class="btn btn-dark">Yellow Files</button>
+              </a>
+              <br><br>
              <table class="table table-hover">
               <thead>
                 <tr>
