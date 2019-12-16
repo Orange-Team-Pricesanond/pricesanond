@@ -79,6 +79,10 @@
                 <input type="text" class="form-control" id="Postal" name="Postal[]" >
               </div>
               <div class="form-group">
+                <label for="Postal">Country</label>
+                <input type="text" class="form-control" id="Country" name="Country[]" >
+              </div>
+              <div class="form-group">
                 <label for="phone">Phone</label>
                 <input type="text" class="form-control" id="phone" name="phone[]" >
               </div>
@@ -96,10 +100,12 @@
               </div>
               <div class="form-group">
                 <label for="attent">Used in Invoice</label>
-                <select class="form-control" id="invoicepotion" name="invoicepotion[]">
-                    <option value="0">NO</option>
-                    <option value="1">YES</option>
-                </select>
+                <div class="radio">
+                  <label><input type="radio" id="invoicepotion1" name="invoicepotion_1[]" value="1"> Yes</label>
+                </div>
+                <div class="radio">
+                  <label><input type="radio" id="invoicepotion2" name="invoicepotion_1[]" value="0"> No</label>
+                </div>
               </div>
             </div>
             
@@ -207,6 +213,18 @@
                  $("#div_" + nextindex).append('<div class="form-group">');
                  $("#div_" + nextindex).append('<label for="attent">Attention</label>');
                  $("#div_" + nextindex).append('<input type="text" class="form-control" id="attent" name="attent[]" >');
+                 $("#div_" + nextindex).append('</div>');
+
+                 $("#div_" + nextindex).append('<div class="form-group">');
+                 $("#div_" + nextindex).append('<label for="attent">Used in Invoice</label>');
+                 
+                 $("#div_" + nextindex).append('<div class="radio">');
+                 $("#div_" + nextindex).append('<label><input type="radio" id="invoicepotion1" name="invoicepotion_2[]" value="1"> Yes</label>');
+                 $("#div_" + nextindex).append('</div>');
+                 $("#div_" + nextindex).append('<div class="radio">');
+                 $("#div_" + nextindex).append('<label><input type="radio" id="invoicepotion2" name="invoicepotion_2[]" value="0"> No</label>');
+                 $("#div_" + nextindex).append('</div>');
+
                  $("#div_" + nextindex).append('</div>');
               
              $("#div_" + nextindex).append('</div>');             

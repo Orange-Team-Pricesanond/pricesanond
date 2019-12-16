@@ -21,8 +21,8 @@ class ClientController extends Controller
     
     public function Submit(Request $request)
     {
+        dd($request->input());
         $random_number = mt_rand(000000, 999999);
-        
         $name = $request->input('fullname');
         $invoice = $request->input('invoice');
         $tax = $request->input('tax');
@@ -53,10 +53,9 @@ class ClientController extends Controller
 
                 $data['ct_images'] = $imagename;
         }   
-        DB::table('tb_clients')->insert($data);      
         
         $count_input = count($request->input('Address'));
-        for($i=0 ; $i < $count_input ; $i++){
+        for($i=0 ; $i <= $count_input ; $i++){
             $address = [
                 'ct_ad' => $request->input('Address')[$i],
                 'ct_ad_branch' => $request->input('Branch')[$i],
@@ -68,13 +67,17 @@ class ClientController extends Controller
                 'ct_ad_phone' => $request->input('phone')[$i],
                 'ct_ad_fax' => $request->input('Fax')[$i],
                 'ct_ad_mail' => $request->input('email')[$i],
+                'ct_ad_country' => $request->input('Country')[$i],
                 'ct_ad_atten' => $request->input('attent')[$i],
                 'ct_ad_invoice' => $request->input('invoicepotion')[$i], 
                 'ct_ad_ref' => $random_number, 
+                'created_at' => date('Y-m-d H:i:s'), 
+                'updated_at' => date('Y-m-d H:i:s'), 
             ];
             DB::table('tb_address_clients')->insert($address);  
         }
-            
+
+        DB::table('tb_clients')->insert($data);                  
         return redirect('about');
     }
     
