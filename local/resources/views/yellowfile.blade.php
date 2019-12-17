@@ -40,8 +40,8 @@
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">tool</a>
                           <div class="dropdown-menu">
                            
-                            <a class="dropdown-item" href="{{ url('edityellow') }}/{{$val->id_ct}}">แก้ไข</a>
-                            <a class="dropdown-item" href="{{ url('deleteYellow') }}/{{$val->id_ct}}">ลบข้อมูล</a>
+                            <a class="dropdown-item" href="{{ url('edityellow') }}/{{$val->id_yf}}">แก้ไข</a>
+                            <a class="dropdown-item" href="{{ url('deleteYellow') }}/{{$val->id_yf}}">ลบข้อมูล</a>
 
                           </div>
                   </td>

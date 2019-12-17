@@ -53,7 +53,20 @@ Route::get('newtask', 'yellowfileController@viewClient');
 Route::post('/submityellowfile', 'yellowfileController@Submityf');
 Route::get('appendAddress', 'yellowfileController@getAddress');
 Route::get('edityellow/{id}', 'yellowfileController@view');
-Route::post('/submityellowfile', 'yellowfileController@edit');
+Route::post('/submitEdityellowfile', 'yellowfileController@edit');
 Route::get('deleteYellow/{id}' , 'yellowfileController@delete');
+
+//Masterfile
+Route::get('masterpage', function(){
+    return view('yellow_file.index');
+});
+Route::get('dailytime', function(){
+    return view('daily_time_sheet.index');
+});
+
+
+Route::get('masterpage', 'yellowfileController@viewAddress');
+Route::post('yellow_file_submit', 'yellowfileController@Master_yellow_submit');
+
 
 

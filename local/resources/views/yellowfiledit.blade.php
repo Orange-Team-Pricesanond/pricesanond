@@ -13,7 +13,7 @@
   <body>
   
        
-        <form method="post" action=" {{ url('submityellowfile') }} " enctype="multipart/form-data">
+        <form method="post" action=" {{ url('submitEdityellowfile') }} " enctype="multipart/form-data">
  
             <div class="container">
                 <div class="row">
@@ -170,19 +170,7 @@
                 <div class="row">
                         <div class="col-6" style="padding-top:10px;" >
                         <h3>4. Refered By</h3>
-                            <hr>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="yf_refer_1" name="yf_refer" value="1" {{ ( $yellows->yf_refer == "1" ? "checked" : "") }}>
-                                <label class="form-check-label" for="yf_refer_1">
-                                    Yes
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="yf_refer_2" name="yf_refer" value="2" {{ ( $yellows->yf_refer == "2" ? "checked" : "") }}>
-                                <label class="form-check-label" for="yf_refer_2">
-                                   No
-                                </label>
-                            </div>
+                        <input class="form-control" type="text" id="yf_refer" name="yf_refer" value="{{$yellows->yf_refer}}">
                         </div>
                 </div>
             </div>

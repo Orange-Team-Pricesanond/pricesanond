@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="250" height="250" viewBox="0 0 250 250">
+  <g id="avatar" transform="translate(8 8)">
+    <rect id="bg" width="250" height="250" transform="translate(-8 -8)" fill="#fff"/>
+    <path id="Path_273" d="M117,117A25,25,0,1,0,92,92,25.009,25.009,0,0,0,117,117Zm0,12.5c-16.7,0-50,8.4-50,25V167H167V154.5C167,137.9,133.7,129.5,117,129.5Z" fill="#8d96a3"/>
+    <path id="Path_274" d="M42,42H192V192H42Z" fill="none"/>
+  </g>
+</svg>

@@ -170,19 +170,7 @@
                 <div class="row">
                         <div class="col-6" style="padding-top:10px;" >
                         <h3>4. Refered By</h3>
-                            <hr>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="yf_refer_1" name="yf_refer" value="1">
-                                <label class="form-check-label" for="yf_refer_1">
-                                    Yes
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="yf_refer_2" name="yf_refer" value="2">
-                                <label class="form-check-label" for="yf_refer_2">
-                                   No
-                                </label>
-                            </div>
+                        <input class="form-control" type="text" id="yf_refer" name="yf_refer" />
                         </div>
                 </div>
             </div>
@@ -199,7 +187,7 @@
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" id="yf_confict_2" name="yf_refer" value="2">
+                                <input class="form-check-input" type="radio" id="yf_confict_2" name="yf_confict" value="2">
                                 <label class="form-check-label" for="yf_confict_2">
                                    No
                                 </label>

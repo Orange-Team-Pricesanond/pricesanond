@@ -54,6 +54,7 @@ class yellowfileController extends Controller
         $reate5 = $request->input('yf_rates_e');
         $reate6 = $request->input('yf_rates_f');
         $tex = $request->input('yf_taxnumber');
+        $branch = $request->input('yf_branch');
         $invname = $request->input('yf_inv_num');
         $address = $request->input('yf_address');
         $road = $request->input('yf_road');
@@ -78,6 +79,7 @@ class yellowfileController extends Controller
             'yf_currencyter' => $currencyter,
             'yf_fixfee' => $fix,
             'yf_discount' => $dis,
+            'yf_branch' => $branch,
             'yf_time' => $time,
             'yf_rates_a' => $reate1,
             'yf_rates_b' => $reate2,
@@ -105,9 +107,8 @@ class yellowfileController extends Controller
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ];
-        // dd($data);
         DB::table('tb_yellowfiles')->insert($data);
-        return redirect('task');
+        return redirect('tasks');
     }
     public function getAddress(Request $request)
     {
@@ -202,4 +203,19 @@ class yellowfileController extends Controller
         DB::table('tb_yellowfiles')->where('id_yf',$id)->delete();
         return redirect('tasks');
     }
+
+    //----------- Master File --------------
+    public function viewAddress()
+    {
+        $yellow = DB::table('tb_address_clients')->get();
+        return view('yellow_file.index', [
+            'yellowfile' => $yellow
+        ]);
+    }
+    public function Master_yellow_submit(Request $request)
+    {
+        dd($request->input());
+    }
+
+
 }
