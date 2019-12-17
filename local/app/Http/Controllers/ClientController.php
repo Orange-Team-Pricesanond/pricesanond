@@ -11,7 +11,8 @@ use Image;
 
 class ClientController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $client = tb_client::all();
         return view('about', [
             'client' => $client
@@ -80,16 +81,16 @@ class ClientController extends Controller
         return redirect('about');
     }
     
-    public function view($id){
-        //dd($id); 
-        // print_r and exit()
+    public function view($id)
+    {
         $sql = DB::table('tb_clients')->where('id_ct',$id)->first();
         return view('clientedit',[
             'client' => $sql
         ]);
     }
     
-    public function edit(Request $request){     
+    public function edit(Request $request)
+    {     
         
         $data = [
             'ct_fn' => $request->input('fullname'),
@@ -121,7 +122,8 @@ class ClientController extends Controller
         return redirect('about');
     }
     
-    public function delete($id){
+    public function delete($id)
+    {
         
         $oldpic = DB::table('tb_clients')->where('id_ct',$id)->first();
         $serch = DB::table('tb_address_clients')->where('ct_ad_ref',$oldpic->ct_ad_ref)->get();

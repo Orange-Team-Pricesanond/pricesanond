@@ -1,10 +1,11 @@
+
 <div class="card border-0">
     <div class="card-header py-4 bg-white d-flex justify-content-between">
         <div>INSTRUCTION FOR OPENING YELLOW FILE</div>
         <div>
             <div class='d-inline-block'>
                 <span class="ml-2">File No. </span>
-                <span class="text-blue">13314</span>
+                <span class="text-blue">{{ $fileno }}</span>
             </div>
             <div class='d-inline-block'>
                 <span class="ml-2">Status : </span>
@@ -16,26 +17,26 @@
         <div class="card-body">
             {{ csrf_field() }}
                 <h6 class="card-title mb-4"><strong>01. File details and Rates</strong></h6>
+                <input type="hidden" id="yf_fileno" name="yf_fileno" value="{{ $fileno }}">
                 <div class="row form-group">
                     <div class="col-lg-4">
                         <label>File name</label>
                         <div class="input-group">
-                            <div class="input-group-prepend" data-toggle="modal" data-target="#pop_client_list">
-                                <div class="input-group-text border-0">
-                                    <i class="material-icons">search</i>
-                                </div>
-                            </div>
-                            <input type="text" class="form-control">
+                            <select id="id_ct_yf" name="id_ct_yf" class="form-control select2" style="width:100%; height:25px;">
+                            @foreach ($client as $val)
+                                <option value="{{ $val->id_ct }}"> {{ $val->ct_fn }} </option>
+                            @endforeach
+                        </select>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <label>Matter</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" id="yf_mtt" name="yf_mtt" require>
                     </div>
                     <div class="col-lg-4">
                         <label>Partner</label>
-                        <select id="yf_partner" name="yf_partner" class="form-control" >
-                            <option>Please select</option>
+                        <select id="yf_partner" name="yf_partner" class="form-control select2" style="width:100%; height:25px;">
+                            <!-- <option>Please select</option> -->
                             @foreach ($partner as $val)
                                 <option value="{{ $val->pt_id }}"> {{ $val->pt_name }} </option>
                             @endforeach
@@ -68,11 +69,11 @@
                     <div class="col-lg-4">
                         <label class="d-block">Time</label>
                         <div class="custom-control custom-radio custom-control-inline mt-2">
-                            <input type="radio" id="time_1" name="yf_time" class="custom-control-input" checked>
+                            <input type="radio" id="time_1" name="yf_time" class="custom-control-input" value="5">
                             <label class="custom-control-label" for="time_1">5 Increment</label>
                         </div>
                         <div class="custom-control custom-radio custom-control-inline  mt-2">
-                            <input type="radio" id="time_2" name="yf_time" class="custom-control-input">
+                            <input type="radio" id="time_2" name="yf_time" class="custom-control-input" value="6">
                             <label class="custom-control-label" for="time_2">6 Increment</label>
                         </div>
                     </div>
@@ -84,7 +85,7 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text border-0">A</div>
                             </div>
-                            <input type="text" class="form-control" id="yf_rates_a" name="yf_rates_a" />
+                            <input type="text" class="form-control" id="yf_rates_a" name="yf_rates_a" require />
                         </div>
                     </div>
                     <div class="col-lg-2">
@@ -92,7 +93,7 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text border-0">B</div>
                             </div>
-                            <input type="text" class="form-control" id="yf_rates_b" name="yf_rates_b" />
+                            <input type="text" class="form-control" id="yf_rates_b" name="yf_rates_b" require />
                         </div>
                     </div>
                     <div class="col-lg-2">
@@ -100,7 +101,7 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text border-0">C</div>
                             </div>
-                            <input type="text" class="form-control" id="yf_rates_c" name="yf_rates_c" />
+                            <input type="text" class="form-control" id="yf_rates_c" name="yf_rates_c" require />
                         </div>
                     </div>
                     <div class="col-lg-2">
@@ -108,7 +109,7 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text border-0">D</div>
                             </div>
-                            <input type="text" class="form-control" id="yf_rates_d" name="yf_rates_d" />
+                            <input type="text" class="form-control" id="yf_rates_d" name="yf_rates_d" require />
                         </div>
                     </div>
                     <div class="col-lg-2">
@@ -116,7 +117,7 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text border-0">E</div>
                             </div>
-                            <input type="text" class="form-control" id="yf_rates_e" name="yf_rates_e" />
+                            <input type="text" class="form-control" id="yf_rates_e" name="yf_rates_e" require />
                         </div>
                     </div>
                     <div class="col-lg-2">
@@ -124,7 +125,7 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text border-0">F</div>
                             </div>
-                            <input type="text" class="form-control" id="yf_rates_f" name="yf_rates_f" />
+                            <input type="text" class="form-control" id="yf_rates_f" name="yf_rates_f" require />
                         </div>
                     </div>
                 </div>
@@ -140,30 +141,26 @@
                 <div class="row form-group">
                     <div class="col-lg-4">
                         <label>Branch</label>
-                        <select id="yf_branch" name="yf_branch" class="form-control" onchange="changBranch(this.value)" >
-                            <option>Please select</option>
-                            @foreach ($yellowfile as $val)
+                        <select id="yf_branch" name="yf_branch" class="form-control select2" onchange="changBranch(this.value)" style="width:100%; height:25px;">
+                            <!-- <option>Please select</option> -->
+                            @foreach ($address as $val)
                                 <option value="{{ $val->ct_ad_id }}"> {{ $val->ct_ad_branch }} </option>
                             @endforeach
                         </select>
                     </div>
                     <div class="col-lg-4">
                         <label>Company's tax id number</label>
-                        <input type="text" class="form-control">
+                        <input type="number" class="form-control" id="yf_taxnumber" name="yf_taxnumber" />
                     </div>
                     <div class="col-lg-4">
                         <label>Invoice name</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" id="yf_inv_num" name="yf_inv_num" />
                     </div>
                 </div>
                 <div class="row form-group">
                     <div class="col-lg-4">
                         <label>Country</label>
-                        <select class="form-control">
-                            <option selected>Option 1</option>
-                            <option>Option 2</option>
-                            <option>Option 3</option>
-                        </select>
+                        <input type="text" class="form-control" id="yf_country" name="yf_country" />
                     </div>
                     <div class="col-lg-4">
                         <label>Province</label>
@@ -224,16 +221,16 @@
                 <div class="row form-group">
                     <div class="col-lg-4">
                         <label>Branch</label>
-                        <select id="yf_branch" name="yf_branch" class="form-control" onchange="changBranch2(this.value)" >
-                            <option>Please select</option>
-                            @foreach ($yellowfile as $val)
+                        <select id="yf_branch" name="yf_branch" class="form-control select2" onchange="changBranch2(this.value)" style="width:100%; height:25px;">
+                            <!-- <option>Please select</option> -->
+                            @foreach ($address as $val)
                                 <option value="{{ $val->ct_ad_id }}"> {{ $val->ct_ad_branch }} </option>
                             @endforeach
                         </select>
                     </div>
                     <div class="col-lg-4">
                         <label>Company's tax id number</label>
-                        <input type="number" min="0" class="form-control" id="dy_taxnumber" name="dy_taxnumber" />
+                        <input type="number" class="form-control" id="dy_taxnumber" name="dy_taxnumber" />
                     </div>
                     <div class="col-lg-4">
                         <label>Invoice name</label>
@@ -312,11 +309,11 @@
                 <div class="row form-group">
                     <div class="col-lg-4">
                         <div class="custom-control custom-radio custom-control-inline mt-2">
-                            <input type="radio" id="conflict_1" name="yf_confict" class="custom-control-input">
+                            <input type="radio" id="conflict_1" name="yf_confict" class="custom-control-input" value="1">
                             <label class="custom-control-label" for="conflict_1">Yes</label>
                         </div>
                         <div class="custom-control custom-radio custom-control-inline  mt-2">
-                            <input type="radio" id="conflict_2" name="yf_confict" class="custom-control-input">
+                            <input type="radio" id="conflict_2" name="yf_confict" class="custom-control-input" value="0">
                             <label class="custom-control-label" for="conflict_2">No</label>
                         </div>
                     </div>
@@ -332,7 +329,17 @@
 
 </div>
 
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"> -->
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.12/css/bootstrap-select.css"> -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script> -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.12/js/bootstrap-select.js"></script> -->
+
+
+
 <script>
+
+
         function changBranch(id){
             console.log(id);
             $.ajax({

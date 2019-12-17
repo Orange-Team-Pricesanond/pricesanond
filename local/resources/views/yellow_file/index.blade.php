@@ -18,6 +18,13 @@
     <link rel="stylesheet" href="{{ asset('asset/css/sidebar-themes.css') }}" >
     <link rel="stylesheet" href="{{ asset('asset/css/styles.css') }}" >
 
+    <style>
+    .select2-selection{
+        height: 37px !important; 
+        font-size: 17px !important;
+        padding-top: 4px !important;
+    }
+    </style>
 
 </head>
 
@@ -83,6 +90,13 @@
 
     <script src="{{ asset('asset/js/sidebar-main.js') }}"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <script>
+           $(document).ready(function() {
+            $('.select2').select2();
+        });
+</script>
 
 </body>
 </html>

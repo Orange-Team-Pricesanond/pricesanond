@@ -38,22 +38,28 @@
                 </tr>
             </thead>
             <tbody>
+            @foreach ($yellowfile as $val)
+            <?php
+                $client_name = DB::table('tb_clients')->where('id_ct',$val->id_ct_yf)->first();
+                $partner_name = DB::table('tb_partner')->where('pt_id',$val->yf_partner)->first();
+            ?>
                 <tr>
                     <td data-toggle="modal" data-target="#pop_yellow_file"></td>
-                    <td data-toggle="modal" data-target="#pop_yellow_file">12531</td>
-                    <td data-toggle="modal" data-target="#pop_yellow_file">12/09/2019</td>
-                    <td data-toggle="modal" data-target="#pop_yellow_file">10 Pramote Srisamai</td>
-                    <td data-toggle="modal" data-target="#pop_yellow_file">American Express (Thai) Co., Ltd.</td>
-                    <td data-toggle="modal" data-target="#pop_yellow_file">TOT Custom Agreement...</td>
+                    <td data-toggle="modal" data-target="#pop_yellow_file">{{ $val->yf_fileno }}</td>
+                    <td data-toggle="modal" data-target="#pop_yellow_file">{{ $val->created_at }}</td>
+                    <td data-toggle="modal" data-target="#pop_yellow_file">{{ $partner_name->pt_name }}</td>
+                    <td data-toggle="modal" data-target="#pop_yellow_file">{{ $client_name->ct_fn }}</td>
+                    <td data-toggle="modal" data-target="#pop_yellow_file">{{ $val->yf_mtt }}</td>
                     <td data-toggle="modal" data-target="#pop_yellow_file">Active</td>
                     <td class="text-center">
                         <span class="more material-icons md-14" id="ac_dts_1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">more_vert</span>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="ac_dts_1">
                             <a class="dropdown-item" href="#">Submit</a>
-                            <a class="dropdown-item" href="#">Delete</a>
+                            <a class="dropdown-item" href="{{ url('deleteYellow') }}/{{$val->id_yf}}">Delete</a>
                         </div>
                     </td>
                 </tr>
+            @endforeach
             </tbody>
         </table>
 

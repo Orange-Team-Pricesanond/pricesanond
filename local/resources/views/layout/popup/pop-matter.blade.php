@@ -7,8 +7,6 @@
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-
-
             <div class="modal-body">
                 <table id="list_sm" class="listed table table-hover display responsive nowrap w-100">
                     <thead>

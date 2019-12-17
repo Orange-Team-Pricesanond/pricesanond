@@ -25,7 +25,6 @@ class yellowfileController extends Controller
     public function index()
     {
         $yellow =  DB::table('tb_yellowfiles')->join('tb_clients', 'tb_yellowfiles.id_ct_yf', '=', 'tb_clients.id_ct')->get();
-        // $yellow = yellowfileModel::all();
         return view('yellowfile', [
             'yellowfile' => $yellow
         ]);
@@ -116,7 +115,8 @@ class yellowfileController extends Controller
         $get = DB::table('tb_address_clients')->where('ct_ad_id',$request->input('id'))->first();
         return json_encode($get);
     }
-    public function view($id){
+    public function view($id)
+    {
         $client = tb_client::all();
         $address = addressModel::all();
         $sql = DB::table('tb_yellowfiles')->where('id_yf',$id)->first();
@@ -199,28 +199,32 @@ class yellowfileController extends Controller
         DB::table('tb_yellowfiles')->update($data);
         return redirect('tasks');
     }
-    public function delete($id)
-    {
-        DB::table('tb_yellowfiles')->where('id_yf',$id)->delete();
-        return redirect('tasks');
-    }
-
+ 
     //----------- Master File --------------
     public function viewAddress()
     {   
+        $random = mt_rand(000000, 999999);
         $partner = partnerModel::all();
-        $yellow = DB::table('tb_address_clients')->get();
+        $client = tb_client::all();
+        $yellowfile = yellowfileModel::all();
+        $address = DB::table('tb_address_clients')->get();
+       
         return view('yellow_file.index', [
-            'yellowfile' => $yellow,
+            'address' => $address,
             'partner' => $partner,
+            'client' => $client,
+            'yellowfile' => $yellowfile,
+            'fileno' => $random,
         ]);
     }
     public function Master_yellow_submit(Request $request)
     {
+        $remark = $request->input('yf_remark');
         $fullname = $request->input('id_ct_yf');
         $matter = $request->input('yf_mtt');
         $currency = $request->input('yf_currency');
         $currencyter = $request->input('yf_currencyter');
+        $partner = $request->input('yf_partner');
         $fix = $request->input('yf_fixfee');
         $dis = $request->input('yf_discount');
         $time = $request->input('yf_time');
@@ -270,9 +274,11 @@ class yellowfileController extends Controller
             'id_ct_yf' => $fullname,
             'yf_mtt' => $matter,
             'yf_currency' => $currency,
+            'yf_partner' => $partner,
             'yf_currencyter' => $currencyter,
             'yf_fixfee' => $fix,
             'yf_discount' => $dis,
+            'yf_remark' => $remark,
             'yf_branch' => $branch,
             'yf_time' => $time,
             'yf_rates_a' => $reate1,
@@ -315,9 +321,14 @@ class yellowfileController extends Controller
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ];
-            dd($data);
-
+        // dd($data);
+        DB::table('tb_yellowfiles')->insert($data);
+        return redirect('masterpage');
     }
-
+    public function delete($id)
+    {
+        DB::table('tb_yellowfiles')->where('id_yf',$id)->delete();
+        return redirect('masterpage');
+    }
 
 }
