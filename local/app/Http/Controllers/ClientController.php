@@ -12,7 +12,6 @@ use Image;
 class ClientController extends Controller
 {
     public function index(){
-        
         $client = tb_client::all();
         return view('about', [
             'client' => $client

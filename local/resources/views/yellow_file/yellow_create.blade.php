@@ -34,10 +34,11 @@
                     </div>
                     <div class="col-lg-4">
                         <label>Partner</label>
-                        <select class="form-control">
-                            <option selected="">Option 1</option>
-                            <option>Option 2</option>
-                            <option>Option 3</option>
+                        <select id="yf_partner" name="yf_partner" class="form-control" >
+                            <option>Please select</option>
+                            @foreach ($partner as $val)
+                                <option value="{{ $val->pt_id }}"> {{ $val->pt_name }} </option>
+                            @endforeach
                         </select>
                     </div>
                 </div>

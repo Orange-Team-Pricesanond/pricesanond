@@ -20,7 +20,8 @@ class CreateClientTable extends Migration
             $table->text('ct_tax')->nullable();
             $table->text('ct_ad_ref')->nullable();
             $table->text('ct_images')->nullable();
-            $table->timestamps();
+            $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
     }
 
