@@ -63,10 +63,13 @@ Route::get('masterpage', function(){
 Route::get('dailytime', function(){
     return view('daily_time_sheet.index');
 });
-
-
 Route::get('masterpage', 'yellowfileController@viewAddress');
 Route::post('yellow_file_submit', 'yellowfileController@Master_yellow_submit');
+
+
+//-- TimeSheet
+Route::get('dailytime', 'TimeController@index');
+
 
 
 

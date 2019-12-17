@@ -38,6 +38,7 @@
                 </tr>
             </thead>
             <tbody>
+                @foreach($sheet as $val)
                 <tr>
                     <td data-toggle="modal" data-target="#pop_time_sheet">1</td>
                     <td data-toggle="modal" data-target="#pop_time_sheet">DSL31-150919</td>
@@ -54,38 +55,7 @@
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td data-toggle="modal" data-target="#pop_time_sheet">2</td>
-                    <td data-toggle="modal" data-target="#pop_time_sheet">DSL31-140919</td>
-                    <td data-toggle="modal" data-target="#pop_time_sheet">14/09/2019</td>
-                    <td data-toggle="modal" data-target="#pop_time_sheet">31</td>
-                    <td data-toggle="modal" data-target="#pop_time_sheet">3</td>
-                    <!-- <td data-toggle="modal" data-target="#pop_time_sheet">12531</td> -->
-                    <td data-toggle="modal" data-target="#pop_time_sheet">Draft</td>
-                    <td class="text-center">
-                        <span class="more material-icons md-14" id="ac_dts_1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">more_vert</span>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="ac_dts_1">
-                            <a class="dropdown-item" href="#">Submit</a>
-                            <a class="dropdown-item" href="#">Delete</a>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td data-toggle="modal" data-target="#pop_time_sheet">3</td>
-                    <td data-toggle="modal" data-target="#pop_time_sheet">DSL31-130919</td>
-                    <td data-toggle="modal" data-target="#pop_time_sheet">13/09/2019</td>
-                    <td data-toggle="modal" data-target="#pop_time_sheet">31</td>
-                    <td data-toggle="modal" data-target="#pop_time_sheet">3</td>
-                    <!-- <td data-toggle="modal" data-target="#pop_time_sheet">12531</td> -->
-                    <td data-toggle="modal" data-target="#pop_time_sheet">Draft</td>
-                    <td class="text-center">
-                        <span class="more material-icons md-14" id="ac_dts_1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">more_vert</span>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="ac_dts_1">
-                            <a class="dropdown-item" href="#">Submit</a>
-                            <a class="dropdown-item" href="#">Delete</a>
-                        </div>
-                    </td>
-                </tr>
+                @endforeach 
             </tbody>
         </table>
 
