@@ -1,4 +1,10 @@
-<div class="modal fade" id="pop_yellow_file" tabindex="-1" role="dialog">
+<?php        
+    $getID = DB::table('tb_yellowfiles')->get();
+    foreach($getID as $_getID){
+
+?>
+
+<div class="modal fade" id="pop_yellow_file{{$_getID->id_yf}}" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -17,7 +23,7 @@
 
                 <div class="tab-content" id="yellow-tabContent">
                     <div id="yellow_con_1" aria-labelledby="yellow_tab_1" role="tabpanel" class="tab-pane fade show active">
-                        @include('yellow_file.yellow_create')
+                        @include('yellow_file.yellow_view')
                     </div>
                     <div id="yellow_con_2" aria-labelledby="yellow_tab_2" role="tabpanel" class="tab-pane fade">
                         @include('yellow_file.time_record')
@@ -32,3 +38,5 @@
         </div>
     </div>
 </div>
+
+ <?php } ?>

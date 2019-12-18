@@ -71,14 +71,11 @@
     <!-- site popup -->
     @include('layout.popup.pop-matter')
 
-
-
     <!-- site scripts -->
     <script src="{{ asset('asset/js/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ asset('asset/js/popper.min.js') }}"></script>
     <script src="{{ asset('asset/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('asset/js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
-
     <script src="{{ asset('asset/js/sidebar-main.js') }}"></script>
 
 

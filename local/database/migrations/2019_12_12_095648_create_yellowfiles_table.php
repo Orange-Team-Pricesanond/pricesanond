@@ -16,8 +16,10 @@ class CreateYellowfilesTable extends Migration
         Schema::create('yellowfiles', function (Blueprint $table) {        
 
             $table->bigIncrements('id_yf');
+            $table->text('yf_fileno');
             $table->integer('id_ct_yf');
             $table->integer('yf_branch');
+            $table->text('yf_partner');
             $table->text('yf_mtt');
             $table->text('yf_currency');
             $table->text('yf_currencyter');
@@ -57,11 +59,10 @@ class CreateYellowfilesTable extends Migration
             $table->text('dy_email');
             $table->text('dy_atten');
             $table->text('dy_invioctext');
-            $table->text('yf_location');
             $table->text('yf_refer');
             $table->integer('yf_confict');
-            $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->dateTime('created_at');
+            $table->dateTime('updated_at');
         });
     }
 

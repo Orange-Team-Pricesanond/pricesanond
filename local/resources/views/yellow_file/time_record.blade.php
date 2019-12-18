@@ -1,3 +1,6 @@
+
+   {{$_getID->id_ct_yf}}
+
 <table id="list_sm" class="listed table table-hover display responsive nowrap w-100">
     <thead>
         <tr>
@@ -33,7 +36,8 @@
                 <div><strong>DR</strong> email to Mr. Robin re work permit information.</div>
             </td>
         </tr>
-        <tr>
+
+        <!-- <tr>
             <td>2</td>
             <td>23/05/19</td>
             <td>15:10</td>
@@ -83,7 +87,7 @@
                 <div><strong>DR</strong> email to Mr. Robin re work permit information.</div>
                 <div><strong>DR</strong> email to Mr. Robin re work permit information.</div>
             </td>
-        </tr>
+        </tr> -->
 
 
         <tr class="bg-light">

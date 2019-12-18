@@ -65,7 +65,7 @@ Route::get('dailytime', function(){
 });
 Route::get('masterpage', 'yellowfileController@viewAddress');
 Route::post('yellow_file_submit', 'yellowfileController@Master_yellow_submit');
-
+Route::post('yellow_file_edit', 'yellowfileController@Master_yellow_edit');
 
 //-- TimeSheet
 Route::get('dailytime', 'TimeController@index');
