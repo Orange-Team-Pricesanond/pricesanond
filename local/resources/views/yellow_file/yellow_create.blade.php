@@ -387,16 +387,6 @@
                 dataType:'json',
                 success:function(data){
 
-                    var text = data.ct_ad_road;
-                    text += data.ct_ad;
-                    text += data.ct_ad_area;
-                    text += data.ct_ad_subarea;
-                    text += data.ct_ad_province;
-                    text += data.ct_ad_code;
-                    text += data.ct_ad_country;
-
-                    console.log(text);
-
                     $('#dy_road').val(data.ct_ad_road);
                     $('#dy_address').val(data.ct_ad);
                     $('#dy_dis').val(data.ct_ad_area);
