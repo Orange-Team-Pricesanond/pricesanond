@@ -7,6 +7,7 @@ use App\yellowfileModel;
 use App\tb_client;
 use App\addressModel;
 use App\partnerModel;
+use App\moneyModel;
 use DB;
 use Image;
 
@@ -206,6 +207,7 @@ class yellowfileController extends Controller
         $random = mt_rand(000000, 999999);
         $partner = partnerModel::all();
         $client = tb_client::all();
+        $money = moneyModel::all();
         $yellowfile = yellowfileModel::all();
         $address = DB::table('tb_address_clients')->get();
        
@@ -215,6 +217,7 @@ class yellowfileController extends Controller
             'client' => $client,
             'yellowfile' => $yellowfile,
             'fileno' => $random,
+            'money' => $money,
         ]);
     }
     public function Master_yellow_submit(Request $request)
@@ -227,6 +230,7 @@ class yellowfileController extends Controller
         $currencyter = $request->input('yf_currencyter');
         $partner = $request->input('yf_partner');
         $fix = $request->input('yf_fixfee');
+        $estimate = $request->input('yf_estimate');
         $dis = $request->input('yf_discount');
         $time = $request->input('yf_time');
         $reate1 = $request->input('yf_rates_a');
@@ -236,39 +240,40 @@ class yellowfileController extends Controller
         $reate5 = $request->input('yf_rates_e');
         $reate6 = $request->input('yf_rates_f');
         $tex = $request->input('yf_taxnumber');
+        $team = $request->input('yf_team');
         //invoice Address
         $branch = $request->input('yf_branch');        
         $invname = $request->input('yf_inv_num');
         $address = $request->input('yf_address');
-        $road = $request->input('yf_road');
-        $district = $request->input('yf_dis');
-        $subdis = $request->input('yf_subdis');
-        $provice = $request->input('yf_provice');
-        $code = $request->input('yf_code');
-        $country = $request->input('yf_country');
+        // $road = $request->input('yf_road');
+        // $district = $request->input('yf_dis');
+        // $subdis = $request->input('yf_subdis');
+        // $provice = $request->input('yf_provice');
+        // $code = $request->input('yf_code');
+        // $country = $request->input('yf_country');
         $phone = $request->input('yf_phone');
         $fax = $request->input('yf_fax');
         $mail = $request->input('yf_email');
         $atten = $request->input('yf_atten');
         $invtext = $request->input('yf_invioctext');
         //delivery location
-        $branch_dely = $request->input('dy_branch'); 
+        // $branch_dely = $request->input('dy_branch'); 
         $tex_dely = $request->input('dy_taxnumber'); 
         $invname_dely = $request->input('dy_inv_num');
         $address_dely = $request->input('dy_address');
-        $road_dely = $request->input('dy_road');
-        $district_dely = $request->input('dy_dis');
-        $subdis_dely = $request->input('dy_subdis');
-        $provice_dely = $request->input('dy_provice');
-        $code_dely = $request->input('dy_code');
-        $country_dely = $request->input('dy_country');
+        // $road_dely = $request->input('dy_road');
+        // $district_dely = $request->input('dy_dis');
+        // $subdis_dely = $request->input('dy_subdis');
+        // $provice_dely = $request->input('dy_provice');
+        // $code_dely = $request->input('dy_code');
+        // $country_dely = $request->input('dy_country');
         $phone_dely = $request->input('dy_phone');
         $fax_dely = $request->input('dy_fax');
         $mail_dely = $request->input('dy_email');
         $atten_dely = $request->input('dy_atten');
         $invtext_dely = $request->input('dy_invioctext');
 
-        // $location = $request->input('yf_location');
+        $location = $request->input('yf_location');
         $refer = $request->input('yf_refer');
         $confict = $request->input('yf_confict');
 
@@ -280,6 +285,7 @@ class yellowfileController extends Controller
             'yf_partner' => $partner,
             'yf_currencyter' => $currencyter,
             'yf_fixfee' => $fix,
+            'yf_estimate' => $estimate,
             'yf_discount' => $dis,
             'yf_remark' => $remark,
             'yf_branch' => $branch,
@@ -293,12 +299,12 @@ class yellowfileController extends Controller
             'yf_taxnumber' => $tex,
             'yf_inv_num' => $invname,
             'yf_address' => $address,
-            'yf_road' => $road,
-            'yf_dis' => $district,
-            'yf_subdis' => $subdis,
-            'yf_provice' => $provice,
-            'yf_code' => $code,
-            'yf_country' => $country,
+            // 'yf_road' => $road,
+            // 'yf_dis' => $district,
+            // 'yf_subdis' => $subdis,
+            // 'yf_provice' => $provice,
+            // 'yf_code' => $code,
+            // 'yf_country' => $country,
             'yf_phone' => $phone,
             'yf_fax' => $fax,
             'yf_email' => $mail,
@@ -308,19 +314,20 @@ class yellowfileController extends Controller
             'dy_taxnumber' => $tex_dely,
             'dy_inv_num' => $invname_dely,
             'dy_address' => $address_dely,
-            'dy_road' => $road_dely,
-            'dy_dis' => $district_dely,
-            'dy_subdis' => $subdis_dely,
-            'dy_provice' => $provice_dely,
-            'dy_code' => $code_dely,
-            'dy_country' => $country_dely,
+            // 'dy_road' => $road_dely,
+            // 'dy_dis' => $district_dely,
+            // 'dy_subdis' => $subdis_dely,
+            // 'dy_provice' => $provice_dely,
+            // 'dy_code' => $code_dely,
+            // 'dy_country' => $country_dely,
             'dy_phone' => $phone_dely,
             'dy_fax' => $fax_dely,
             'dy_email' => $mail_dely,
             'dy_atten' => $atten_dely,
             'dy_invioctext' => $invtext_dely,
 
-            // 'yf_location' => $location,
+            'yf_team' => $team,
+            'yf_location' => $location,
             'yf_refer' => $refer,
             'yf_confict' => $confict,
             'created_at' => date('Y-m-d H:i:s'),
@@ -365,7 +372,7 @@ class yellowfileController extends Controller
         $atten = $request->input('yf_atten');
         $invtext = $request->input('yf_invioctext');
         //delivery location
-        $branch_dely = $request->input('dy_branch'); 
+        // $branch_dely = $request->input('dy_branch'); 
         $tex_dely = $request->input('dy_taxnumber'); 
         $invname_dely = $request->input('dy_inv_num');
         $address_dely = $request->input('dy_address');
@@ -379,7 +386,7 @@ class yellowfileController extends Controller
         $fax_dely = $request->input('dy_fax');
         $mail_dely = $request->input('dy_email');
         $atten_dely = $request->input('dy_atten');
-        $invtext_dely = $request->input('dy_invioctext');
+        // $invtext_dely = $request->input('dy_invioctext');
 
         $refer = $request->input('yf_refer');
         $confict = $request->input('yf_confict');
@@ -430,7 +437,7 @@ class yellowfileController extends Controller
             'dy_fax' => $fax_dely,
             'dy_email' => $mail_dely,
             'dy_atten' => $atten_dely,
-            'dy_invioctext' => $invtext_dely,
+            // 'dy_invioctext' => $invtext_dely,
 
             'yf_refer' => $refer,
             'yf_confict' => $confict,

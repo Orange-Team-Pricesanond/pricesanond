@@ -47,24 +47,30 @@
                     <div class="col-lg-2">
                         <label>Currency</label>
                         <select id="yf_currency" name="yf_currency" class="form-control" data-live-search="true" title="Please select">
-                            <option value="USD">USD</option>
-                            <option value="THB">THB</option>
+                            @foreach ($money as $_money)
+                                <option value="{{ $_money->mu_name }}"> {{ $_money->mu_name }} </option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="col-lg-2">
                         <label>Converter to</label>
                         <select id="yf_currencyter" name="yf_currencyter" class="form-control" data-live-search="true" title="Please select">
-                            <option value="THB">THB</option>
-                            <option value="USD">USD</option>
+                            @foreach ($money as $_money)
+                                <option value="{{ $_money->mu_name }}"> {{ $_money->mu_name }} </option>
+                            @endforeach
                         </select>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-1">
                         <label>Fix Fee</label>
-                        <input type="number" min="0" class="form-control" id="yf_fixfee" name="yf_fixfee" placeholder="USD">
+                        <input type="number" min="0" class="form-control" id="yf_fixfee" name="yf_fixfee" placeholder="0">
                     </div>
                     <div class="col-lg-2">
+                        <label>Estimate</label>
+                        <input type="number" min="0" class="form-control" id="yf_estimate" name="yf_estimate" placeholder="0.00">
+                    </div>
+                    <div class="col-lg-1">
                         <label>Discount</label>
-                        <input type="number" min="0" class="form-control" id="yf_discount" name="yf_discount" placeholder="USD">
+                        <input type="number" min="0" class="form-control" id="yf_discount" name="yf_discount" placeholder="0">
                     </div>
                     <div class="col-lg-4">
                         <label class="d-block">Time</label>
@@ -134,6 +140,10 @@
                         <label>Remark condition</label>
                         <textarea class="form-control" id="yf_remark" name="yf_remark" rows="3"></textarea>
                     </div>
+                    <div class="col-lg-4">
+                        <label>Team</label>
+                        <textarea class="form-control" id="yf_team" name="yf_team" rows="3"></textarea>
+                    </div>
                 </div>
 
                 <hr class="my-5">
@@ -153,11 +163,11 @@
                         <input type="number" class="form-control" id="yf_taxnumber" name="yf_taxnumber" />
                     </div>
                     <div class="col-lg-4">
-                        <label>Invoice name</label>
+                        <label>Company's name</label>
                         <input type="text" class="form-control" id="yf_inv_num" name="yf_inv_num" />
                     </div>
                 </div>
-                <div class="row form-group">
+                <!-- <div class="row form-group">
                     <div class="col-lg-4">
                         <label>Country</label>
                         <input type="text" class="form-control" id="yf_country" name="yf_country" />
@@ -170,8 +180,8 @@
                         <label>Postal Code</label>
                         <input type="text" class="form-control" id="yf_code" name="yf_code" />
                     </div>
-                </div>
-                <div class="row form-group">
+                </div> -->
+                <!-- <div class="row form-group">
                     <div class="col-lg-4">
                         <label>District / Area</label>
                         <input type="text" class="form-control" id="yf_dis" name="yf_dis" />
@@ -184,11 +194,11 @@
                         <label>Road</label>
                         <input type="text" class="form-control" id="yf_road" name="yf_road" />
                     </div>
-                </div>
+                </div> -->
                 <div class="row form-group">
-                    <div class="col-lg-8">
+                    <div class="col-lg-12">
                         <label>Address</label>
-                        <input type="text" class="form-control" id="yf_address" name="yf_address" />
+                        <textarea id="yf_address" name="yf_address" class="form-control"></textarea>
                     </div>
                 </div>
                 <div class="row form-group">
@@ -219,25 +229,24 @@
                 <hr class="my-5">
                 <h6 class="card-title mb-4"><strong>03. Document delivery location</strong></h6>
                 <div class="row form-group">
-                    <div class="col-lg-4">
+                    <!-- <div class="col-lg-4">
                         <label>Branch</label>
-                        <select id="yf_branch" name="yf_branch" class="form-control select2" onchange="changBranch2(this.value)" style="width:100%; height:25px;">
-                            <!-- <option>Please select</option> -->
+                        <select id="dy_branch" name="dy_branch" class="form-control select2" onchange="changBranch2(this.value)" style="width:100%; height:25px;">
                             @foreach ($address as $val)
                                 <option value="{{ $val->ct_ad_id }}"> {{ $val->ct_ad_branch }} </option>
                             @endforeach
                         </select>
-                    </div>
-                    <div class="col-lg-4">
+                    </div> -->
+                    <div class="col-lg-6">
                         <label>Company's tax id number</label>
                         <input type="number" class="form-control" id="dy_taxnumber" name="dy_taxnumber" />
                     </div>
-                    <div class="col-lg-4">
-                        <label>Invoice name</label>
+                    <div class="col-lg-6">
+                        <label>Company's name</label>
                         <input type="text" class="form-control" id="dy_inv_num" name="dy_inv_num" />
                     </div>
                 </div>
-                <div class="row form-group">
+                <!-- <div class="row form-group">
                     <div class="col-lg-4">
                         <label>Country</label>
                         <input type="text" class="form-control" id="dy_country" name="dy_country" />
@@ -264,11 +273,11 @@
                         <label>Road</label>
                         <input type="text" class="form-control" id="dy_road" name="dy_road" />
                     </div>
-                </div>
+                </div> -->
                 <div class="row form-group">
-                    <div class="col-lg-8">
+                    <div class="col-lg-12">
                         <label>Address</label>
-                        <input type="text" class="form-control" id="dy_address" name="dy_address" />
+                        <textarea class="form-control" id="dy_address" name="dy_address"></textarea>
                     </div>
                 </div>
                 <div class="row form-group">
@@ -290,14 +299,22 @@
                         <label>Attention</label>
                         <input type="text" class="form-control" id="dy_atten" name="dy_atten" />
                     </div>
-                    <div class="col-lg-4">
+                    <!-- <div class="col-lg-4">
                         <label>How to send</label>
                         <input type="text" class="form-control" id="dy_invioctext" name="dy_invioctext" />
+                    </div> -->
+                </div>
+
+                <hr class="my-5">
+                <h6 class="card-title mb-4"><strong>04. Document delivery location</strong></h6>
+                <div class="row form-group">
+                    <div class="col-lg-4">
+                    <input class="form-control" type="text" id="yf_location" name="yf_location" />
                     </div>
                 </div>
 
                 <hr class="my-5">
-                <h6 class="card-title mb-4"><strong>04. Refered by</strong></h6>
+                <h6 class="card-title mb-4"><strong>05. Refered by</strong></h6>
                 <div class="row form-group">
                     <div class="col-lg-4">
                     <input class="form-control" type="text" id="yf_refer" name="yf_refer" />
@@ -305,7 +322,7 @@
                 </div>
 
                 <hr class="my-5">
-                <h6 class="card-title mb-4"><strong>05. Conflict check completed</strong></h6>
+                <h6 class="card-title mb-4"><strong>06. Conflict check completed</strong></h6>
                 <div class="row form-group">
                     <div class="col-lg-4">
                         <div class="custom-control custom-radio custom-control-inline mt-2">
@@ -341,13 +358,13 @@
 
 
         function changBranch(id){
-            console.log(id);
             $.ajax({
                 type:'get',
                 url:"{{ url('appendAddress') }}",
                 data:{id:id},
                 dataType:'json',
                 success:function(data){
+                  
                     $('#yf_road').val(data.ct_ad_road);
                     $('#yf_address').val(data.ct_ad);
                     $('#yf_dis').val(data.ct_ad_area);
@@ -363,13 +380,23 @@
             });
         }
         function changBranch2(id){
-            console.log(id);
             $.ajax({
                 type:'get',
                 url:"{{ url('appendAddress') }}",
                 data:{id:id},
                 dataType:'json',
                 success:function(data){
+
+                    var text = data.ct_ad_road;
+                    text += data.ct_ad;
+                    text += data.ct_ad_area;
+                    text += data.ct_ad_subarea;
+                    text += data.ct_ad_province;
+                    text += data.ct_ad_code;
+                    text += data.ct_ad_country;
+
+                    console.log(text);
+
                     $('#dy_road').val(data.ct_ad_road);
                     $('#dy_address').val(data.ct_ad);
                     $('#dy_dis').val(data.ct_ad_area);
