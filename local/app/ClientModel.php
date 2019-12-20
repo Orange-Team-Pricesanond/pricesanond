@@ -8,6 +8,6 @@ class ClientModel extends Model
 {
     protected $table = 'tb_clients';
     protected $fullable = [
-        "id_ct" , "ct_fn" , "ct_inn" , "ct_tax" , "ct_ad_ref" , "ct_images" ,
+        "id_ct" , "ct_no" , "ct_fn" , "ct_inn" , "ct_tax" , "ct_country" , "ct_ad_ref" , "ct_images" , "created_at" , "updated_at" ,
     ];
 }

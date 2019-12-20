@@ -20,14 +20,16 @@ class ClientController extends Controller
     }
     
     public function Submit(Request $request)
-    {
+    {   
         $random_number = mt_rand(000000, 999999);
         
         $name = $request->input('fullname');
         $invoice = $request->input('invoice');
         $tax = $request->input('tax');
+        $no = $request->input('number');
         
         $data = [
+            'ct_no' => $no,
             'ct_fn' => $name,
             'ct_inn' => $invoice,
             'ct_tax' => $tax,
@@ -60,11 +62,11 @@ class ClientController extends Controller
             $address = [
                 'ct_ad' => $request->input('Address')[$i],
                 'ct_ad_branch' => $request->input('Branch')[$i],
-                'ct_ad_road' => $request->input('Road')[$i],
-                'ct_ad_province' => $request->input('Province')[$i],
-                'ct_ad_area' => $request->input('Area')[$i],
-                'ct_ad_subarea' => $request->input('Subarea')[$i],
-                'ct_ad_code' => $request->input('Postal')[$i],
+                // 'ct_ad_road' => $request->input('Road')[$i],
+                // 'ct_ad_province' => $request->input('Province')[$i],
+                // 'ct_ad_area' => $request->input('Area')[$i],
+                // 'ct_ad_subarea' => $request->input('Subarea')[$i],
+                // 'ct_ad_code' => $request->input('Postal')[$i],
                 'ct_ad_phone' => $request->input('phone')[$i],
                 'ct_ad_fax' => $request->input('Fax')[$i],
                 'ct_ad_mail' => $request->input('email')[$i],

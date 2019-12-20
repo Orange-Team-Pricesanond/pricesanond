@@ -16,8 +16,9 @@
     <form method="post" action=" {{ url('yellow_file_submit') }} " enctype="multipart/form-data">
         <div class="card-body">
             {{ csrf_field() }}
+            
+                <input type="hidden" name="yf_fileno" id="yf_fileno" value="{{ $fileno }}" >
                 <h6 class="card-title mb-4"><strong>01. File details and Rates</strong></h6>
-                <input type="hidden" id="yf_fileno" name="yf_fileno" value="{{ $fileno }}">
                 <div class="row form-group">
                     <div class="col-lg-4">
                         <label>File name</label>
@@ -308,8 +309,18 @@
                 <hr class="my-5">
                 <h6 class="card-title mb-4"><strong>04. Document delivery location</strong></h6>
                 <div class="row form-group">
-                    <div class="col-lg-4">
+                    <!-- <div class="col-lg-4">
                     <input class="form-control" type="text" id="yf_location" name="yf_location" />
+                    </div> -->
+                    <div class="col-lg-4">
+                        <div class="custom-control custom-radio custom-control-inline mt-2">
+                            <input type="radio" id="location_1" name="yf_location" class="custom-control-input" value="1">
+                            <label class="custom-control-label" for="location_1">Yes</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline  mt-2">
+                            <input type="radio" id="location_2" name="yf_location" class="custom-control-input" value="0">
+                            <label class="custom-control-label" for="location_2">No</label>
+                        </div>
                     </div>
                 </div>
 
@@ -353,52 +364,3 @@
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.12/js/bootstrap-select.js"></script> -->
 
 
-
-<script>
-
-
-        function changBranch(id){
-            $.ajax({
-                type:'get',
-                url:"{{ url('appendAddress') }}",
-                data:{id:id},
-                dataType:'json',
-                success:function(data){
-                  
-                    $('#yf_road').val(data.ct_ad_road);
-                    $('#yf_address').val(data.ct_ad);
-                    $('#yf_dis').val(data.ct_ad_area);
-                    $('#yf_subdis').val(data.ct_ad_subarea);
-                    $('#yf_provice').val(data.ct_ad_province);
-                    $('#yf_code').val(data.ct_ad_code);
-                    $('#yf_country').val(data.ct_ad_country);
-                    $('#yf_phone').val(data.ct_ad_phone);
-                    $('#yf_fax').val(data.ct_ad_fax);
-                    $('#yf_email').val(data.ct_ad_mail);
-                    $('#yf_atten').val(data.ct_ad_atten);
-                }
-            });
-        }
-        function changBranch2(id){
-            $.ajax({
-                type:'get',
-                url:"{{ url('appendAddress') }}",
-                data:{id:id},
-                dataType:'json',
-                success:function(data){
-
-                    $('#dy_road').val(data.ct_ad_road);
-                    $('#dy_address').val(data.ct_ad);
-                    $('#dy_dis').val(data.ct_ad_area);
-                    $('#dy_subdis').val(data.ct_ad_subarea);
-                    $('#dy_provice').val(data.ct_ad_province);
-                    $('#dy_code').val(data.ct_ad_code);
-                    $('#dy_country').val(data.ct_ad_country);
-                    $('#dy_phone').val(data.ct_ad_phone);
-                    $('#dy_fax').val(data.ct_ad_fax);
-                    $('#dy_email').val(data.ct_ad_mail);
-                    $('#dy_atten').val(data.ct_ad_atten);
-                }
-            });
-        }
-    </script>

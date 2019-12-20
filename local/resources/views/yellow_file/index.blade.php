@@ -95,20 +95,19 @@
             $('.select2').select2();
         });
         function changBranch(id){
-            console.log(id);
             $.ajax({
                 type:'get',
                 url:"{{ url('appendAddress') }}",
                 data:{id:id},
                 dataType:'json',
                 success:function(data){
-                    $('#yf_road').val(data.ct_ad_road);
+                    // $('#yf_road').val(data.ct_ad_road);
                     $('#yf_address').val(data.ct_ad);
-                    $('#yf_dis').val(data.ct_ad_area);
-                    $('#yf_subdis').val(data.ct_ad_subarea);
-                    $('#yf_provice').val(data.ct_ad_province);
-                    $('#yf_code').val(data.ct_ad_code);
-                    $('#yf_country').val(data.ct_ad_country);
+                    // $('#yf_dis').val(data.ct_ad_area);
+                    // $('#yf_subdis').val(data.ct_ad_subarea);
+                    // $('#yf_provice').val(data.ct_ad_province);
+                    // $('#yf_code').val(data.ct_ad_code);
+                    // $('#yf_country').val(data.ct_ad_country);
                     $('#yf_phone').val(data.ct_ad_phone);
                     $('#yf_fax').val(data.ct_ad_fax);
                     $('#yf_email').val(data.ct_ad_mail);
@@ -117,20 +116,19 @@
             });
         }
         function changBranch2(id){
-            console.log(id);
             $.ajax({
                 type:'get',
                 url:"{{ url('appendAddress') }}",
                 data:{id:id},
                 dataType:'json',
                 success:function(data){
-                    $('#dy_road').val(data.ct_ad_road);
+                    // $('#dy_road').val(data.ct_ad_road);
                     $('#dy_address').val(data.ct_ad);
-                    $('#dy_dis').val(data.ct_ad_area);
-                    $('#dy_subdis').val(data.ct_ad_subarea);
-                    $('#dy_provice').val(data.ct_ad_province);
-                    $('#dy_code').val(data.ct_ad_code);
-                    $('#dy_country').val(data.ct_ad_country);
+                    // $('#dy_dis').val(data.ct_ad_area);
+                    // $('#dy_subdis').val(data.ct_ad_subarea);
+                    // $('#dy_provice').val(data.ct_ad_province);
+                    // $('#dy_code').val(data.ct_ad_code);
+                    // $('#dy_country').val(data.ct_ad_country);
                     $('#dy_phone').val(data.ct_ad_phone);
                     $('#dy_fax').val(data.ct_ad_fax);
                     $('#dy_email').val(data.ct_ad_mail);

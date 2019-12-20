@@ -22,6 +22,11 @@
             <h3>Client</h3>
             <hr>
              {{ csrf_field() }}
+             
+             <div class="form-group">
+                <label for="fullname">Client No.</label>
+                <input type="text" class="form-control" id="number" name="number" >
+              </div>
               <div class="form-group">
                 <label for="fullname">Full Name</label>
                 <input type="text" class="form-control" id="fullname" name="fullname" >
@@ -52,13 +57,13 @@
              <h4>Address : 1</h4>
               <div class="form-group">
                 <label for="Address">Address</label>
-                <input type="text" class="form-control" id="Address" name="Address[]" >
+                <textarea class="form-control" id="Address" name="Address[]" ></textarea>
               </div>
               <div class="form-group">
                 <label for="Branch">Branch</label>
                 <input type="text" class="form-control" id="Branch" name="Branch[]" >
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <label for="Road">Road</label>
                 <input type="text" class="form-control" id="Road" name="Road[]" >
               </div>
@@ -81,7 +86,7 @@
               <div class="form-group">
                 <label for="Postal">Country</label>
                 <input type="text" class="form-control" id="Country" name="Country[]" >
-              </div>
+              </div> -->
               <div class="form-group">
                 <label for="phone">Phone</label>
                 <input type="text" class="form-control" id="phone" name="phone[]" >
@@ -155,7 +160,7 @@
 
                  $("#div_" + nextindex).append('<div class="form-group">');
                  $("#div_" + nextindex).append('<label for="Address">Address</label>');
-                 $("#div_" + nextindex).append('<input type="text" class="form-control" id="Address" name="Address[]" >');
+                 $("#div_" + nextindex).append('<textarea class="form-control" id="Address" name="Address[]" ></textarea>');
                  $("#div_" + nextindex).append('</div>');
               
                  $("#div_" + nextindex).append('<div class="form-group">');
@@ -163,35 +168,35 @@
                  $("#div_" + nextindex).append('<input type="text" class="form-control" id="Branch" name="Branch[]" >');
                  $("#div_" + nextindex).append('</div>');
               
-                 $("#div_" + nextindex).append('<div class="form-group">');
-                 $("#div_" + nextindex).append('<label for="Road">Road</label>');
-                 $("#div_" + nextindex).append('<input type="text" class="form-control" id="Road" name="Road[]" >');
-                 $("#div_" + nextindex).append('</div>');
+                //  $("#div_" + nextindex).append('<div class="form-group">');
+                //  $("#div_" + nextindex).append('<label for="Road">Road</label>');
+                //  $("#div_" + nextindex).append('<input type="text" class="form-control" id="Road" name="Road[]" >');
+                //  $("#div_" + nextindex).append('</div>');
               
-                 $("#div_" + nextindex).append('<div class="form-group">');
-                 $("#div_" + nextindex).append('<label for="Province">Province</label>');
-                 $("#div_" + nextindex).append('<input type="text" class="form-control" id="Province" name="Province[]" >');
-                 $("#div_" + nextindex).append('</div>');
+                //  $("#div_" + nextindex).append('<div class="form-group">');
+                //  $("#div_" + nextindex).append('<label for="Province">Province</label>');
+                //  $("#div_" + nextindex).append('<input type="text" class="form-control" id="Province" name="Province[]" >');
+                //  $("#div_" + nextindex).append('</div>');
               
-                 $("#div_" + nextindex).append('<div class="form-group">');
-                 $("#div_" + nextindex).append('<label for="Area">Distict / Area</label>');
-                 $("#div_" + nextindex).append('<input type="text" class="form-control" id="Area" name="Area[]" >');
-                 $("#div_" + nextindex).append('</div>');
+                //  $("#div_" + nextindex).append('<div class="form-group">');
+                //  $("#div_" + nextindex).append('<label for="Area">Distict / Area</label>');
+                //  $("#div_" + nextindex).append('<input type="text" class="form-control" id="Area" name="Area[]" >');
+                //  $("#div_" + nextindex).append('</div>');
               
-                 $("#div_" + nextindex).append('<div class="form-group">');
-                 $("#div_" + nextindex).append('<label for="Subarea">Sub-Distict / Sub-area</label>');
-                 $("#div_" + nextindex).append('<input type="text" class="form-control" id="Subarea" name="Subarea[]">');
-                 $("#div_" + nextindex).append('</div>');
+                //  $("#div_" + nextindex).append('<div class="form-group">');
+                //  $("#div_" + nextindex).append('<label for="Subarea">Sub-Distict / Sub-area</label>');
+                //  $("#div_" + nextindex).append('<input type="text" class="form-control" id="Subarea" name="Subarea[]">');
+                //  $("#div_" + nextindex).append('</div>');
               
-                 $("#div_" + nextindex).append('<div class="form-group">');
-                 $("#div_" + nextindex).append('<label for="Postal">Postal Code</label>');
-                 $("#div_" + nextindex).append('<input type="text" class="form-control" id="Postal" name="Postal[]" >');
-                 $("#div_" + nextindex).append('</div>');
+                //  $("#div_" + nextindex).append('<div class="form-group">');
+                //  $("#div_" + nextindex).append('<label for="Postal">Postal Code</label>');
+                //  $("#div_" + nextindex).append('<input type="text" class="form-control" id="Postal" name="Postal[]" >');
+                //  $("#div_" + nextindex).append('</div>');
               
-                 $("#div_" + nextindex).append('<div class="form-group">');
-                 $("#div_" + nextindex).append('<label for="Country">Country</label>');
-                 $("#div_" + nextindex).append('<input type="text" class="form-control" id="Country" name="Country[]" >');
-                 $("#div_" + nextindex).append('</div>');
+                //  $("#div_" + nextindex).append('<div class="form-group">');
+                //  $("#div_" + nextindex).append('<label for="Country">Country</label>');
+                //  $("#div_" + nextindex).append('<input type="text" class="form-control" id="Country" name="Country[]" >');
+                //  $("#div_" + nextindex).append('</div>');
               
                  $("#div_" + nextindex).append('<div class="form-group">');
                  $("#div_" + nextindex).append('<label for="phone">Phone</label>');

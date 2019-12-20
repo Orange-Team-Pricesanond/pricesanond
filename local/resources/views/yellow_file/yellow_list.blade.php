@@ -29,10 +29,9 @@
                 <tr>
                     <th width="30">#</th>
                     <th>File No.</th>
-                    <th>Date</th>
-                    <th>Partner</th>
-                    <th>Client</th>
+                    <th>Client Name</th>
                     <th>Matter</th>
+                    <th>Contact Person Name</th>
                     <th>Status</th>
                     <th width="30" class="text-center"><i class="material-icons md-14">more_vert</i></th>
                 </tr>
@@ -47,9 +46,8 @@
                 <tr>
                     <td data-toggle="modal" data-target="#pop_yellow_file{{$val->id_yf}}" data-value="{{$val->id_yf}}"> {{$i}} </td>
                     <td data-toggle="modal" data-target="#pop_yellow_file{{$val->id_yf}}" data-value="{{$val->id_yf}}">{{ $val->yf_fileno }}</td>
-                    <td data-toggle="modal" data-target="#pop_yellow_file{{$val->id_yf}}" data-value="{{$val->id_yf}}">{{ $val->created_at }}</td>
-                    <td data-toggle="modal" data-target="#pop_yellow_file{{$val->id_yf}}" data-value="{{$val->id_yf}}">{{ $partner_name->pt_name }}</td>
                     <td data-toggle="modal" data-target="#pop_yellow_file{{$val->id_yf}}" data-value="{{$val->id_yf}}">{{ $client_name->ct_fn }}</td>
+                    <td data-toggle="modal" data-target="#pop_yellow_file{{$val->id_yf}}" data-value="{{$val->id_yf}}">{{ $partner_name->pt_name }}</td>
                     <td data-toggle="modal" data-target="#pop_yellow_file{{$val->id_yf}}" data-value="{{$val->id_yf}}">{{ $val->yf_mtt }}</td>
                     <td data-toggle="modal" data-target="#pop_yellow_file{{$val->id_yf}}">Active</td>
                     <td class="text-center">
