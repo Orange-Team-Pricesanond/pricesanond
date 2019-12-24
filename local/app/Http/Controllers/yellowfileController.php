@@ -26,8 +26,10 @@ class yellowfileController extends Controller
     public function index()
     {
         $yellow =  DB::table('tb_yellowfiles')->join('tb_clients', 'tb_yellowfiles.id_ct_yf', '=', 'tb_clients.id_ct')->get();
+        $client = tb_client::all();
         return view('yellowfile', [
-            'yellowfile' => $yellow
+            'yellowfile' => $yellow,
+            'client' => $client,
         ]);
     }
     public function viewClient()
@@ -465,6 +467,15 @@ class yellowfileController extends Controller
     {
         DB::table('tb_yellowfiles')->where('id_yf',$id)->delete();
         return redirect('masterpage');
+    }
+    public function editcl($id)
+    {
+        $client = tb_client::all();
+        $address = addressModel::all();
+        return view('yellow_file.client_edit', [
+            'client' => $client ,
+            'address' => $address
+        ]);
     }
 
 }

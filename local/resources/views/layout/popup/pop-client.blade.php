@@ -3,11 +3,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title"><i class="material-icons">info</i> Client list</h5>
+
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-
 
             <div class="modal-body">
                 <table id="list_sm" class="listed table table-hover display responsive nowrap w-100">

@@ -14,7 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
 Route::get('/about', function () {
     return view('about');
 });
@@ -24,8 +23,6 @@ Route::get('/insertclient', function () {
 Route::get('/editclient', function () {
     return view('clientedit');
 });
-
-
 Route::get('/tasks', function () {
     return view('yellowfile');
 });
@@ -56,18 +53,28 @@ Route::get('edityellow/{id}', 'yellowfileController@view');
 Route::post('/submitEdityellowfile', 'yellowfileController@edit');
 Route::get('deleteYellow/{id}' , 'yellowfileController@delete');
 
-//Masterfile
+
+
+//------- Masterfile -----------------
+
 Route::get('masterpage', function(){
     return view('yellow_file.index');
 });
 Route::get('dailytime', function(){
     return view('daily_time_sheet.index');
 });
+
 Route::get('masterpage', 'yellowfileController@viewAddress');
 Route::post('yellow_file_submit', 'yellowfileController@Master_yellow_submit');
 Route::post('yellow_file_edit', 'yellowfileController@Master_yellow_edit');
 
-//-- TimeSheet
+
+Route::get('/viewclient', function () {
+    return view('client_edit');
+});
+Route::get('viewclient/{id}', 'yellowfileController@editcl');
+
+//-- TimeSheet 
 Route::get('dailytime', 'TimeController@index');
 
 

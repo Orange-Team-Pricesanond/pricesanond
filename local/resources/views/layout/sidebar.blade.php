@@ -13,7 +13,9 @@
         <!-- sidebar-header -->
         <div class="sidebar-item sidebar-header d-none">
             <div class="user-pic">
-                <img class="img-responsive img-rounded" src="./../../img/avatar.svg" alt="User picture">
+                <!-- <img class="img-responsive img-rounded" src="./../../img/avatar.svg" alt="User picture"> -->
+                <img class="img-responsive img-rounded" src="{{ asset('asset/img/avatar.svg') }}" alt="User picture">
+                
             </div>
             <div class="user-info">
                 <span class="user-name">Jhon
@@ -166,7 +168,8 @@
                 <a class="dropdown-item" href="#">
                     <div class="message-content">
                         <div class="pic">
-                            <img src="../../img/avatar.svg" alt="">
+                            <!-- <img src="../../img/avatar.svg" alt=""> -->
+                            <img class="img-responsive img-rounded" src="{{ asset('asset/img/avatar.svg') }}" alt="User picture">
                         </div>
                         <div class="content">
                             <div class="message-title">
@@ -181,7 +184,8 @@
                 <a class="dropdown-item" href="#">
                     <div class="message-content">
                         <div class="pic">
-                            <img src="../../img/avatar.svg" alt="">
+                            <!-- <img src="../../img/avatar.svg" alt=""> -->
+                            <img class="img-responsive img-rounded" src="{{ asset('asset/img/avatar.svg') }}" alt="User picture">
                         </div>
                         <div class="content">
                             <div class="message-title">
@@ -195,7 +199,8 @@
                 <a class="dropdown-item" href="#">
                     <div class="message-content">
                         <div class="pic">
-                            <img src="../../img/avatar.svg" alt="">
+                            <!-- <img src="../../img/avatar.svg" alt=""> -->
+                            <img class="img-responsive img-rounded" src="{{ asset('asset/img/avatar.svg') }}" alt="User picture">
                         </div>
                         <div class="content">
                             <div class="message-title">
