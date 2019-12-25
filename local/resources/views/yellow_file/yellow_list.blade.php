@@ -1,5 +1,5 @@
 <div class="card border-0">
-    <div class="card-header py-4 bg-white d-flex justify-content-between">
+    <!-- <div class="card-header py-4 bg-white d-flex justify-content-between">
         <div class="d-flex">
             <div class="input-group input-group-sm mr-2">
                 <div class="input-group-prepend">
@@ -19,12 +19,13 @@
             </div>
         </div>
         <div>
-            <input type="text" class="form-control form-control-sm">
+            <input type="text" name="inputsearch" id="inputsearch" class="form-control form-control-sm">
         </div>
-    </div>
+    </div> -->
     <div class="card-body">
 
-        <table id="list_sm" class="listed table table-hover display responsive nowrap w-100">
+        <!-- <table id="list_sm" class="listed table table-hover display responsive nowrap w-100"> -->
+        <table class="table table-hover">
             <thead>
                 <tr>
                     <th width="30">#</th>
@@ -66,3 +67,6 @@
 
     </div>
 </div>
+
+ 
+   

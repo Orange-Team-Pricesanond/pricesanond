@@ -23,7 +23,7 @@
                     <div class="col-lg-4">
                         <label>File name</label>
                         <div class="input-group">
-                            <select id="id_ct_yf" name="id_ct_yf" class="form-control select2" style="width:100%; height:25px;">
+                            <select id="id_ct_yf" name="id_ct_yf" class="form-control select2" style="width:100%; height:37px;">
                             @foreach ($client as $val)
                                 <option value="{{ $val->id_ct }}"> {{ $val->ct_fn }} </option>
                             @endforeach
@@ -36,7 +36,7 @@
                     </div>
                     <div class="col-lg-4">
                         <label>Partner</label>
-                        <select id="yf_partner" name="yf_partner" class="form-control select2" style="width:100%; height:25px;">
+                        <select id="yf_partner" name="yf_partner" class="form-control select2" style="width:100%; height:37px;">
                             <!-- <option>Please select</option> -->
                             @foreach ($partner as $val)
                                 <option value="{{ $val->pt_id }}"> {{ $val->pt_name }} </option>

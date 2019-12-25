@@ -59,7 +59,7 @@
             <div class="docs-head shadow-on">
                 <div class="docs-pane">
                     <div class="w-25">
-                        <button class="btn-c material-icons" title="Back" onclick="location.href='index.php';">home</button>
+                        <button class="btn-c material-icons" title="Back" onclick="location.href='masterpage';">home</button>
                     </div>
                     <div class="w-50">
                         <h6 class="text-center font-weight-bold m-0">Client file information</h6>
@@ -258,6 +258,7 @@
 
    
     </script>
-    
+   
+
 </body>
 </html>

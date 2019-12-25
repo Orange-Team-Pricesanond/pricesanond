@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="{{ asset('asset/css/sidebar-themes.css') }}" >
     <link rel="stylesheet" href="{{ asset('asset/css/styles.css') }}" >
 
+    <link rel="stylesheet" type="text/css" href="{{ asset('asset/DataTables/datatables.min.css') }}"/>
+
     <style>
     .select2-selection{
         height: 37px !important; 
@@ -52,7 +54,8 @@
                             <a id="tab_3" href="#con_3" aria-controls="con_3" class="nav-item nav-link" data-toggle="tab" role="tab" aria-selected="false">Client</a>
                         </nav>
                         <div>
-                            <button class="btn-c material-icons" title="client" data-toggle="modal" data-target="#pop_client_list">add_circle_outline</button>
+                            <!-- <button class="btn-c material-icons" title="client" data-toggle="modal" data-target="#pop_client_list">add_circle_outline</button> -->
+                            <a href="{{ url('insertclient2') }}"><button class="btn-c material-icons">add_circle_outline</button></a>
                             <button class="btn-c material-icons" title="Delete selected">delete</button>
                             <button class="btn-c material-icons" title="Submit selected">send</button>
                         </div>
@@ -94,8 +97,11 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="{{ asset('asset/DataTables/datatables.min.js')}}"></script>
+
     <script>
-           $(document).ready(function() {
+        $(document).ready(function() {
+            $('.table').DataTable();
             $('.select2').select2();
         });
         function changBranch(id){
@@ -140,7 +146,7 @@
                 }
             });
         }
-</script>
-
+    </script>
+   
 </body>
 </html>

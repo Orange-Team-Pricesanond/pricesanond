@@ -39,8 +39,8 @@
                 <div class="work-pane">
                     <div class="work-tab">
                         <nav class="nav nav-tabs" id="time-sheet-tab" role="tablist">
-                            <a id="sheet_tab_1" href="#sheet_con_1" aria-controls="sheet_con_1" class="nav-item nav-link active" data-toggle="tab" role="tab" aria-selected="true">Time sheet</a>
-                            <a id="sheet_tab_2" href="#sheet_con_2" aria-controls="sheet_con_2" class="nav-item nav-link" data-toggle="tab" role="tab" aria-selected="false">New sheet</a>
+                            <a id="sheet_tab_1" href="#sheet_con_1" aria-controls="sheet_con_1" class="nav-item nav-link active" data-toggle="tab" role="tab" aria-selected="true">Matter</a>
+                            <a id="sheet_tab_2" href="#sheet_con_2" aria-controls="sheet_con_2" class="nav-item nav-link" data-toggle="tab" role="tab" aria-selected="false">Time sheet</a>
                         </nav>
                         <div>
                             <button class="btn-c material-icons" title="Add item" data-toggle="modal" data-target="#pop_matter">add_circle_outline</button>
