@@ -17,10 +17,14 @@
                     <option>Submitted</option>
                 </select>
             </div>
+            <div class="input-group input-group-sm mr-2">
+                <a href="{{ url('insertclient2') }}"><button type="button" class="btn btn-info">Add Client</button></a>
+            </div>
         </div>
         <div>
             <input type="text" class="form-control form-control-sm">
         </div>
+       
     </div>
     <div class="card-body">
 

@@ -52,7 +52,7 @@
                             <a id="tab_3" href="#con_3" aria-controls="con_3" class="nav-item nav-link" data-toggle="tab" role="tab" aria-selected="false">Client</a>
                         </nav>
                         <div>
-                            <button class="btn-c material-icons" title="Add client" data-toggle="modal" data-target="#pop_client_list">add_circle_outline</button>
+                            <button class="btn-c material-icons" title="client" data-toggle="modal" data-target="#pop_client_list">add_circle_outline</button>
                             <button class="btn-c material-icons" title="Delete selected">delete</button>
                             <button class="btn-c material-icons" title="Submit selected">send</button>
                         </div>

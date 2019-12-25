@@ -72,8 +72,14 @@ Route::post('yellow_file_edit', 'yellowfileController@Master_yellow_edit');
 Route::get('/viewclient', function () {
     return view('client_edit');
 });
+Route::get('insertclient2', function () {
+    return view('yellow_file.client_insert');
+});
+
 Route::get('viewclient/{id}', 'yellowfileController@editcl');
 Route::post('clientEditsumit', 'yellowfileController@editSubmit');
+Route::post('clientinsertsubmit', 'yellowfileController@Submitcl');
+
 
 //-- TimeSheet 
 Route::get('dailytime', 'TimeController@index');

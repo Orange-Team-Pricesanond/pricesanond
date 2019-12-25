@@ -198,7 +198,6 @@ class yellowfileController extends Controller
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ];
-        // dd($data);
         DB::table('tb_yellowfiles')->update($data);
         return redirect('tasks');
     }
@@ -549,6 +548,68 @@ class yellowfileController extends Controller
                 DB::table('tb_address_clients')->insert($address);
             }
         }   
+        return redirect('masterpage');
+    }
+    
+    public function Submitcl(Request $request)
+    {
+        $select = tb_client::orderBy('id_ct', 'DESC')->take(1)->first();
+        $oldno = intval(substr($select->ct_no,2))+1;
+        //run number
+        $id = 1;
+        $no = sprintf('C-%06d', $oldno);
+
+        $random_number = mt_rand(000000, 999999);
+        $name = $request->input('fullname');
+        $invoice = $request->input('invoice');
+        $tax = $request->input('tax');
+        
+        $data = [
+            'ct_no' => $no,
+            'ct_fn' => $name,
+            'ct_inn' => $invoice,
+            'ct_tax' => $tax,
+            'ct_ad_ref' => $random_number,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ];
+        
+        if(!empty($request->file('images'))){
+                
+                $oldpic = DB::table('tb_clients')->where('id_ct',$request->input('id'))->first();
+                @unlink(public_path('/client/').$oldpic->ct_images); // delete old picture
+            
+                $file = $request->file('images');
+                $ext = $file->getClientOriginalExtension();
+            
+                $imagename = '';
+                $imagename = date('Y-m-d-H-i-s').rand().'.'.$ext;
+            
+                $destinationPath_origi = public_path('/client/');            
+                $thumb_img_origi = Image::make($file->getRealPath());
+                $thumb_img_origi->save($destinationPath_origi.$imagename);
+
+                $data['ct_images'] = $imagename;
+        }   
+        DB::table('tb_clients')->insert($data);      
+        
+        $count_input = count($request->input('Address'));
+        for($i=0 ; $i < $count_input ; $i++){
+            $address = [
+                'ct_ad' => $request->input('Address')[$i],
+                'ct_ad_branch' => $request->input('Branch')[$i],
+                'ct_ad_phone' => $request->input('phone')[$i],
+                'ct_ad_fax' => $request->input('Fax')[$i],
+                'ct_ad_mail' => $request->input('email')[$i],
+                'ct_ad_country' => $request->input('Country')[$i],
+                'ct_ad_atten' => $request->input('attent')[$i],
+                'ct_ad_invoice' => $request->input('invoicepotion')[$i], 
+                'ct_ad_ref' => $random_number, 
+                'created_at' => date('Y-m-d H:i:s'), 
+                'updated_at' => date('Y-m-d H:i:s'), 
+            ];
+            DB::table('tb_address_clients')->insert($address);  
+        }
         return redirect('masterpage');
     }
 
