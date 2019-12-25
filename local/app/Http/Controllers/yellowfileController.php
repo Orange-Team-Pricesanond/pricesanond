@@ -470,12 +470,86 @@ class yellowfileController extends Controller
     }
     public function editcl($id)
     {
-        $client = tb_client::all();
-        $address = addressModel::all();
+        $client = DB::table('tb_clients')->where('id_ct',$id)->first();
+        $address = DB::table('tb_address_clients')->where('ct_ad_ref',$client->ct_ad_ref)->get();
         return view('yellow_file.client_edit', [
             'client' => $client ,
             'address' => $address
         ]);
+    }
+    public function editSubmit(Request $request)
+    {
+
+        $inv = [];
+        for($i=0 ; $i < count($request->input('Address')) ; $i++){   
+            $name = "invoicepotion".$i."";
+            $inv[] = $request->input($name);
+        }   
+
+        $client = DB::table('tb_clients')->where('id_ct',$request->input('id'))->first();
+        $ct_ad_ref = $client->ct_ad_ref;
+
+        $data = [
+            'ct_fn' => $request->input('fullname'),
+            'ct_inn' => $request->input('invoice'),
+            'ct_tax' => $request->input('tax'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ];
+
+        if(!empty($request->file('images'))){
+                
+            $oldpic = DB::table('tb_clients')->where('id_ct',$request->input('id'))->first();
+            @unlink(public_path('/client/').$oldpic->ct_images); // delete old picture
+        
+            $file = $request->file('images');
+            $ext = $file->getClientOriginalExtension();
+        
+            $imagename = '';
+            $imagename = date('Y-m-d-H-i-s').rand().'.'.$ext;
+        
+            $destinationPath_origi = public_path('/client/');            
+            $thumb_img_origi = Image::make($file->getRealPath());
+            $thumb_img_origi->save($destinationPath_origi.$imagename);
+
+            $data['ct_images'] = $imagename;
+        }
+
+        DB::table('tb_clients')->where('id_ct',$request->input('id'))->update($data);
+        $count_input = count($request->input('Address'));
+        for($i=0 ; $i < $count_input ; $i++){
+            
+            if(!empty($request->input('ct_ad_id')[$i])){ // update
+                $address = [
+                    'ct_ad' => $request->input('Address')[$i],
+                    'ct_ad_branch' => $request->input('Branch')[$i],
+                    'ct_ad_phone' => $request->input('phone')[$i],
+                    'ct_ad_fax' => $request->input('Fax')[$i],
+                    'ct_ad_mail' => $request->input('email')[$i],
+                    'ct_ad_country' => $request->input('Country')[$i],
+                    'ct_ad_atten' => $request->input('attent')[$i],
+                    'ct_ad_invoice' => $inv[$i], 
+                    'ct_ad_ref' => $ct_ad_ref,
+                    'updated_at' => date('Y-m-d H:i:s'), 
+                ];
+                DB::table('tb_address_clients')->where('ct_ad_id',$request->input('ct_ad_id')[$i])->update($address);
+            }else{ // Insert
+                $address = [
+                    'ct_ad' => $request->input('Address')[$i],
+                    'ct_ad_branch' => $request->input('Branch')[$i],
+                    'ct_ad_phone' => $request->input('phone')[$i],
+                    'ct_ad_fax' => $request->input('Fax')[$i],
+                    'ct_ad_mail' => $request->input('email')[$i],
+                    'ct_ad_country' => $request->input('Country')[$i],
+                    'ct_ad_atten' => $request->input('attent')[$i],
+                    'ct_ad_invoice' => $inv[$i], 
+                    'ct_ad_ref' => $ct_ad_ref,
+                    'created_at' => date('Y-m-d H:i:s'), 
+                    'updated_at' => date('Y-m-d H:i:s'), 
+                ];
+                DB::table('tb_address_clients')->insert($address);
+            }
+        }   
+        return redirect('masterpage');
     }
 
 }

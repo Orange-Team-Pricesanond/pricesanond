@@ -73,6 +73,7 @@ Route::get('/viewclient', function () {
     return view('client_edit');
 });
 Route::get('viewclient/{id}', 'yellowfileController@editcl');
+Route::post('clientEditsumit', 'yellowfileController@editSubmit');
 
 //-- TimeSheet 
 Route::get('dailytime', 'TimeController@index');
