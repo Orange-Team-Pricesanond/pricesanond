@@ -53,8 +53,6 @@ Route::get('edityellow/{id}', 'yellowfileController@view');
 Route::post('/submitEdityellowfile', 'yellowfileController@edit');
 Route::get('deleteYellow/{id}' , 'yellowfileController@delete');
 
-
-
 //------- Masterfile -----------------
 
 Route::get('masterpage', function(){
@@ -83,7 +81,12 @@ Route::post('clientinsertsubmit', 'yellowfileController@Submitcl');
 
 //-- TimeSheet 
 Route::get('dailytime', 'TimeController@index');
-
+Route::get('timeseetview/{id}', 'TimeController@viewsheet');
+Route::get('timesheetadd/{id}', 'TimeController@viewsheetadd');
+Route::get('deletetimesheet/{id}', 'TimeController@delete');
+Route::get('deletetimesheetAjax', 'TimeController@deleteAjax');
+Route::post('timesheetInsert', 'TimeController@insert');
+Route::get('selectLaw', 'TimeController@selectLawAjax');
 
 
 

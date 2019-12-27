@@ -23,38 +23,34 @@
         </div>
     </div>
     <div class="card-body">
-
         <table id="list_sm" class="listed table table-hover display responsive nowrap w-100">
             <thead>
                 <tr>
                     <th width="30">#</th>
-                    <th>DS. No.</th>
-                    <th>DS. Date</th>
-                    <th>Law</th>
-                    <th>Item</th>
-                    <!-- <th>Ref. No.</th> -->
+                    <th>File No.</th>
+                    <th>Client Name</th>
+                    <th>Matter</th>
+                    <th>Contact Person Name</th>
                     <th>Status</th>
-                    <th width="30" class="text-center"><i class="material-icons md-14">more_vert</i></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($sheet as $val)
+             <?php $i = 1; ?>
+                @foreach($yellowfile as $val)
+                <?php
+                    $client_name = DB::table('tb_clients')->where('id_ct',$val->id_ct_yf)->first();
+                    $partner_name = DB::table('tb_partner')->where('pt_id',$val->yf_partner)->first();
+                    $count = DB::table('tb_timesheet')->where('ts_id_yf',$val->id_yf)->count();
+                ?>
                 <tr>
-                    <td data-toggle="modal" data-target="#pop_time_sheet">1</td>
-                    <td data-toggle="modal" data-target="#pop_time_sheet">DSL31-150919</td>
-                    <td data-toggle="modal" data-target="#pop_time_sheet">15/09/2019</td>
-                    <td data-toggle="modal" data-target="#pop_time_sheet">31</td>
-                    <td data-toggle="modal" data-target="#pop_time_sheet">3</td>
-                    <!-- <td data-toggle="modal" data-target="#pop_time_sheet">12531</td> -->
-                    <td data-toggle="modal" data-target="#pop_time_sheet">Draft</td>
-                    <td class="text-center">
-                        <span class="more material-icons md-14" id="ac_dts_1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">more_vert</span>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="ac_dts_1">
-                            <a class="dropdown-item" href="#">Submit</a>
-                            <a class="dropdown-item" href="#">Delete</a>
-                        </div>
-                    </td>
+                    <td><a href="{{url('timeseetview')}}/{{$val->id_yf}}">{{$i}}</a></td>
+                    <td><a href="{{url('timeseetview')}}/{{$val->id_yf}}">{{ $val->yf_fileno }}</a></td>
+                    <td><a href="{{url('timeseetview')}}/{{$val->id_yf}}">{{ $client_name->ct_fn }}</a></td>
+                    <td><a href="{{url('timeseetview')}}/{{$val->id_yf}}">{{ $partner_name->pt_name }}</a></td>
+                    <td><a href="{{url('timeseetview')}}/{{$val->id_yf}}">{{ $val->yf_mtt }}</a></td>
+                    <td><a href="{{url('timeseetview')}}/{{$val->id_yf}}">{{ ( $count > 0 ? "Complete" : "Padding") }}</a></td>
                 </tr>
+                <?php $i++; ?>
                 @endforeach 
             </tbody>
         </table>

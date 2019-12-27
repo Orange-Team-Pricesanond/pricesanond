@@ -1,5 +1,5 @@
 
-
+<!-- {{ (Auth::user()->name) ? url('master') : url('login') }}  -->
 <header class="work-head">
     <ul class="head-menu nav nav-tabs" id="nav-group" role="tablist">
         <li><span class="head-tab font-weight-bold">Page Title</span></li>
@@ -45,7 +45,7 @@
                 </span>
             </button>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="i_member">
-                <h6 class="dropdown-header">Officer001</h6>
+                <h6 class="dropdown-header">{{ Auth::user()->name }} {{ Auth::user()->id }}  </h6>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">Profile Setting</a>
                 <a class="dropdown-item" href="#" onclick="location.href='login.php';">Signout</a>
