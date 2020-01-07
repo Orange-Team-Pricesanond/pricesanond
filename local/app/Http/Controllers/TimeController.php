@@ -36,10 +36,51 @@ class TimeController extends Controller
         $yellow = DB::table('tb_yellowfiles')->where('id_yf',$id)->first();
         $sheet = DB::table('tb_timesheet')->where('ts_id_yf',$id)->get();
         $count = DB::table('tb_timesheet')->where('ts_id_yf',$id)->count();
+    
+        $last_total = 0;
+        $estimate = $yellow->yf_estimate; // งบประมาณ
+        foreach($sheet as $_val)
+        {
+            $arrays = explode(':', $_val->ts_total_time); 
+            $total = intval($arrays[0]).".".$arrays[1];
+
+            if($_val->ts_reate_work == 'A')
+            {
+                $total += $total;
+                $rate = $yellow->yf_rates_a;
+            }
+            elseif($_val->ts_reate_work == 'B')
+            {   
+                $total += $total;
+                $rate = $yellow->yf_rates_b;
+            }
+            elseif($_val->ts_reate_work == "C")
+            {
+                $total += $total;
+                $rate = $yellow->yf_rates_c;
+            }
+            elseif($_val->ts_reate_work == "D")
+            {
+                $total += $total;
+                $rate = $yellow->yf_rates_d;
+            }
+            elseif($_val->ts_reate_work == "E")
+            {   
+                $total += $total;
+                $rate = $yellow->yf_rates_e;
+            }else{ // F
+                $total += $total;
+                $rate = $yellow->yf_rates_f;
+            }
+            $last_total += number_format(($total/60)*$rate ,2);
+        }
+        $anwer = ($last_total>$estimate) ? "1" : "0";
+
         if(!empty($sheet))
         {
             // return view('daily_time_sheet.time-sheet-create', [
-            return view('daily_time_sheet.list-time-sheet', [
+            return view('daily_time_sheet.list-time-sheet', [    
+                'anwer' => $anwer ,
                 'yellow' => $yellow ,
                 'sheet' => $sheet ,
                 'date' => $date ,
@@ -49,6 +90,7 @@ class TimeController extends Controller
 
         }else{
             return view('daily_time_sheet.list-time-sheet', [
+                'anwer' => '0' ,
                 'id' => $id ,
             ]);
         }
@@ -100,27 +142,59 @@ class TimeController extends Controller
     {
         $date = date('ym');  
         for($i=0 ; $i < count($request->input('ts_law_id')) ; $i++){ 
-           
+
             $select = timerecordModel::orderBy('ts_no', 'DESC')->take(1)->first();
-            $oldno = intval(substr($select->ts_no,8))+1;
-            //run number
-            $sprin = sprintf('%06d', $oldno); 
-            $no = 'Q-'.$date.'-'.$sprin;
-            $timesheet = [
-                'ts_id_yf' => $request->input('ts_id_yf') ,
-                'ts_no' => $no,
-                'ts_law_id' => $request->input('ts_law_id')[$i],
-                'ts_reate_work' => $request->input('ts_reate_work')[$i],
-                'ts_form' => $request->input('ts_form')[$i],
-                'ts_to' => $request->input('ts_to')[$i],
-                'ts_total_time' => $request->input('ts_total_time')[$i],
-                'ts_woek' => $request->input('ts_woek')[$i],
+            if($select != null)
+            {
+                $oldno = intval(substr($select->ts_no,8))+1;
+                //run number
+                $sprin = sprintf('%06d', $oldno); 
+                $no = 'Q-'.$date.'-'.$sprin;
+
+            }else{
+                $no = 'Q-'.$date.'-000001';
+            }
+            
+
+            $Lastid = DB::table('tb_timesheet')->insertGetId(
+                [
+                    'ts_id_yf' => $request->input('ts_id_yf') ,
+                    'ts_no' => $no,
+                    'ts_law_id' => $request->input('ts_law_id')[$i],
+                    'ts_reate_work' => $request->input('ts_reate_work')[$i],
+                    'ts_form' => $request->input('ts_form')[$i],
+                    'ts_to' => $request->input('ts_to')[$i],
+                    'ts_total_time' => $request->input('ts_total_time')[$i],
+                    'ts_woek' => $request->input('ts_woek')[$i],
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
+                ]
+            );
+            $data = [
+                'ts_id' => $Lastid,
+                'id_member' =>$request->input('id'),
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ];
-            // dd($timesheet);
-            DB::table('tb_timesheet')->insert($timesheet); 
-        }    
+            DB::table('tb_logtimesheet')->insert($data);
+        }
+
+        // for($i=0 ; $i < count($request->input('ts_law_id')) ; $i++){ 
+        //     $timesheet = [
+        //         'ts_id_yf' => $request->input('ts_id_yf') ,
+        //         'ts_no' => $no,
+        //         'ts_law_id' => $request->input('ts_law_id')[$i],
+        //         'ts_reate_work' => $request->input('ts_reate_work')[$i],
+        //         'ts_form' => $request->input('ts_form')[$i],
+        //         'ts_to' => $request->input('ts_to')[$i],
+        //         'ts_total_time' => $request->input('ts_total_time')[$i],
+        //         'ts_woek' => $request->input('ts_woek')[$i],
+        //         'created_at' => date('Y-m-d H:i:s'),
+        //         'updated_at' => date('Y-m-d H:i:s'),
+        //     ];
+        //     // dd($timesheet);
+        //     DB::table('tb_timesheet')->insert($timesheet); 
+        // }    
         return redirect('dailytime');
     }
     public function deleteAjax(Request $request)

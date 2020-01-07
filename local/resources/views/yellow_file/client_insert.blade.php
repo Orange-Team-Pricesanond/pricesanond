@@ -105,6 +105,10 @@
                                             <label>Company's tax id number</label>
                                             <input type="text" class="form-control" id="tax" name="tax" required />
                                         </div>
+                                        <div class="form-group">
+                                            <label>Country</label>
+                                            <input type="text" class="form-control" id="country" name="country" required />
+                                        </div>
                                     </div>
                                 </div>
                                 <hr class="my-5">
@@ -160,6 +164,12 @@
                                     <div class="col-lg-12 mb-3">
                                         <label>Address</label>
                                         <textarea class="form-control" id="Address" name="Address[]" ></textarea>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12 mb-3">
+                                        <label>Country</label>
+                                        <textarea class="form-control" id="ct_ad_country" name="ct_ad_country[]" ></textarea>
                                     </div>
                                 </div>
                                 <?php $i=1; ?>

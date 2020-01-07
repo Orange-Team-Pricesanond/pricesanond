@@ -8,6 +8,7 @@ use App\tb_client;
 use App\addressModel;
 use App\partnerModel;
 use App\moneyModel;
+use App\timerecordModel;
 use DB;
 use Image;
 
@@ -210,6 +211,7 @@ class yellowfileController extends Controller
         $client = tb_client::all();
         $money = moneyModel::all();
         $yellowfile = yellowfileModel::all();
+        $TimeSheet = timerecordModel::where('ts_id_yf', 1)->get();
         $address = DB::table('tb_address_clients')->get();
        
         return view('yellow_file.index', [
@@ -219,6 +221,7 @@ class yellowfileController extends Controller
             'yellowfile' => $yellowfile,
             'fileno' => $random,
             'money' => $money,
+            'record' => $TimeSheet,
         ]);
     }
     public function Master_yellow_submit(Request $request)
@@ -562,12 +565,14 @@ class yellowfileController extends Controller
         $random_number = mt_rand(000000, 999999);
         $name = $request->input('fullname');
         $invoice = $request->input('invoice');
+        $country = $request->input('country');
         $tax = $request->input('tax');
         
         $data = [
             'ct_no' => $no,
             'ct_fn' => $name,
             'ct_inn' => $invoice,
+            'ct_country' => $country,
             'ct_tax' => $tax,
             'ct_ad_ref' => $random_number,
             'created_at' => date('Y-m-d H:i:s'),
@@ -603,7 +608,8 @@ class yellowfileController extends Controller
                 'ct_ad_mail' => $request->input('email')[$i],
                 'ct_ad_country' => $request->input('Country')[$i],
                 'ct_ad_atten' => $request->input('attent')[$i],
-                'ct_ad_invoice' => $request->input('invoicepotion')[$i], 
+                'ct_ad_invoice' => $request->input('invoicepotion'.$i.'')[$i],
+                'ct_ad_country' => $request->input('ct_ad_country')[$i],
                 'ct_ad_ref' => $random_number, 
                 'created_at' => date('Y-m-d H:i:s'), 
                 'updated_at' => date('Y-m-d H:i:s'), 

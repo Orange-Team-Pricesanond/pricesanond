@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\tb_client;
 use App\ClientModel;
+use App\yellowfileModel;
+use App\tb_client;
+use App\addressModel;
+use App\partnerModel;
+use App\moneyModel;
+use App\timerecordModel;
 use DB;
 use Image;
-
 
 class ClientController extends Controller
 {
@@ -126,17 +130,26 @@ class ClientController extends Controller
     
     public function delete($id)
     {
-        
         $oldpic = DB::table('tb_clients')->where('id_ct',$id)->first();
         $serch = DB::table('tb_address_clients')->where('ct_ad_ref',$oldpic->ct_ad_ref)->get();
+    
+        $timesheet = timerecordModel::where('ts_id_yf',$id)->get();
+        $address = addressModel::where('ct_ad_ref',$oldpic->ct_ad_ref)->get();
 
         if(!empty($serch)){
             DB::table('tb_address_clients')->where('ct_ad_ref',$oldpic->ct_ad_ref)->delete();
         }
         @unlink(public_path('/client/').$oldpic->ct_images); // delete old picture
+        
+        if(!empty($timesheet)){
+            timerecordModel::where('ts_id_yf',$id)->delete();
+        }
+        if(!empty($address)){
+            addressModel::where('ct_ad_ref',$oldpic->ct_ad_ref)->delete();
+        }
         DB::table('tb_clients')->where('id_ct',$id)->delete();
         
-        return redirect('about');
+        return redirect('masterpage');
     }   
 
 

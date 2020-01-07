@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-markdown/2.10.0/css/bootstrap-markdown.min.css">
 
+
 </head>
 <style>
 .docs-pane {
@@ -76,6 +77,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="docs-body on-simple-bar">
                 <div class="docs-pane">
                     <div class="w-100 py-2">
@@ -212,6 +214,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
     <script>
+
+        $( document ).ready(function() {
+            var anwer = <?php echo $anwer; ?>;
+            if(anwer == 1){ swal("Warning!", "Exceeds the budget that has been set up!", "warning");}
+        })
+
+    
       function deltesheet(id)
         {
             var token = $('meta[name="csrf-token"]').attr('content');

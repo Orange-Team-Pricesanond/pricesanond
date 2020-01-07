@@ -152,7 +152,7 @@
                 <div class="row form-group">
                     <div class="col-lg-4">
                         <label>Branch</label>
-                        <select id="yf_branch" name="yf_branch" class="form-control select2" onchange="changBranch(this.value)" style="width:100%; height:25px;">
+                        <select id="yf_branch" name="yf_branch" class="form-control select2" onchange="changBranch(this.value)" style="width:100%; height:38px;">
                             <!-- <option>Please select</option> -->
                             @foreach ($address as $val)
                                 <option value="{{ $val->ct_ad_id }}"> {{ $val->ct_ad_branch }} </option>

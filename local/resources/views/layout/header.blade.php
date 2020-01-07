@@ -1,5 +1,11 @@
-
-<!-- {{ (Auth::user()->name) ? url('master') : url('login') }}  -->
+<?php
+    if (Auth::check())
+    {
+        url('masterpage');
+    }else{
+        url('login');
+    }
+?>
 <header class="work-head">
     <ul class="head-menu nav nav-tabs" id="nav-group" role="tablist">
         <li><span class="head-tab font-weight-bold">Page Title</span></li>
@@ -45,10 +51,18 @@
                 </span>
             </button>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="i_member">
-                <h6 class="dropdown-header">{{ Auth::user()->name }} {{ Auth::user()->id }}  </h6>
+                <h6 class="dropdown-header">{{ Auth::user()->name }} </h6>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">Profile Setting</a>
-                <a class="dropdown-item" href="#" onclick="location.href='login.php';">Signout</a>
+                
+                <a class="dropdown-item" href="javascript:void(0)" href="{{ route('logout') }}"
+                onclick="event.preventDefault();
+                document.getElementById('logout-form').submit();">
+                <i class="fa fa-power-off m-r-5 m-l-5"></i> Signout</a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+                </form>
+
             </div>
         </li>
     </ul>

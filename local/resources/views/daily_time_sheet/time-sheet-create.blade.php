@@ -69,8 +69,6 @@
                     <div class="w-25">
                         <div class="text-right">
                             <button class="add btn-c material-icons" title="Add Timesheet" >playlist_add</button>
-                            <button class="btn-c material-icons" title="">print</button>
-                            <button class="btn-c material-icons" title="">send</button>
                         </div>
                     </div>
                 </div>
@@ -80,6 +78,7 @@
                     <div class="w-100 py-2">
                         <form method="post" action="{{ url('timesheetInsert') }}">
                         {{ csrf_field() }} 
+                        <input type="hidden" id="id" name="id" value="{{ Auth::user()->id }}" >
                         <div class="card shadow-on">
                             <div class="card-header py-4 bg-white d-flex justify-content-between">
                                 <div>DAILY TIME SHEET {{$date}}</div>
