@@ -18,6 +18,7 @@
             {{ csrf_field() }}
             
                 <input type="hidden" name="yf_fileno" id="yf_fileno" value="{{ $fileno }}" >
+                
                 <h6 class="card-title mb-4"><strong>01. File details and Rates</strong></h6>
                 <div class="row form-group">
                     <div class="col-lg-4">

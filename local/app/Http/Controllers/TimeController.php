@@ -154,7 +154,6 @@ class TimeController extends Controller
             }else{
                 $no = 'Q-'.$date.'-000001';
             }
-            
 
             $Lastid = DB::table('tb_timesheet')->insertGetId(
                 [

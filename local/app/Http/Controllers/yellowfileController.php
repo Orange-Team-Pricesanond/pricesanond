@@ -568,16 +568,19 @@ class yellowfileController extends Controller
         $country = $request->input('country');
         $tax = $request->input('tax');
         
-        $data = [
-            'ct_no' => $no,
-            'ct_fn' => $name,
-            'ct_inn' => $invoice,
-            'ct_country' => $country,
-            'ct_tax' => $tax,
-            'ct_ad_ref' => $random_number,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-        ];
+        $data = DB::table('tb_clients')->insertGetId(
+            [
+                'ct_no' => $no,
+                'ct_fn' => $name,
+                'ct_inn' => $invoice,
+                'ct_country' => $country,
+                'ct_tax' => $tax,
+                'ct_ad_ref' => $random_number,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]
+        );
+        // DB::table('tb_clients')->insert($data);      
         
         if(!empty($request->file('images'))){
                 
@@ -596,25 +599,35 @@ class yellowfileController extends Controller
 
                 $data['ct_images'] = $imagename;
         }   
-        DB::table('tb_clients')->insert($data);      
         
         $count_input = count($request->input('Address'));
         for($i=0 ; $i < $count_input ; $i++){
-            $address = [
-                'ct_ad' => $request->input('Address')[$i],
-                'ct_ad_branch' => $request->input('Branch')[$i],
-                'ct_ad_phone' => $request->input('phone')[$i],
-                'ct_ad_fax' => $request->input('Fax')[$i],
-                'ct_ad_mail' => $request->input('email')[$i],
-                'ct_ad_country' => $request->input('Country')[$i],
-                'ct_ad_atten' => $request->input('attent')[$i],
-                'ct_ad_invoice' => $request->input('invoicepotion'.$i.'')[$i],
-                'ct_ad_country' => $request->input('ct_ad_country')[$i],
-                'ct_ad_ref' => $random_number, 
-                'created_at' => date('Y-m-d H:i:s'), 
-                'updated_at' => date('Y-m-d H:i:s'), 
+            $address = DB::table('tb_address_clients')->insertGetId(
+                [
+                    'ct_ad' => $request->input('Address')[$i],
+                    'ct_ad_branch' => $request->input('Branch')[$i],
+                    'ct_ad_phone' => $request->input('phone')[$i],
+                    'ct_ad_fax' => $request->input('Fax')[$i],
+                    'ct_ad_mail' => $request->input('email')[$i],
+                    'ct_ad_country' => $request->input('Country')[$i],
+                    'ct_ad_atten' => $request->input('attent')[$i],
+                    'ct_ad_invoice' => $request->input('invoicepotion'.$i.'')[$i],
+                    'ct_ad_country' => $request->input('ct_ad_country')[$i],
+                    'ct_ad_ref' => $random_number, 
+                    'created_at' => date('Y-m-d H:i:s'), 
+                    'updated_at' => date('Y-m-d H:i:s'), 
+                ]
+            );
+
+            // DB::table('tb_address_clients')->insert($address); 
+            $log = [
+                'id_ct' => $data,
+                'id_yf' => $address,
+                'id_user' => Auth::user()->id ,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
             ];
-            DB::table('tb_address_clients')->insert($address);  
+            DB::table('tb_logtimesheet')->insert($log); 
         }
         return redirect('masterpage');
     }
