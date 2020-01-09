@@ -28,31 +28,31 @@
 
 </head>
 <style>
-.docs-pane {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    max-width: 1040px;
-    width: 100%;
-    height: 100%;
-    margin: 0 auto;
-    padding: 15px;   
-}
-.docs-head {
-    color: #036;
-    position: relative;
-    border-bottom: 1px solid #f1f1f1;
-    z-index: 1;
-    background-color: white;
-}
-.page-wrapper {
-    position: relative;
-    height: 100vh;
-    max-height: 100vh;
-    background-color: #f8fafb;
-    border-top: 1px solid #f1f1f1;
-}
+    .docs-pane {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1040px;
+        width: 100%;
+        height: 100%;
+        margin: 0 auto;
+        padding: 15px;   
+    }
+    .docs-head {
+        color: #036;
+        position: relative;
+        border-bottom: 1px solid #f1f1f1;
+        z-index: 1;
+        background-color: white;
+    }
+    .page-wrapper {
+        position: relative;
+        height: 100vh;
+        max-height: 100vh;
+        background-color: #f8fafb;
+        border-top: 1px solid #f1f1f1;
+    }
 </style>
 <body>
 
@@ -69,8 +69,6 @@
                     </div>
                     <div class="w-25">
                         <div class="text-right">
-                        
-                            <a href="{{url('timesheetadd')}}/{{$id}}"><button class="btn-c material-icons" title="Add Timesheet" >playlist_add</button></a>
                             <button class="btn-c material-icons" title="">print</button>
                             <button class="btn-c material-icons" title="">send</button>
                         </div>

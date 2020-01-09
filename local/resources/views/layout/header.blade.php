@@ -45,7 +45,6 @@
         <li class="dropdown">
             <button class="btn-c member ml-1 dropdown-toggle" type="button" id="i_member" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="0,7" title="Username">
                 <span class="overflow-hidden">
-                    <!-- <img src="../../img/avatar.svg" /> -->
                     <img class="img-responsive img-rounded" src="{{ asset('asset/img/avatar.svg') }}" alt="User picture">
 
                 </span>

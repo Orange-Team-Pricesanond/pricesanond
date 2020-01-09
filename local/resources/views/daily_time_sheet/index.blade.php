@@ -43,7 +43,8 @@
                             <a id="sheet_tab_1" href="#sheet_con_1" aria-controls="sheet_con_1" class="nav-item nav-link active" data-toggle="tab" role="tab" aria-selected="true">YELLOW FILES</a>
                         </nav>
                         <div>
-                            <button class="btn-c material-icons" title="Add item" data-toggle="modal" data-target="#pop_matter">add_circle_outline</button>
+                            <!-- <button class="btn-c material-icons" title="Add item" data-toggle="modal" data-target="#pop_matter">add_circle_outline</button> -->
+                            <a href="{{url('timesheetadd')}}"><button class="btn-c material-icons" title="Add Timesheet" >playlist_add</button></a>
                             <button class="btn-c material-icons" title="Delete selected">delete</button>
                             <button class="btn-c material-icons" title="Submit selected">send</button>
                         </div>

@@ -80,7 +80,7 @@ Route::get('dailytime', 'TimeController@index');
 Route::get('timeseetview/{id}', 'TimeController@viewsheet');
 
 
-Route::get('timesheetadd/{id}', 'TimeController@viewsheetadd');
+Route::get('timesheetadd', 'TimeController@viewsheetadd');
 Route::get('deletetimesheet/{id}', 'TimeController@delete');
 Route::get('deletetimesheetAjax', 'TimeController@deleteAjax');
 Route::post('timesheetInsert', 'TimeController@insert');

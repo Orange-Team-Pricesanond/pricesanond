@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-markdown/2.10.0/css/bootstrap-markdown.min.css">
 
+
 </head>
 <style>
 .docs-pane {
@@ -77,92 +78,52 @@
                 <div class="docs-pane">
                     <div class="w-100 py-2">
                         <form method="post" action="{{ url('timesheetInsert') }}">
-                        {{ csrf_field() }} 
-                        <input type="hidden" id="id" name="id" value="{{ Auth::user()->id }}" >
-                        <div class="card shadow-on">
-                            <div class="card-header py-4 bg-white d-flex justify-content-between">
-                                <div>DAILY TIME SHEET {{$date}}</div>
-                                <div>
-                                    <div class='d-inline-block'>
-                                        <span class="ml-2">File No. </span>
-                                        <span class="text-blue">{{ $yellow->yf_fileno}}</span>
-                                    </div>
-                                    <div class='d-inline-block'>
-                                        <span class="ml-2">Status : </span>
-                                        <span class="text-pink"> {{ ($count > 0 ? 'Complete' : 'Padding' ) }} </span>
-                                    </div>
+                            {{ csrf_field() }} 
+                            <div class="card shadow-on">
+                                <div class="card-header py-4 bg-white d-flex justify-content-between">
+                                    <div>DAILY TIME SHEET {{$date}}</div>
+                                </div>
+                                <div class="card-body">
+
+                                    <table id="list_sm" class="listed table table-hover display responsive nowrap w-100">
+                                        <thead>
+                                            <tr>
+                                                <th width="30">#</th>
+                                                <th>File No.</th>
+                                                <!-- <th>Rate</th> -->
+                                                <th>Lawyer code</th>
+                                                <th style="padding-left:1.25rem;" width="80">From</th>
+                                                <th style="padding-left:1.25rem;" width="80">To</th>
+                                                <th style="padding-left:1.25rem;" width="80">Time</th>
+                                                <th style="padding-left:1.25rem;">Woek Performed</th>
+                                                <th width="30" class="text-center"><i class="material-icons md-12">delete</i></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php $a=0; ?>
+                                                <tr class="clonefile" id="div_<?php echo $a; ?>"></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="card-footer py-4 bg-white text-right">
+                                    <button type="submit" class="btn btn-primary ml-3">SAVE</button>
                                 </div>
                             </div>
-                            <div class="card-body">
-
-                                <table id="list_sm" class="listed table table-hover display responsive nowrap w-100">
-                                    <thead>
-                                        <tr>
-                                            <th width="30">#</th>
-                                            <th>File No.</th>
-                                            <!-- <th>Rate</th> -->
-                                            <th>Law</th>
-                                            <th style="padding-left:1.25rem;" width="80">From</th>
-                                            <th style="padding-left:1.25rem;" width="80">To</th>
-                                            <th style="padding-left:1.25rem;" width="80">Time</th>
-                                            <th style="padding-left:1.25rem;">Woek Performed</th>
-                                            <th width="30" class="text-center"><i class="material-icons md-12">delete</i></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    <?php $a=0; ?>
-                                    <!-- @foreach ($sheet as $value)
-                                        <tr>
-                                            <td>{{$a}}</td>
-                                            <td>{{ $value->ts_no }}</td>
-                                            <td>{{ $value->ts_reate_work }}</td>
-                                            <td>
-                                                <div>{{ $value->ts_law_id }} </div>
-                                            </td>
-                                            <td>
-                                                <p>
-                                                    {{ Carbon\Carbon::createFromFormat('H:i:s',$value->ts_form)->format('h:i')}}
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <p>
-                                                    {{ Carbon\Carbon::createFromFormat('H:i:s',$value->ts_to)->format('h:i')}}
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <p>
-                                                    {{ Carbon\Carbon::createFromFormat('H:i',$value->ts_total_time)->format('h:i')}}
-                                                </p>  
-                                            </td>                                        
-                                            <td>
-                                                <p>{{$value->ts_woek}}</p>
-                                            </td>
-                                            <td class="text-center">
-                                                <a href="{{url('deletetimesheet')}}/{{$value->ts_id}}">
-                                                    <button type="button" style="background-color: #ffffff00;border-color: #f0f8ff00;" onclick="deltesheet({{$value->ts_id}})">
-                                                        <span class="more material-icons md-12">delete</span>
-                                                    </button>
-                                                </a> 
-                                            </td>
-                                        </tr>
-                                        @endforeach    -->
-                                            <input type="hidden" id="ts_id_yf" name="ts_id_yf" value="{{$id}}">
-                                            <tr class="clonefile" id="div_<?php echo $a; ?>"></tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="card-footer py-4 bg-white text-right">
-                                <button type="submit" class="btn btn-primary ml-3">SAVE</button>
-                            </div>
-                        </div>
-
                         </form>
-
+                        <datalist id="masterfiles">
+                            @foreach ($yellow as $_value)
+                            <option value="{{ $_value->yf_fileno }}">
+                            @endforeach
+                        </datalist>
+                        
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
+
     <!-- page-wrapper -->
 
    <!-- site scripts -->
@@ -207,26 +168,18 @@
                 // Adding new div container after last occurance of element class
                 $(".clonefile:last").after("<tr class='clonefile' id='div_"+ nextindex +"'></tr>");
                 // Adding element to <div>
-
                 var table = '<td>'+nextindex+'</td>';
-                    // table += '<td><div><input id="ts_no'+nextindex+'" name="ts_no[]" type="text" class="form-control form-control-sm border-0 rounded-0" style="width: 100px;" /></div></td>';
                     table += '<div><input id="ts_no'+nextindex+'" name="ts_no[]" type="text" class="form-control form-control-sm border-0 rounded-0" style="width: 88px;" disabled /></div>';
-                    // table += '<td><div><select class="form-control" id="ts_reate_work'+nextindex+'" name="ts_reate_work[]">';
-                    // table += '<option value="A">A</option>';
-                    // table += '<option value="B">B</option>';
-                    // table += '<option value="C">C</option>';
-                    // table += '<option value="D">D</option>';
-                    // table += '<option value="E">E</option>';
-                    // table += '<option value="F">F</option>';
-                    // table += '</select></div></td>';
-                    table += '<td><input type="hidden" id="ts_reate_work'+nextindex+'" name="ts_reate_work[]" /></td>'
-
-                    table += '<td><div><input id="ts_law_id'+nextindex+'" name="ts_law_id[]" type="number" class="form-control form-control-sm border-0 rounded-0" style="width: 60px;" onchange="calrate('+nextindex+')" /></div></td>';
+                    table += '<td><input type="text" onChange="selectTime('+nextindex+')" list="masterfiles" id="master_'+nextindex+'" name="master_name[]" class="form-control" style="width: 75%;"></td>';
+                    table += '<td><div><input id="ts_law_id'+nextindex+'" name="ts_law_id[]" type="number" class="form-control form-control-sm border-0 rounded-0" style="width: 60px;" /></div></td>';
                     table += '<td><div><input id="ts_form'+nextindex+'" name="ts_form[]" type="time" class="form-control form-control-sm border-0 rounded-0" /></div></td>';
                     table += '<td><div><input id="ts_to'+nextindex+'" name="ts_to[]" type="time" class="form-control form-control-sm border-0 rounded-0" onChange="calculate('+nextindex+')" /></div></td>';
                     table += '<td><div><input id="ts_total_time'+nextindex+'" name="ts_total_time[]" type="text" class="form-control form-control-sm border-0 rounded-0 text-blue bg-transparent"></div></td>';
                     table += '<td><input id="ts_woek'+nextindex+'" name="ts_woek[]" type="text" class="form-control form-control-sm border-0 rounded-0" /></td>';
                     table += '<td><button type="button" class="remove" style="background-color: #ffffff00;border-color: #f0f8ff00;" id="remove_'+nextindex+'"><span class="more material-icons md-12">delete</span></button></td>';
+                    
+                    table += '<td><input type="text" id="time_'+nextindex+'" name="time[]" class="form-control form-control-sm border-0 rounded-0" /></td>'
+                   
                     $("#div_" + nextindex).append(table);
             }
                 $('.remove').click(function(){
@@ -239,21 +192,16 @@
                 $("#div_" + deletenextindex).remove();
                 });
                 
-            });                        
+            });                         
         });
 
-        function calrate(id)
-        {
-            var idlaw = $('#ts_law_id'+id+'').val();
-            var yellow = $('#ts_id_yf').val();
-            
-            console.log("ID LAW => "+idlaw);
-            console.log("ID Yellowfile => "+yellow);
-
+        function selectTime(index){
+            var master = $('#master_'+index+'').val();
+            console.log(master);
             $.ajax({
                 url: '{{url("selectLaw")}}',
                 type: "get",
-                data : {idlaw:idlaw , yellow:yellow},
+                data : {master:master},
                 datatype: "text",
                 success: function (data) {
                     $('#ts_reate_work'+id+'').val(data);

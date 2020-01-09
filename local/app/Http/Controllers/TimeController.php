@@ -95,28 +95,21 @@ class TimeController extends Controller
             ]);
         }
     }
-    public function viewsheetadd($id)
-    {   
+    public function viewsheetadd()
+    {       
         $date = date("d/m/Y");
-        $yellow = DB::table('tb_yellowfiles')->where('id_yf',$id)->first();
-        $sheet = DB::table('tb_timesheet')->where('ts_id_yf',$id)->get();
-        $count = DB::table('tb_timesheet')->where('ts_id_yf',$id)->count();
-        if(!empty($sheet))
-        {
+        $yellow = yellowfileModel::all();
+        $sheet = timerecordModel::all();
+        $count = timerecordModel::count();
+        
             return view('daily_time_sheet.time-sheet-create', [
                 'yellow' => $yellow ,
                 'sheet' => $sheet ,
                 'date' => $date ,
-                'count' => $count ,
-                'id' => $id ,
+                'count' => $count ,                
             ]);
 
-        }else{
-            return view('daily_time_sheet.time-sheet-create', [
-                'id' => $id ,
-                'date' => $date ,
-            ]);
-        }
+      
     }
     public function delete($id)
     {
@@ -143,6 +136,9 @@ class TimeController extends Controller
         $date = date('ym');  
         for($i=0 ; $i < count($request->input('ts_law_id')) ; $i++){ 
 
+            $yellow = yellowfileModel::where('yf_fileno', $request->input('master_name'))->first();
+            $law = DB::table('tb_law')->where('law_id',$request->input('ts_law_id')[$i])->first();
+            $yellowfile = DB::table('tb_yellowfiles')->where('id_yf',$yellow->id_yf)->first();
             $select = timerecordModel::orderBy('ts_no', 'DESC')->take(1)->first();
             if($select != null)
             {
@@ -150,17 +146,16 @@ class TimeController extends Controller
                 //run number
                 $sprin = sprintf('%06d', $oldno); 
                 $no = 'Q-'.$date.'-'.$sprin;
-
             }else{
                 $no = 'Q-'.$date.'-000001';
             }
 
             $Lastid = DB::table('tb_timesheet')->insertGetId(
                 [
-                    'ts_id_yf' => $request->input('ts_id_yf') ,
+                    'ts_id_yf' => $yellow->id_yf ,
                     'ts_no' => $no,
                     'ts_law_id' => $request->input('ts_law_id')[$i],
-                    'ts_reate_work' => $request->input('ts_reate_work')[$i],
+                    'ts_reate_work' => $law->lw_yf_rates, 
                     'ts_form' => $request->input('ts_form')[$i],
                     'ts_to' => $request->input('ts_to')[$i],
                     'ts_total_time' => $request->input('ts_total_time')[$i],
@@ -201,11 +196,11 @@ class TimeController extends Controller
         DB::table('tb_timesheet')->where('ts_id',$request->id)->delete();
         echo 'complete';
     }
-    public function selectLawAjax(Request $request)
-    {
-        $law = DB::table('tb_law')->where('law_id',$request->idlaw)->first();
-        $yellowfile = DB::table('tb_yellowfiles')->where('id_yf',$request->yellow)->first();
+    // public function selectLawAjax(Request $request)
+    // {
+    //     $law = DB::table('tb_law')->where('law_id',$request->idlaw)->first();
+    //     $yellowfile = DB::table('tb_yellowfiles')->where('id_yf',$request->yellow)->first();
         
-        echo $law->lw_yf_rates;
-    }
+    //     echo $law->lw_yf_rates;
+    // }
 }

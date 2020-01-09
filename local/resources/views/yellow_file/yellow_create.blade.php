@@ -138,9 +138,20 @@
                     </div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-lg-8">
+                    <div class="col-lg-4">
                         <label>Remark condition</label>
                         <textarea class="form-control" id="yf_remark" name="yf_remark" rows="3"></textarea>
+                    </div>
+                    <div class="col-lg-4">
+                        <label>Currency Both option</label><br>
+                        <div class="custom-control custom-radio custom-control-inline mt-2">
+                            <input type="radio" name="both" id="both_1" class="custom-control-input" value="1">
+                            <label class="custom-control-label" for="both_1">BOTH</label>
+                        </div><br>
+                        <div class="custom-control custom-radio custom-control-inline mt-2">
+                            <input type="radio" name="both" id="both_2" class="custom-control-input" value="0">
+                            <label class="custom-control-label" for="both_2">THB</label>
+                        </div>
                     </div>
                     <div class="col-lg-4">
                         <label>Team</label>
