@@ -138,8 +138,8 @@ class TimeController extends Controller
 
             $yellow = yellowfileModel::where('yf_fileno', $request->input('master_name'))->first();
             $law = DB::table('tb_law')->where('law_id',$request->input('ts_law_id')[$i])->first();
-            $yellowfile = DB::table('tb_yellowfiles')->where('id_yf',$yellow->id_yf)->first();
             $select = timerecordModel::orderBy('ts_no', 'DESC')->take(1)->first();
+
             if($select != null)
             {
                 $oldno = intval(substr($select->ts_no,8))+1;
@@ -164,6 +164,7 @@ class TimeController extends Controller
                     'updated_at' => date('Y-m-d H:i:s'),
                 ]
             );
+
             $data = [
                 'ts_id' => $Lastid,
                 'id_member' =>$request->input('id'),
@@ -203,4 +204,9 @@ class TimeController extends Controller
         
     //     echo $law->lw_yf_rates;
     // }
+    public function selectTimeAjax(Request $request)
+    {
+        $select = yellowfileModel::where('yf_fileno',$request->master)->first();
+        echo $select->yf_time;
+    }
 }

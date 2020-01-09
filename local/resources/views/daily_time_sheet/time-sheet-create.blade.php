@@ -79,6 +79,7 @@
                     <div class="w-100 py-2">
                         <form method="post" action="{{ url('timesheetInsert') }}">
                             {{ csrf_field() }} 
+                            <input type="hidden" id="id" name="id" value="{{ Auth::user()->id }}">
                             <div class="card shadow-on">
                                 <div class="card-header py-4 bg-white d-flex justify-content-between">
                                     <div>DAILY TIME SHEET {{$date}}</div>
@@ -90,7 +91,6 @@
                                             <tr>
                                                 <th width="30">#</th>
                                                 <th>File No.</th>
-                                                <!-- <th>Rate</th> -->
                                                 <th>Lawyer code</th>
                                                 <th style="padding-left:1.25rem;" width="80">From</th>
                                                 <th style="padding-left:1.25rem;" width="80">To</th>
@@ -121,7 +121,6 @@
             </div>
         </div>
     </div>
-
 
 
     <!-- page-wrapper -->
@@ -172,14 +171,11 @@
                     table += '<div><input id="ts_no'+nextindex+'" name="ts_no[]" type="text" class="form-control form-control-sm border-0 rounded-0" style="width: 88px;" disabled /></div>';
                     table += '<td><input type="text" onChange="selectTime('+nextindex+')" list="masterfiles" id="master_'+nextindex+'" name="master_name[]" class="form-control" style="width: 75%;"></td>';
                     table += '<td><div><input id="ts_law_id'+nextindex+'" name="ts_law_id[]" type="number" class="form-control form-control-sm border-0 rounded-0" style="width: 60px;" /></div></td>';
-                    table += '<td><div><input id="ts_form'+nextindex+'" name="ts_form[]" type="time" class="form-control form-control-sm border-0 rounded-0" /></div></td>';
-                    table += '<td><div><input id="ts_to'+nextindex+'" name="ts_to[]" type="time" class="form-control form-control-sm border-0 rounded-0" onChange="calculate('+nextindex+')" /></div></td>';
+                    table += '<td><div><input id="ts_form'+nextindex+'" name="ts_form[]" type="time" value="08:00" class="form-control form-control-sm border-0 rounded-0" /></div></td>';
+                    table += '<td><div><input id="ts_to'+nextindex+'" name="ts_to[]" type="time" value="08:00" class="form-control form-control-sm border-0 rounded-0" onChange="calculate('+nextindex+')" /></div></td>';
                     table += '<td><div><input id="ts_total_time'+nextindex+'" name="ts_total_time[]" type="text" class="form-control form-control-sm border-0 rounded-0 text-blue bg-transparent"></div></td>';
                     table += '<td><input id="ts_woek'+nextindex+'" name="ts_woek[]" type="text" class="form-control form-control-sm border-0 rounded-0" /></td>';
                     table += '<td><button type="button" class="remove" style="background-color: #ffffff00;border-color: #f0f8ff00;" id="remove_'+nextindex+'"><span class="more material-icons md-12">delete</span></button></td>';
-                    
-                    table += '<td><input type="text" id="time_'+nextindex+'" name="time[]" class="form-control form-control-sm border-0 rounded-0" /></td>'
-                   
                     $("#div_" + nextindex).append(table);
             }
                 $('.remove').click(function(){
@@ -199,12 +195,20 @@
             var master = $('#master_'+index+'').val();
             console.log(master);
             $.ajax({
-                url: '{{url("selectLaw")}}',
+                url: '{{url("selectTime")}}',
                 type: "get",
                 data : {master:master},
                 datatype: "text",
                 success: function (data) {
-                    $('#ts_reate_work'+id+'').val(data);
+                    $('#time_'+index+'').val(data);
+                    if(data == 5){
+                        $step = 300;
+                    }else{
+                        $step = 360;
+                    }
+                    document.getElementById("ts_form"+index+"").step = $step; 
+                    document.getElementById("ts_to"+index+"").step = $step; 
+                   
                 },error: function(err){
 					alert(err);
                 }

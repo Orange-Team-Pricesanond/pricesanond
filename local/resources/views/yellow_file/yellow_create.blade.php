@@ -38,7 +38,6 @@
                     <div class="col-lg-4">
                         <label>Partner</label>
                         <select id="yf_partner" name="yf_partner" class="form-control select2" style="width:100%; height:37px;">
-                            <!-- <option>Please select</option> -->
                             @foreach ($partner as $val)
                                 <option value="{{ $val->pt_id }}"> {{ $val->pt_name }} </option>
                             @endforeach
