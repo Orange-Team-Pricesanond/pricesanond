@@ -45,8 +45,8 @@
                         <div>
                             <!-- <button class="btn-c material-icons" title="Add item" data-toggle="modal" data-target="#pop_matter">add_circle_outline</button> -->
                             <a href="{{url('timesheetadd')}}"><button class="btn-c material-icons" title="Add Timesheet" >playlist_add</button></a>
-                            <button class="btn-c material-icons" title="Delete selected">delete</button>
-                            <button class="btn-c material-icons" title="Submit selected">send</button>
+                            <!-- <button class="btn-c material-icons" title="Delete selected">delete</button>
+                            <button class="btn-c material-icons" title="Submit selected">send</button> -->
                         </div>
                     </div>
                     <div class="work-con">

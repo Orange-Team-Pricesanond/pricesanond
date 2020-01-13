@@ -53,6 +53,11 @@
     background-color: #f8fafb;
     border-top: 1px solid #f1f1f1;
 }
+/* add disable */
+.disabledbutton {
+    pointer-events: none;
+    opacity: 0.4;
+}
 </style>
 <body>
 
@@ -91,7 +96,7 @@
                                             <tr>
                                                 <th width="30">#</th>
                                                 <th>File No.</th>
-                                                <th>Lawyer code</th>
+                                                <th>Code</th>
                                                 <th style="padding-left:1.25rem;" width="80">From</th>
                                                 <th style="padding-left:1.25rem;" width="80">To</th>
                                                 <th style="padding-left:1.25rem;" width="80">Time</th>
@@ -105,14 +110,18 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <div class="card-footer py-4 bg-white text-right">
-                                    <button type="submit" class="btn btn-primary ml-3">SAVE</button>
+                                <div id="allButton" name="allButton" class="card-footer py-4 bg-white text-right">
+                                    <button type="submit" id="status" name="status" value="1" class="btn btn-primary ml-3">SAVE</button>
+                                    <button type="submit" id="status" name="status" value="2" class="btn btn-primary ml-3">SEND</button>
                                 </div>
                             </div>
                         </form>
                         <datalist id="masterfiles">
                             @foreach ($yellow as $_value)
-                            <option value="{{ $_value->yf_fileno }}">
+                            <?php 
+                                $cilents = DB::table('tb_clients')->where('id_ct',$_value->id_ct_yf)->first();
+                            ?>
+                            <option value="{{ $_value->yf_fileno }}">{{$_value->yf_mtt }} / {{$cilents->ct_fn}}</option>
                             @endforeach
                         </datalist>
                         
@@ -169,13 +178,14 @@
                 // Adding element to <div>
                 var table = '<td>'+nextindex+'</td>';
                     table += '<div><input id="ts_no'+nextindex+'" name="ts_no[]" type="text" class="form-control form-control-sm border-0 rounded-0" style="width: 88px;" disabled /></div>';
-                    table += '<td><input type="text" onChange="selectTime('+nextindex+')" list="masterfiles" id="master_'+nextindex+'" name="master_name[]" class="form-control" style="width: 75%;"></td>';
+                    table += '<td><input type="text" onChange="selectTime('+nextindex+')" autocomplete="off" list="masterfiles" id="master_'+nextindex+'" name="master_name[]" class="form-control" style="width: 75%;"></td>';
                     table += '<td><div><input id="ts_law_id'+nextindex+'" name="ts_law_id[]" type="number" class="form-control form-control-sm border-0 rounded-0" style="width: 60px;" /></div></td>';
                     table += '<td><div><input id="ts_form'+nextindex+'" name="ts_form[]" type="time" value="08:00" class="form-control form-control-sm border-0 rounded-0" /></div></td>';
                     table += '<td><div><input id="ts_to'+nextindex+'" name="ts_to[]" type="time" value="08:00" class="form-control form-control-sm border-0 rounded-0" onChange="calculate('+nextindex+')" /></div></td>';
                     table += '<td><div><input id="ts_total_time'+nextindex+'" name="ts_total_time[]" type="text" class="form-control form-control-sm border-0 rounded-0 text-blue bg-transparent"></div></td>';
                     table += '<td><input id="ts_woek'+nextindex+'" name="ts_woek[]" type="text" class="form-control form-control-sm border-0 rounded-0" /></td>';
                     table += '<td><button type="button" class="remove" style="background-color: #ffffff00;border-color: #f0f8ff00;" id="remove_'+nextindex+'"><span class="more material-icons md-12">delete</span></button></td>';
+                  
                     $("#div_" + nextindex).append(table);
             }
                 $('.remove').click(function(){
@@ -230,8 +240,33 @@
             var minutes = Math.floor(diff / 1000 / 60);
 
             $('#ts_total_time'+index+'').val((hours < 9 ? "0" : "") + hours + ":" + (minutes < 9 ? "0" : "") + minutes);
+            if($('#ts_total_time'+index+'').val() != ""){
+                var fileno = document.getElementById("master_"+index+"").value;
+                $.ajax({
+                    url: '{{url("selectFixFee")}}',
+                    type: "get",
+                    data : {hours:hours , minutes:minutes , fileno:fileno},
+                    datatype: "text",
+                    success: function (data) {
+
+                        console.log(data);
+                        if(data == 1) {
+                            swal(
+                                'Excess "FixFee" !',
+                                '',
+                                'error'
+                            )
+                            $("#allButton").addClass("disabledbutton");
+                        }
+
+                    },error: function(err){
+                        alert(err);
+                    }
+                });
+
+            }
         }
-   
+
         function deltesheet(id)
         {
             var token = $('meta[name="csrf-token"]').attr('content');

@@ -226,15 +226,7 @@ class yellowfileController extends Controller
     }
     public function Master_yellow_submit(Request $request)
     {
-        // ---- Set file no
-        // $_get = yellowfileModel::orderBy('id_yf', 'DESC')->take(1)->get();
-        // $_getlast = $_get->first()->yf_fileno;
-        // $num = substr($_getlast,7);
-        // $int = (int)$num +1;
-        // $date = date("ym");
-        // $nofile = "Q-".$date."-".$int;
-        //------------------
-
+        $id = $request->input('id');
         $nofile = $request->input('yf_fileno');
         $remark = $request->input('yf_remark');
         $fullname = $request->input('id_ct_yf');
@@ -289,8 +281,10 @@ class yellowfileController extends Controller
         $location = $request->input('yf_location');
         $refer = $request->input('yf_refer');
         $confict = $request->input('yf_confict');
-
-        $data = [
+        $both = $request->input('both');
+        
+        $data = DB::table('tb_yellowfiles')->insertGetId(
+            [
             'id_ct_yf' => $fullname,
             'yf_fileno' => $nofile,
             'yf_mtt' => $matter,
@@ -312,42 +306,33 @@ class yellowfileController extends Controller
             'yf_taxnumber' => $tex,
             'yf_inv_num' => $invname,
             'yf_address' => $address,
-            // 'yf_road' => $road,
-            // 'yf_dis' => $district,
-            // 'yf_subdis' => $subdis,
-            // 'yf_provice' => $provice,
-            // 'yf_code' => $code,
-            // 'yf_country' => $country,
             'yf_phone' => $phone,
             'yf_fax' => $fax,
             'yf_email' => $mail,
             'yf_atten' => $atten,
             'yf_invioctext' => $invtext,
+            'yf_bothcurrency' => $both,   
 
             'dy_taxnumber' => $tex_dely,
             'dy_inv_num' => $invname_dely,
             'dy_address' => $address_dely,
-            // 'dy_road' => $road_dely,
-            // 'dy_dis' => $district_dely,
-            // 'dy_subdis' => $subdis_dely,
-            // 'dy_provice' => $provice_dely,
-            // 'dy_code' => $code_dely,
-            // 'dy_country' => $country_dely,
-            'dy_phone' => $phone_dely,
             'dy_fax' => $fax_dely,
             'dy_email' => $mail_dely,
             'dy_atten' => $atten_dely,
-            'dy_invioctext' => $invtext_dely,
 
             'yf_team' => $team,
             'yf_location' => $location,
             'yf_refer' => $refer,
-            'yf_confict' => $confict,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
+            'yf_confict' => $confict,            
+        ]);
+        // DB::table('tb_yellowfiles')->insert($data);
+
+        $log = [
+            'id_ct' => $fullname, 
+            'id_yf' => $data, 
+            'id_user' => $id,
         ];
-        // dd($data);
-        DB::table('tb_yellowfiles')->insert($data);
+        DB::table('tb_logyellowfile')->insert($log);  
         return redirect('masterpage');
     }
     public function Master_yellow_edit(Request $request)
@@ -375,28 +360,15 @@ class yellowfileController extends Controller
         $branch = $request->input('yf_branch');        
         $invname = $request->input('yf_inv_num');
         $address = $request->input('yf_address');
-        // $road = $request->input('yf_road');
-        // $district = $request->input('yf_dis');
-        // $subdis = $request->input('yf_subdis');
-        // $provice = $request->input('yf_provice');
-        // $code = $request->input('yf_code');
-        // $country = $request->input('yf_country');
         $phone = $request->input('yf_phone');
         $fax = $request->input('yf_fax');
         $mail = $request->input('yf_email');
         $atten = $request->input('yf_atten');
         $invtext = $request->input('yf_invioctext');
-        //delivery location
-        // $branch_dely = $request->input('dy_branch'); 
+     
         $tex_dely = $request->input('dy_taxnumber'); 
         $invname_dely = $request->input('dy_inv_num');
         $address_dely = $request->input('dy_address');
-        // $road_dely = $request->input('dy_road');
-        // $district_dely = $request->input('dy_dis');
-        // $subdis_dely = $request->input('dy_subdis');
-        // $provice_dely = $request->input('dy_provice');
-        // $code_dely = $request->input('dy_code');
-        // $country_dely = $request->input('dy_country');
         $phone_dely = $request->input('dy_phone');
         $fax_dely = $request->input('dy_fax');
         $mail_dely = $request->input('dy_email');
@@ -407,7 +379,8 @@ class yellowfileController extends Controller
         $refer = $request->input('yf_refer');
         $confict = $request->input('yf_confict');
 
-        $data = [
+        $data = DB::table('tb_clients')->insertGetId(
+        [
             'id_ct_yf' => $fullname,
             'yf_fileno' => $yf_fileno,
             'yf_mtt' => $matter,
@@ -429,27 +402,17 @@ class yellowfileController extends Controller
             'yf_taxnumber' => $tex,
             'yf_inv_num' => $invname,
             'yf_address' => $address,
-            // 'yf_road' => $road,
-            // 'yf_dis' => $district,
-            // 'yf_subdis' => $subdis,
-            // 'yf_provice' => $provice,
-            // 'yf_code' => $code,
-            // 'yf_country' => $country,
             'yf_phone' => $phone,
             'yf_fax' => $fax,
             'yf_email' => $mail,
             'yf_atten' => $atten,
             'yf_invioctext' => $invtext,
 
+            'yf_bothcurrency' => $request->input('both'),
+
             'dy_taxnumber' => $tex_dely,
             'dy_inv_num' => $invname_dely,
             'dy_address' => $address_dely,
-            // 'dy_road' => $road_dely,
-            // 'dy_dis' => $district_dely,
-            // 'dy_subdis' => $subdis_dely,
-            // 'dy_provice' => $provice_dely,
-            // 'dy_code' => $code_dely,
-            // 'dy_country' => $country_dely,
             'dy_phone' => $phone_dely,
             'dy_fax' => $fax_dely,
             'dy_email' => $mail_dely,
@@ -460,9 +423,18 @@ class yellowfileController extends Controller
             'yf_location' => $location,
             'yf_refer' => $refer,
             'yf_confict' => $confict,
+            'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
+        ]);
+        // DB::table('tb_yellowfiles')->where('id_yf',$request->input('id_yf'))->update($data);
+
+        $log = [
+            'id_ct' => $fullname, 
+            'id_yf' => $data, 
+            'id_user' => Auth::user()->id,
         ];
-        DB::table('tb_yellowfiles')->where('id_yf',$request->input('id_yf'))->update($data);
+        DB::table('tb_logyellowfile')->insert($log);  
+
         return redirect('masterpage');
     }
     public function delete($id)
@@ -473,7 +445,7 @@ class yellowfileController extends Controller
     public function editcl($id)
     {
         $client = DB::table('tb_clients')->where('id_ct',$id)->first();
-        $address = DB::table('tb_address_clients')->where('ct_ad_ref',$client->ct_ad_ref)->get();
+        $address = addressModel::where('ct_ad_ref',$client->ct_ad_ref)->get();
         return view('yellow_file.client_edit', [
             'client' => $client ,
             'address' => $address
@@ -557,18 +529,22 @@ class yellowfileController extends Controller
     public function Submitcl(Request $request)
     {
         $select = tb_client::orderBy('id_ct', 'DESC')->take(1)->first();
-        $oldno = intval(substr($select->ct_no,2))+1;
-        //run number
+        if(!$select){
+            $no = "C-000001";
+        }else{
+            //run number
+            $oldno = intval(substr($select->ct_no,2))+1;
+            $no = sprintf('C-%06d', $oldno);
+        }
+        
         $id = 1;
-        $no = sprintf('C-%06d', $oldno);
-
         $random_number = mt_rand(000000, 999999);
         $name = $request->input('fullname');
         $invoice = $request->input('invoice');
         $country = $request->input('country');
         $tax = $request->input('tax');
         
-        $data = DB::table('tb_clients')->insertGetId(
+        $data = 
             [
                 'ct_no' => $no,
                 'ct_fn' => $name,
@@ -578,9 +554,7 @@ class yellowfileController extends Controller
                 'ct_ad_ref' => $random_number,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
-            ]
-        );
-        // DB::table('tb_clients')->insert($data);      
+            ];
         
         if(!empty($request->file('images'))){
                 
@@ -599,10 +573,10 @@ class yellowfileController extends Controller
 
                 $data['ct_images'] = $imagename;
         }   
-        
+        DB::table('tb_clients')->insert($data);      
         $count_input = count($request->input('Address'));
         for($i=0 ; $i < $count_input ; $i++){
-            $address = DB::table('tb_address_clients')->insertGetId(
+            $address =
                 [
                     'ct_ad' => $request->input('Address')[$i],
                     'ct_ad_branch' => $request->input('Branch')[$i],
@@ -616,18 +590,9 @@ class yellowfileController extends Controller
                     'ct_ad_ref' => $random_number, 
                     'created_at' => date('Y-m-d H:i:s'), 
                     'updated_at' => date('Y-m-d H:i:s'), 
-                ]
-            );
+                ];
 
-            // DB::table('tb_address_clients')->insert($address); 
-            $log = [
-                'id_ct' => $data,
-                'id_yf' => $address,
-                'id_user' => Auth::user()->id ,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-            ];
-            DB::table('tb_logtimesheet')->insert($log); 
+            DB::table('tb_address_clients')->insert($address);             
         }
         return redirect('masterpage');
     }

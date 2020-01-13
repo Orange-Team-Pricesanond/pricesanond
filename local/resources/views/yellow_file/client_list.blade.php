@@ -40,7 +40,7 @@
             @foreach ($client as $_client)
                 <tr>
                     <td>{{$i}} </td>
-                    <td><a href="{{url('viewclient')}}/{{$_client->id_ct}}">{{ $_client->ct_no }}</a></td>
+                    <td><a href="{{url('viewclient')}}/{{$_client->id_ct}}">{{ $_client->ct_no }} </a></td>
                     <td><a href="{{url('viewclient')}}/{{$_client->id_ct}}">{{ $_client->ct_fn }}</a></td>
                     <td><a href="{{url('viewclient')}}/{{$_client->id_ct}}">{{ $_client->ct_country }}</a></td>
                     <td class="text-center">

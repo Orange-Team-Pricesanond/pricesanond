@@ -1,23 +1,28 @@
 <div class="card border-0">
     <div class="card-header py-4 bg-white d-flex justify-content-between">
-        <div class="d-flex">
-            <div class="input-group input-group-sm mr-2">
-                <div class="input-group-prepend">
-                    <div class="input-group-text border-0 material-icons">date_range</div>
+        <form method="get">
+            <div class="d-flex">
+                <div class="input-group input-group-sm mr-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text border-0 material-icons">date_range</div>
+                    </div>
+                    <input type="date" id="search_date" name="search_date" class="form-control" />
                 </div>
-                <input type="date" class="form-control" value="SEP 1 – SEP 30, 2019">
-            </div>
-            <div class="input-group input-group-sm mr-2">
-                <div class="input-group-prepend">
-                    <div class="input-group-text border-0 material-icons">info</div>
+                <div class="input-group input-group-sm mr-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text border-0 material-icons">info</div>
+                    </div>
+                    <select class="form-control" id="search_type" name="search_type">
+                        <option selected>All</option>
+                        <option value="Padding">Padding</option>
+                        <option value="Complete">Complete</option>
+                    </select>
                 </div>
-                <select class="form-control">
-                    <option selected>All</option>
-                    <option>Draft</option>
-                    <option>Submitted</option>
-                </select>
+                <div class="input-group input-group-sm mr-2">
+                    <button type="submit" class="btn-c material-icons" title="Search">search</button>
+                </div>
             </div>
-        </div>
+        </form>
         <div>
             <input type="text" class="form-control form-control-sm">
         </div>

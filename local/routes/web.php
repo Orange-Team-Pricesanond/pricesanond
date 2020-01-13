@@ -85,6 +85,7 @@ Route::get('deletetimesheet/{id}', 'TimeController@delete');
 Route::get('deletetimesheetAjax', 'TimeController@deleteAjax');
 Route::post('timesheetInsert', 'TimeController@insert');
 Route::get('selectTime', 'TimeController@selectTimeAjax');
+Route::get('selectFixFee', 'TimeController@selectFixFeeAjax');
 
 
 

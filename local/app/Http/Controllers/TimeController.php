@@ -38,47 +38,58 @@ class TimeController extends Controller
         $count = DB::table('tb_timesheet')->where('ts_id_yf',$id)->count();
     
         $last_total = 0;
+        $rate = 0;
+        $total = 0;
+        $select_total = array();
         $estimate = $yellow->yf_estimate; // งบประมาณ
         foreach($sheet as $_val)
         {
             $arrays = explode(':', $_val->ts_total_time); 
-            $total = intval($arrays[0]).".".$arrays[1];
-
+            $total_all = (intval($arrays[0])*60)+$arrays[1];
+            
             if($_val->ts_reate_work == 'A')
             {
-                $total += $total;
+                $total += $total_all;
+                $total_single = $total_all;
                 $rate = $yellow->yf_rates_a;
             }
             elseif($_val->ts_reate_work == 'B')
             {   
-                $total += $total;
+                $total += $total_all;
+                $total_single = $total_all;
                 $rate = $yellow->yf_rates_b;
             }
             elseif($_val->ts_reate_work == "C")
             {
-                $total += $total;
+                $total += $total_all;
+                $total_single = $total_all;
                 $rate = $yellow->yf_rates_c;
             }
             elseif($_val->ts_reate_work == "D")
             {
-                $total += $total;
+                $total += $total_all;
+                $total_single = $total_all;
                 $rate = $yellow->yf_rates_d;
             }
             elseif($_val->ts_reate_work == "E")
             {   
-                $total += $total;
+                $total += $total_all;
+                $total_single = $total_all;
                 $rate = $yellow->yf_rates_e;
             }else{ // F
-                $total += $total;
+                $total += $total_all;
+                $total_single = $total_all;
                 $rate = $yellow->yf_rates_f;
             }
-            $last_total += number_format(($total/60)*$rate ,2);
+            $last_total += number_format(($total_single/60)*$rate ,2);
+
+            $select_total[$_val->ts_id] = number_format(($total_single/60)*$rate ,2);
+
         }
         $anwer = ($last_total>$estimate) ? "1" : "0";
 
         if(!empty($sheet))
         {
-            // return view('daily_time_sheet.time-sheet-create', [
             return view('daily_time_sheet.list-time-sheet', [    
                 'anwer' => $anwer ,
                 'yellow' => $yellow ,
@@ -86,6 +97,7 @@ class TimeController extends Controller
                 'date' => $date ,
                 'count' => $count ,
                 'id' => $id ,
+                'total' => $select_total,
             ]);
 
         }else{
@@ -160,6 +172,7 @@ class TimeController extends Controller
                     'ts_to' => $request->input('ts_to')[$i],
                     'ts_total_time' => $request->input('ts_total_time')[$i],
                     'ts_woek' => $request->input('ts_woek')[$i],
+                    'ts_status' => $request->status,
                     'created_at' => date('Y-m-d H:i:s'),
                     'updated_at' => date('Y-m-d H:i:s'),
                 ]
@@ -197,16 +210,47 @@ class TimeController extends Controller
         DB::table('tb_timesheet')->where('ts_id',$request->id)->delete();
         echo 'complete';
     }
-    // public function selectLawAjax(Request $request)
-    // {
-    //     $law = DB::table('tb_law')->where('law_id',$request->idlaw)->first();
-    //     $yellowfile = DB::table('tb_yellowfiles')->where('id_yf',$request->yellow)->first();
-        
-    //     echo $law->lw_yf_rates;
-    // }
     public function selectTimeAjax(Request $request)
     {
         $select = yellowfileModel::where('yf_fileno',$request->master)->first();
         echo $select->yf_time;
+    }
+    public function selectFixFeeAjax(Request $request)
+    {
+        $yellow = yellowfileModel::where('yf_fileno',$request->fileno)->first(); // 1 row
+        $timesheet = timerecordModel::where('ts_id_yf',$yellow->id_yf)->get(); // many row
+        $fixfee = $yellow->yf_fixfee;
+
+        $last_total = 0;
+        foreach($timesheet as $_sheet)
+        {
+            $reate_yellow = $_sheet->ts_reate_work;
+            $arrays = explode(':', $_sheet->ts_total_time); 
+            $total_all = (intval($arrays[0])*60)+$arrays[1];
+
+            if($reate_yellow == "A"){                
+                $total = $total_all;
+                $rate = $yellow->yf_rates_a;
+            }elseif($reate_yellow == "B"){
+                $total = $total_all;
+                $rate = $yellow->yf_rates_b;
+            }elseif($reate_yellow == "C"){
+                $total = $total_all;
+                $rate = $yellow->yf_rates_c; 
+            }elseif($reate_yellow == "D"){
+                $total = $total_all;
+                $rate = $yellow->yf_rates_d; 
+            }elseif($reate_yellow == "E"){
+                $total = $total_all;
+                $rate = $yellow->yf_rates_e; 
+            }else{ //F
+                $total = $total_all;
+                $rate = $yellow->yf_rates_f; 
+            }
+            $last_total += number_format(($total/60)*$rate ,2);
+        }
+       
+        // echo "total->".$last_total." | FixFee -> ".$fixfee;
+        echo ($last_total>=$fixfee) ? 1 : 0;
     }
 }

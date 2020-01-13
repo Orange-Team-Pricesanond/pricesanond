@@ -116,12 +116,15 @@
                                             <th style="padding-left:1.25rem;" width="80">To</th>
                                             <th style="padding-left:1.25rem;" width="80">Time</th>
                                             <th style="padding-left:1.25rem;">Woek Performed</th>
+                                            <th style="padding-left:1.25rem;">total</th>
                                             <th>Rate</th>
                                             <th width="30" class="text-center"><i class="material-icons md-12">delete</i></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <?php $a=0; ?>
+                                    <?php 
+                                        $a=0;
+                                    ?>
                                         @foreach ($sheet as $value)
                                         <?php 
                                             $a++;
@@ -154,29 +157,27 @@
                                             </td>
                                             <td>
                                                 <p>
-                                                    {{\Carbon\Carbon::createFromFormat('H:i:s',$value->ts_form)->format('h:i')}}
+                                                    {{$value->ts_form}}
                                                 </p>
                                             </td>
                                             <td>
                                                 <p>
-                                                    {{\Carbon\Carbon::createFromFormat('H:i:s',$value->ts_to)->format('h:i')}}
+                                                    {{$value->ts_to}}
                                                 </p>
                                             </td>
                                             <td>
                                                 <p>
-                                                    {{\Carbon\Carbon::createFromFormat('H:i',$value->ts_total_time)->format('h:i')}}
+                                                    {{$value->ts_total_time}}
                                                 </p>                                            </td>
                                             <td>
                                                 <p>{{$value->ts_woek}}</p>
                                             </td>
+                                            <td>{{ $total[$value->ts_id] }}</td>
                                             <td>{{ $reate }}</td>
                                             <td class="text-center">
-                                                <!-- <a href="{{url('deletetimesheet')}}/{{$value->ts_id}}"> -->
-                                                    <button type="button" style="background-color: #ffffff00;border-color: #f0f8ff00;" onclick="deltesheet({{$value->ts_id}})">
-                                                        <span class="more material-icons md-12">delete</span>
-                                                    </button>
-                                                <!-- </a> -->
-                                                
+                                                <button type="button" style="background-color: #ffffff00;border-color: #f0f8ff00;" onclick="deltesheet({{$value->ts_id}})">
+                                                    <span class="more material-icons md-12">delete</span>
+                                                </button>
                                             </td>
                                         </tr>
                                         @endforeach   
@@ -212,6 +213,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
     <script>
+
+
 
         $( document ).ready(function() {
             var anwer = <?php echo $anwer; ?>;
