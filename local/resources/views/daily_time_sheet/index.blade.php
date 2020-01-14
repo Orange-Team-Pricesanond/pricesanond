@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/png" href="{{ asset('asset/img/ic/favicon.png') }}" >
     <link rel="icon" type="image/png" href="{{ asset('asset/img/ic/favicon@2x.png') }}" >
     <title>Daily time sheet</title>
@@ -20,7 +21,19 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('asset/DataTables/datatables.min.css') }}"/>
 
 </head>
-
+<style type="text/css">
+    [type=search] {
+        font-size: 1rem;
+        color: #495057;
+        background-color: #fff;
+        border-radius: .25rem;
+        border: 1px solid #ced4da; 
+    }
+        a {
+        text-decoration: none !important;
+        color: black;
+    } 
+</style>
 <body>
 
     <!-- page-wrapper -->
@@ -78,9 +91,56 @@
     <script type="text/javascript" src="{{ asset('asset/DataTables/datatables.min.js')}}"></script>
 
     <script>
+    
         $(document).ready(function() {
-            $('.table').DataTable();
-        });
+            $('#list_index').DataTable( 
+                {
+                scrollY: true,
+			  	scrollCollapse: true,
+                "ajax": '{{url("showtimesheet")}}',
+                columns : [
+		        	{ data : 'id' },
+		        	{ data : 'yf_fileno' },
+		        	{ data : 'ct_yf' },
+		        	{ data : 'yf_mtt' },
+		        	{ data : 'pt_name' },
+		        	{ data : 'Status' },
+		        ],
+                }
+             );
+        } );
+
+        $( ".search" ).change(function() {
+            $('#list_index').DataTable().destroy();
+			search($(this).val());
+		})
+
+        function search()
+        {
+            var token = $('meta[name="csrf-token"]').attr('content');
+            var status = document.getElementById("search_type").value; 
+            $('#list_index').DataTable( {
+                scrollY: true,
+			  	scrollCollapse: true,
+                "ajax": {
+			    "url": '{{url("searchtimesheet")}}',
+			   	"type": 'POST',       
+			    "data": {
+			        "status": status,
+			        "_token": token,
+			    },
+			  },
+                columns : [
+		        	{ data : 'id' },
+		        	{ data : 'yf_fileno' },
+		        	{ data : 'ct_yf' },
+		        	{ data : 'yf_mtt' },
+		        	{ data : 'pt_name' },
+		        	{ data : 'Status' },
+		        ],
+            } );
+        }
+
     </script>
 
 </body>

@@ -21,10 +21,11 @@
     <link rel="stylesheet" href="{{ asset('asset/css/dropzone.css') }}">
     <link rel="stylesheet" href="{{ asset('asset/css/cropper.css') }}">
     
+    <link rel="stylesheet" type="text/css" href="{{ asset('asset/DataTables/datatables.min.css') }}"/>
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-markdown/2.10.0/css/bootstrap-markdown.min.css">
-
 
 </head>
 <style>
@@ -53,6 +54,20 @@
         background-color: #f8fafb;
         border-top: 1px solid #f1f1f1;
     }
+    [type=search] {
+        font-size: 1rem;
+        color: #495057;
+        background-color: #fff;
+        border-radius: .25rem;
+        border: 1px solid #ced4da; 
+    }
+    select{
+        font-size: 1rem;
+        color: #495057;
+        background-color: #fff;
+        border-radius: .25rem;
+        border: 1px solid #ced4da;
+    }
 </style>
 <body>
 
@@ -80,6 +95,7 @@
                 <div class="docs-pane">
                     <div class="w-100 py-2">
                         {{ csrf_field() }} 
+                        <input type="hidden" id="id" name="id" value="{{$id}}" >
                         <div class="card border-0">
                             <div class="card-header py-4 bg-white d-flex justify-content-between">
                                 <div class="d-flex">
@@ -87,31 +103,31 @@
                                         <div class="input-group-prepend">
                                             <div class="input-group-text border-0 material-icons">date_range</div>
                                         </div>
-                                        <input type="date" class="form-control" value="SEP 1 – SEP 30, 2019">
+                                        <input type="date" id="search_date" name="search_date" class="form-control" />
                                     </div>
                                     <div class="input-group input-group-sm mr-2">
                                         <div class="input-group-prepend">
                                             <div class="input-group-text border-0 material-icons">info</div>
                                         </div>
-                                        <select class="form-control">
-                                            <option selected>All</option>
-                                            <option>Draft</option>
-                                            <option>Submitted</option>
+                                        <select class="form-control" id="search_status" name="search_status">
+                                            <option>All</option>
+                                            <option value="1">Draft</option>
+                                            <option value="2">Submitted</option>
                                         </select>
                                     </div>
-                                </div>
-                                <div>
-                                    <input type="text" class="form-control form-control-sm">
+                                    <div class="input-group input-group-sm mr-2">
+                                       <i class="material-icons searching" style="margin-top: 6px;">search</i>
+                                    </div>
                                 </div>
                             </div>
                             <div class="card-body">
 
-                                <table id="list_sm" class="listed table table-hover display responsive nowrap w-100">
+                                <table id="list_ts" class="list_ts listed table table-hover display responsive nowrap w-100">
                                     <thead>
                                         <tr>
                                             <th width="30">#</th>
                                             <th>File No.</th>
-                                            <th>Law</th>
+                                            <th>Code</th>
                                             <th style="padding-left:1.25rem;" width="80">From</th>
                                             <th style="padding-left:1.25rem;" width="80">To</th>
                                             <th style="padding-left:1.25rem;" width="80">Time</th>
@@ -121,67 +137,6 @@
                                             <th width="30" class="text-center"><i class="material-icons md-12">delete</i></th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                    <?php 
-                                        $a=0;
-                                    ?>
-                                        @foreach ($sheet as $value)
-                                        <?php 
-                                            $a++;
-                                            $yellow = DB::table('tb_yellowfiles')->where('id_yf',$value->ts_id_yf)->first();
-                                            if($value->ts_reate_work == "A")
-                                            {
-                                                $reate = $yellow->yf_rates_a;
-                                            }elseif($value->ts_reate_work == "B")
-                                            {
-                                                $reate = $yellow->yf_rates_b;
-                                            }elseif($value->ts_reate_work == "C")
-                                            {
-                                                $reate = $yellow->yf_rates_c;
-                                            }elseif($value->ts_reate_work == "D")
-                                            {
-                                                $reate = $yellow->yf_rates_d;
-                                            }elseif($value->ts_reate_work == "E")
-                                            {
-                                                $reate = $yellow->yf_rates_e;
-                                            }else // F
-                                            {
-                                                $reate = $yellow->yf_rates_f;
-                                            }
-                                         ?>
-                                        <tr>
-                                            <td>{{$a}}</td>
-                                            <td>{{ $value->ts_no }}</td>
-                                            <td>
-                                                <div>{{ $value->ts_law_id }} </div>
-                                            </td>
-                                            <td>
-                                                <p>
-                                                    {{$value->ts_form}}
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <p>
-                                                    {{$value->ts_to}}
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <p>
-                                                    {{$value->ts_total_time}}
-                                                </p>                                            </td>
-                                            <td>
-                                                <p>{{$value->ts_woek}}</p>
-                                            </td>
-                                            <td>{{ $total[$value->ts_id] }}</td>
-                                            <td>{{ $reate }}</td>
-                                            <td class="text-center">
-                                                <button type="button" style="background-color: #ffffff00;border-color: #f0f8ff00;" onclick="deltesheet({{$value->ts_id}})">
-                                                    <span class="more material-icons md-12">delete</span>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        @endforeach   
-                                    </tbody>
                                 </table>
 
                             </div>
@@ -203,25 +158,73 @@
     <script src="{{ asset('asset/js/dropzone') }}"></script>
     <script src="{{ asset('asset/js/cropperjs') }}"></script>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
+    <script src="{{ asset('asset/js/jquery-3.3.1.min.js') }}"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> -->
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script> -->
+    <script src="{{ asset('asset/js/bootstrap.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-markdown/2.10.0/js/bootstrap-markdown.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-markdown/2.10.0/js/bootstrap-markdown.min.js"></script>
     <!-- sweetalert -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
+    <script type="text/javascript" src="{{ asset('asset/DataTables/datatables.min.js')}}"></script>
+
     <script>
-
-
 
         $( document ).ready(function() {
             var anwer = <?php echo $anwer; ?>;
             if(anwer == 1){ swal("Warning!", "Exceeds the budget that has been set up!", "warning");}
+            
+            var token = $('meta[name="csrf-token"]').attr('content');
+            var id = document.getElementById("id").value; 
+            
+            searching(id,token);
         })
 
-    
+        $(".searching").on("click",function() {
+            $('.list_ts').DataTable().destroy();
+            
+            var id = document.getElementById("id").value; 
+            var token = $('meta[name="csrf-token"]').attr('content');
+            var status = document.getElementById("search_status").value; 
+            var date = document.getElementById("search_date").value; 
+
+			searching(id,token,status,date);
+		})
+
+        function searching(id,token,status,date)
+        {
+            console.log(status);
+            console.log(date);
+
+            $('.list_ts').DataTable( {
+                scrollY: true,
+			  	scrollCollapse: true,
+                "ajax": {
+			    "url": '{{url("showDetaileTimesheet")}}',
+			   	"type": 'POST',       
+			    "data": {
+			        "id": id,
+			        "status": status,
+			        "date": date,
+			        "_token": token,
+			    },
+			  },
+                columns : [
+		        	{ data : 'id' },
+		        	{ data : 'no' },
+		        	{ data : 'code' },
+		        	{ data : 'From' },
+		        	{ data : 'To' },
+		        	{ data : 'Time' },
+		        	{ data : 'Woek Performed' },
+		        	{ data : 'total' },
+		        	{ data : 'Rate' },
+		        	{ data : 'delete' },
+		        ],
+            } );
+        }
       function deltesheet(id)
         {
             var token = $('meta[name="csrf-token"]').attr('content');
@@ -260,7 +263,6 @@
 					}
 				});
         }
-
     </script>
 
 

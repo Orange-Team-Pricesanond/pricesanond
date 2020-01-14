@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use app\Http\Middleware\VerifyCsrfToken;
+
 use Illuminate\Http\Request;
 use App\timerecordModel;
 use App\yellowfileModel;
@@ -253,4 +255,181 @@ class TimeController extends Controller
         // echo "total->".$last_total." | FixFee -> ".$fixfee;
         echo ($last_total>=$fixfee) ? 1 : 0;
     }
+    public function showtimesheet(Request $request)
+    {
+        $data = [];    
+        $select = yellowfileModel::all();
+        $i = 1;
+        foreach($select as $_val){
+
+            $Client = tb_client::where('id_ct', $_val->id_ct_yf )->first();
+            $partner_name = DB::table('tb_partner')->where('pt_id',$_val->yf_partner)->first();
+            $count = DB::table('tb_timesheet')->where('ts_id_yf',$_val->id_yf)->count();
+
+            $data['data'][]= array(
+                "id" =>  '<a href="timeseetview/'.$_val->id_yf.'">'.$i.'</a>',
+                "yf_fileno" => '<a href="timeseetview/'.$_val->id_yf.'">'.$_val->yf_fileno.'</a>',
+                "ct_yf" => '<a href="timeseetview/'.$_val->id_yf.'">'.$Client->ct_fn.'</a>',
+                "yf_mtt" => '<a href="timeseetview/'.$_val->id_yf.'">'.$_val->yf_mtt.'</a>',
+                "pt_name" => '<a href="timeseetview/'.$_val->id_yf.'">'.$partner_name->pt_name.'</a>',
+                "Status" => ( $count > 0 ? "Complete" : "Padding"),
+            );
+        $i++; }
+        echo json_encode($data);
+    }
+    public function searchtimesheet(Request $request)
+    {
+        $type = $request->input('status');
+        $select = yellowfileModel::all();
+        $data = [];    
+        $data2 = [];    
+        $data3 = [];    
+        $i = 1;
+        foreach($select as $_val){
+
+            $Client = tb_client::where('id_ct', $_val->id_ct_yf )->first();
+            $partner_name = DB::table('tb_partner')->where('pt_id',$_val->yf_partner)->first();
+            $count = DB::table('tb_timesheet')->where('ts_id_yf',$_val->id_yf)->count();
+
+            $data3['data'][]= array(
+                "id" =>  '<a href="timeseetview/'.$_val->id_yf.'">'.$i.'</a>',
+                "yf_fileno" => '<a href="timeseetview/'.$_val->id_yf.'">'.$_val->yf_fileno.'</a>',
+                "ct_yf" => '<a href="timeseetview/'.$_val->id_yf.'">'.$Client->ct_fn.'</a>',
+                "yf_mtt" => '<a href="timeseetview/'.$_val->id_yf.'">'.$_val->yf_mtt.'</a>',
+                "pt_name" => '<a href="timeseetview/'.$_val->id_yf.'">'.$partner_name->pt_name.'</a>',
+                "Status" => ( $count > 0 ? "Complete" : "Padding"),
+            ); 
+
+            if($count > 0){ // complete
+                $data['data'][] = array(
+                    "id" =>  '<a href="timeseetview/'.$_val->id_yf.'">'.$i.'</a>',
+                    "yf_fileno" => '<a href="timeseetview/'.$_val->id_yf.'">'.$_val->yf_fileno.'</a>',
+                    "ct_yf" => '<a href="timeseetview/'.$_val->id_yf.'">'.$Client->ct_fn.'</a>',
+                    "yf_mtt" => '<a href="timeseetview/'.$_val->id_yf.'">'.$_val->yf_mtt.'</a>',
+                    "pt_name" => '<a href="timeseetview/'.$_val->id_yf.'">'.$partner_name->pt_name.'</a>',
+                    "Status" => ( $count > 0 ? "Complete" : "Padding"),
+                );
+            }else{ // padding
+                $data2['data'][]= array(
+                    "id" =>  '<a href="timeseetview/'.$_val->id_yf.'">'.$i.'</a>',
+                    "yf_fileno" => '<a href="timeseetview/'.$_val->id_yf.'">'.$_val->yf_fileno.'</a>',
+                    "ct_yf" => '<a href="timeseetview/'.$_val->id_yf.'">'.$Client->ct_fn.'</a>',
+                    "yf_mtt" => '<a href="timeseetview/'.$_val->id_yf.'">'.$_val->yf_mtt.'</a>',
+                    "pt_name" => '<a href="timeseetview/'.$_val->id_yf.'">'.$partner_name->pt_name.'</a>',
+                    "Status" => ( $count > 0 ? "Complete" : "Padding"),
+                ); 
+            }
+        $i++; }
+
+        if ($type == 0) { // pandding
+            echo json_encode($data2);
+        } elseif($type == 1) { // complete
+            echo json_encode($data);
+        }else { // all
+            echo json_encode($data3);
+        }
+        
+    }
+    public function showDetaileTimesheet(Request $request)
+    {
+        $data['data'] = [];
+        $id = $request->input('id');
+        $status = $request->input('status');
+        $date = $request->input('date');
+
+        if (!empty($status) && !empty($date)) { 
+                
+            $yellow = yellowfileModel::where('id_yf',$request->id)->first();
+            $sheet = timerecordModel::where('ts_id_yf',$request->id)->where('ts_status',$status)->where('created_at','LIKE',$date.'%')->get();
+            $count = timerecordModel::where('ts_id_yf',$request->id)->where('ts_status',$status)->where('created_at','LIKE',$date.'%')->count();
+
+        } else if(!empty($status) && empty($date)) {
+
+            $yellow = yellowfileModel::where('id_yf',$request->id)->first();
+            $sheet = timerecordModel::where('ts_id_yf',$request->id)->where('ts_status',$status)->get();
+            $count = timerecordModel::where('ts_id_yf',$request->id)->where('ts_status',$status)->count();
+
+        } else if(empty($status) && !empty($date)) {    
+           
+            $yellow = yellowfileModel::where('id_yf',$request->id)->first();
+            $sheet = timerecordModel::where('ts_id_yf',$request->id)->where('created_at','LIKE',$date.'%')->get();
+            $count = timerecordModel::where('ts_id_yf',$request->id)->where('created_at','LIKE',$date.'%')->count();
+        
+        } else {
+            $yellow = yellowfileModel::where('id_yf',$request->id)->first();
+            $sheet = timerecordModel::where('ts_id_yf',$request->id)->get();
+            $count = timerecordModel::where('ts_id_yf',$request->id)->count();
+           
+        }
+            
+            $last_total = 0;
+            $rate = 0;
+            $total = 0;
+            $select_total = 0;
+            $estimate = $yellow->yf_estimate; // งบประมาณ
+            $a = 1;
+
+            if($count>0){
+                foreach($sheet as $_val)
+                {
+                    $arrays = explode(':', $_val->ts_total_time); 
+                    $total_all = (intval($arrays[0])*60)+$arrays[1];
+                    
+                    if($_val->ts_reate_work == 'A')
+                    {
+                        $total += $total_all;
+                        $total_single = $total_all;
+                        $rate = $yellow->yf_rates_a;
+                    }
+                    elseif($_val->ts_reate_work == 'B')
+                    {   
+                        $total += $total_all;
+                        $total_single = $total_all;
+                        $rate = $yellow->yf_rates_b;
+                    }
+                    elseif($_val->ts_reate_work == "C")
+                    {
+                        $total += $total_all;
+                        $total_single = $total_all;
+                        $rate = $yellow->yf_rates_c;
+                    }
+                    elseif($_val->ts_reate_work == "D")
+                    {
+                        $total += $total_all;
+                        $total_single = $total_all;
+                        $rate = $yellow->yf_rates_d;
+                    }
+                    elseif($_val->ts_reate_work == "E")
+                    {   
+                        $total += $total_all;
+                        $total_single = $total_all;
+                        $rate = $yellow->yf_rates_e;
+                    }else{ // F
+                        $total += $total_all;
+                        $total_single = $total_all;
+                        $rate = $yellow->yf_rates_f;
+                    }
+                    
+                    $select_total = number_format(($total_single/60)*$rate ,2);
+
+                    $data['data'][]= array(
+                        "id" =>  $a,
+                        "no" => $_val->ts_no,
+                        "code" => $_val->ts_law_id,
+                        "From" =>$_val->ts_form,
+                        "To" => $_val->ts_to,
+                        "Time" => date("H:i:s", strtotime($_val->ts_total_time)),
+                        "Woek Performed" => $_val->ts_woek,
+                        "total" => $select_total,
+                        "Rate" => $rate,
+                        "delete" => '<button type="button" style="background-color: #ffffff00;border-color: #f0f8ff00;" onclick="deltesheet('.$_val->ts_id.')">
+                        <span class="more material-icons md-12">delete</span></button>',
+                    );
+                $a++; }
+            }
+
+        echo json_encode($data);
+        
+    }
+   
 }

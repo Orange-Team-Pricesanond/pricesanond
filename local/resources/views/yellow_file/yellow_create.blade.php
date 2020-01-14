@@ -18,7 +18,7 @@
             {{ csrf_field() }}
             
                 <input type="hidden" name="yf_fileno" id="yf_fileno" value="{{ $fileno }}" >
-                <input type="" name="id" id="id" value="{{ Auth::user()->id }}" >
+                <input type="hidden" name="id" id="id" value="{{ Auth::user()->id }}" >
                 
                 
                 <h6 class="card-title mb-4"><strong>01. File details and Rates</strong></h6>
@@ -67,13 +67,17 @@
                         <label>Fix Fee</label>
                         <input type="number" min="0" class="form-control" id="yf_fixfee" name="yf_fixfee" placeholder="0">
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-1">
                         <label>Estimate</label>
                         <input type="number" min="0" class="form-control" id="yf_estimate" name="yf_estimate" placeholder="0.00">
                     </div>
                     <div class="col-lg-1">
                         <label>Discount</label>
                         <input type="number" min="0" class="form-control" id="yf_discount" name="yf_discount" placeholder="0">
+                    </div>
+                    <div class="col-lg-1">
+                        <label>Vat</label>
+                        <input type="number" min="7" class="form-control" id="yf_vat" name="yf_vat" placeholder="0">
                     </div>
                     <div class="col-lg-4">
                         <label class="d-block">Time</label>

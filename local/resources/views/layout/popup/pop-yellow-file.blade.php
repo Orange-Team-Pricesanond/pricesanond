@@ -1,7 +1,7 @@
 <?php        
     $getID = DB::table('tb_yellowfiles')->get();
     foreach($getID as $_getID){
-
+        $logYellowfiles = DB::table('tb_logyellowfile')->where('id_yf', $_getID->id_yf)->orderBy('updated_at', 'desc')->first();
 ?>
 
 <div class="modal fade" id="pop_yellow_file{{$_getID->id_yf}}" tabindex="-1" role="dialog">

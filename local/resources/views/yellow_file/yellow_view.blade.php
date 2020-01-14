@@ -1,4 +1,3 @@
-
 <div class="card border-0">
     <div class="card-header py-4 bg-white d-flex justify-content-between">
         <div>INSTRUCTION FOR OPENING YELLOW FILE</div>
@@ -16,14 +15,16 @@
     <form method="post" action=" {{ url('yellow_file_edit') }} " enctype="multipart/form-data">
         <div class="card-body">
             {{ csrf_field() }}
+            
             <h6 class="card-title mb-4"><strong>01. File details and Rates</strong></h6>
                 <input type="hidden" id="id_yf" name="id_yf" value="{{ $_getID->id_yf }}">
+                <input type="hidden" id="id" name="id" value="{{ Auth::user()->id }}">
                 <input type="hidden" id="yf_fileno" name="yf_fileno" value="{{ $_getID->yf_fileno }}">
                 <div class="row form-group">
                     <div class="col-lg-4">
                         <label>File name</label>
                         <div class="input-group">
-                            <select id="id_ct_yf" name="id_ct_yf" class="form-control select2" style="width:100%; height:25px;">
+                            <select id="id_ct_yf" name="id_ct_yf" class="form-control select2" style="width:100%; height:38px;">
                             @foreach ($client as $val)
                                 <option value="{{ $val->id_ct }}" {{ ( $val->id_ct == $_getID->id_ct_yf ? "selected" : "") }}> {{ $val->ct_fn }} </option>
                             @endforeach
@@ -36,7 +37,7 @@
                     </div>
                     <div class="col-lg-4">
                         <label>Partner</label>
-                        <select id="yf_partner" name="yf_partner" class="form-control select2" style="width:100%; height:25px;">
+                        <select id="yf_partner" name="yf_partner" class="form-control select2" style="width:100%; height:38px;">
                             <!-- <option>Please select</option> -->
                             @foreach ($partner as $val)
                                 <option value="{{ $val->pt_id }}" {{ ( $val->pt_id == $_getID->yf_partner ? "selected" : "") }}> {{ $val->pt_name }} </option>
@@ -72,6 +73,10 @@
                     <div class="col-lg-2">
                         <label>Discount</label>
                         <input type="number" min="0" class="form-control" id="yf_discount" name="yf_discount" value="{{ $_getID->yf_discount }}" placeholder="USD">
+                    </div>
+                    <div class="col-lg-2">
+                        <label> Vat</label>
+                        <input type="number" min="0" class="form-control" id="yf_vat" name="yf_vat" value="{{ $_getID->yf_vat }}">
                     </div>
                     <div class="col-lg-4">
                     <label class="d-block">Time</label>
@@ -346,13 +351,20 @@
                         </div>
                     </div>
                 </div>
+                <hr class="my-5">
+                <div class="row form-group">
+                    <div class="col-lg-4"><b>Partner</b> &nbsp;&nbsp;&nbsp; {{ Auth::user()->name}}</div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-4"><b>Update</b> &nbsp;&nbsp;&nbsp; <?php echo date("d/m/y H:i:s", strtotime($logYellowfiles->updated_at)); ?></div>
+                </div>
         </div>
         
         <div class="card-footer py-4 bg-white text-right">
             <a href="#" class="btn btn-secondary">CANCEL</a>
             <!-- <a href="#" class="btn btn-primary ml-3">SAVE</a> -->
             <button type="submit" class="btn btn-primary ml-3">SAVE</button>
-        </div>
+        </div>       
     </form>
 
 </div>

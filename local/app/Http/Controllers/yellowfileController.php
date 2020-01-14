@@ -9,6 +9,7 @@ use App\addressModel;
 use App\partnerModel;
 use App\moneyModel;
 use App\timerecordModel;
+use App\logyellowfileModel;
 use DB;
 use Image;
 
@@ -204,6 +205,7 @@ class yellowfileController extends Controller
     }
  
     //----------- Master File --------------
+    
     public function viewAddress()
     {   
         $random = mt_rand(000000, 999999);
@@ -212,7 +214,7 @@ class yellowfileController extends Controller
         $money = moneyModel::all();
         $yellowfile = yellowfileModel::all();
         $TimeSheet = timerecordModel::where('ts_id_yf', 1)->get();
-        $address = DB::table('tb_address_clients')->get();
+        $address = addressModel::all();
        
         return view('yellow_file.index', [
             'address' => $address,
@@ -276,7 +278,7 @@ class yellowfileController extends Controller
         $fax_dely = $request->input('dy_fax');
         $mail_dely = $request->input('dy_email');
         $atten_dely = $request->input('dy_atten');
-        $invtext_dely = $request->input('dy_invioctext');
+        // $invtext_dely = $request->input('dy_invioctext');
 
         $location = $request->input('yf_location');
         $refer = $request->input('yf_refer');
@@ -294,6 +296,7 @@ class yellowfileController extends Controller
             'yf_fixfee' => $fix,
             'yf_estimate' => $estimate,
             'yf_discount' => $dis,
+            'yf_vat' => $request->input('yf_vat'),
             'yf_remark' => $remark,
             'yf_branch' => $branch,
             'yf_time' => $time,
@@ -326,7 +329,6 @@ class yellowfileController extends Controller
             'yf_confict' => $confict,            
         ]);
         // DB::table('tb_yellowfiles')->insert($data);
-
         $log = [
             'id_ct' => $fullname, 
             'id_yf' => $data, 
@@ -356,6 +358,7 @@ class yellowfileController extends Controller
         $reate6 = $request->input('yf_rates_f');
         $tex = $request->input('yf_taxnumber');
         $team = $request->input('yf_team');
+        $vat = $request->input('yf_vat');
         //invoice Address
         $branch = $request->input('yf_branch');        
         $invname = $request->input('yf_inv_num');
@@ -379,7 +382,7 @@ class yellowfileController extends Controller
         $refer = $request->input('yf_refer');
         $confict = $request->input('yf_confict');
 
-        $data = DB::table('tb_clients')->insertGetId(
+        $data = 
         [
             'id_ct_yf' => $fullname,
             'yf_fileno' => $yf_fileno,
@@ -390,6 +393,7 @@ class yellowfileController extends Controller
             'yf_fixfee' => $fix,
             'yf_estimate' => $estimate,
             'yf_discount' => $dis,
+            'yf_vat' => $vat,
             'yf_remark' => $remark,
             'yf_branch' => $branch,
             'yf_time' => $time,
@@ -425,13 +429,13 @@ class yellowfileController extends Controller
             'yf_confict' => $confict,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
-        ]);
-        // DB::table('tb_yellowfiles')->where('id_yf',$request->input('id_yf'))->update($data);
+        ];
+        DB::table('tb_yellowfiles')->where('id_yf',$request->input('id_yf'))->update($data);
 
         $log = [
             'id_ct' => $fullname, 
-            'id_yf' => $data, 
-            'id_user' => Auth::user()->id,
+            'id_yf' => $request->input('id_yf'), 
+            'id_user' => $request->input('id')
         ];
         DB::table('tb_logyellowfile')->insert($log);  
 
@@ -524,8 +528,7 @@ class yellowfileController extends Controller
             }
         }   
         return redirect('masterpage');
-    }
-    
+    }    
     public function Submitcl(Request $request)
     {
         $select = tb_client::orderBy('id_ct', 'DESC')->take(1)->first();

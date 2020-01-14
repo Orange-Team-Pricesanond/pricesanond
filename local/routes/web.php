@@ -75,7 +75,8 @@ Route::get('viewclient/{id}', 'yellowfileController@editcl');
 Route::post('clientEditsumit', 'yellowfileController@editSubmit');
 Route::post('clientinsertsubmit', 'yellowfileController@Submitcl');
 
-//-- TimeSheet 
+//----------------------- TimeSheet --------------------------------
+
 Route::get('dailytime', 'TimeController@index');
 Route::get('timeseetview/{id}', 'TimeController@viewsheet');
 
@@ -86,6 +87,11 @@ Route::get('deletetimesheetAjax', 'TimeController@deleteAjax');
 Route::post('timesheetInsert', 'TimeController@insert');
 Route::get('selectTime', 'TimeController@selectTimeAjax');
 Route::get('selectFixFee', 'TimeController@selectFixFeeAjax');
+
+Route::get('showtimesheet', 'TimeController@showtimesheet');
+Route::post('searchtimesheet', 'TimeController@searchtimesheet');
+
+Route::post('showDetaileTimesheet', 'TimeController@showDetaileTimesheet');
 
 
 
