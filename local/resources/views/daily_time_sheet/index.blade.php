@@ -53,7 +53,7 @@
                 <div class="work-pane">
                     <div class="work-tab">
                         <nav class="nav nav-tabs" id="time-sheet-tab" role="tablist">
-                            <a id="sheet_tab_1" href="#sheet_con_1" aria-controls="sheet_con_1" class="nav-item nav-link active" data-toggle="tab" role="tab" aria-selected="true">YELLOW FILES</a>
+                            <a id="sheet_tab_1" href="#sheet_con_1" aria-controls="sheet_con_1" class="nav-item nav-link active" data-toggle="tab" role="tab" aria-selected="true">Time Sheet</a>
                         </nav>
                         <div>
                             <!-- <button class="btn-c material-icons" title="Add item" data-toggle="modal" data-target="#pop_matter">add_circle_outline</button> -->
@@ -78,7 +78,6 @@
     </div>
     <!-- page-wrapper -->
 
-
     <!-- site popup -->
     @include('layout.popup.pop-matter')
 
@@ -100,25 +99,35 @@
                 "ajax": '{{url("showtimesheet")}}',
                 columns : [
 		        	{ data : 'id' },
-		        	{ data : 'yf_fileno' },
-		        	{ data : 'ct_yf' },
-		        	{ data : 'yf_mtt' },
-		        	{ data : 'pt_name' },
-		        	{ data : 'Status' },
+		        	{ data : 'date' },
+		        	{ data : 'code' },
+		        	{ data : 'Form' },
+		        	{ data : 'To' },
+		        	{ data : 'Total' },
+                    @php 
+                    if(Auth::user()->user_type == 4){
+		        	echo "{ data : 'rate' },";
+                    }
+                    @endphp
+		        	{ data : 'work' },
+		        	{ data : 'status' },
 		        ],
                 }
              );
         } );
-
         $( ".search" ).change(function() {
             $('#list_index').DataTable().destroy();
 			search($(this).val());
 		})
-
         function search()
         {
             var token = $('meta[name="csrf-token"]').attr('content');
-            var status = document.getElementById("search_type").value; 
+            var date = document.getElementById("search_date").value; 
+            var code = document.getElementById("search_code").value; 
+
+            console.log(date);
+            console.log(code);
+
             $('#list_index').DataTable( {
                 scrollY: true,
 			  	scrollCollapse: true,
@@ -126,20 +135,58 @@
 			    "url": '{{url("searchtimesheet")}}',
 			   	"type": 'POST',       
 			    "data": {
-			        "status": status,
+			        "date": date,
+			        "code": code,
 			        "_token": token,
 			    },
 			  },
-                columns : [
-		        	{ data : 'id' },
-		        	{ data : 'yf_fileno' },
-		        	{ data : 'ct_yf' },
-		        	{ data : 'yf_mtt' },
-		        	{ data : 'pt_name' },
-		        	{ data : 'Status' },
+              columns : [
+                    { data : 'id' },
+		        	{ data : 'date' },
+		        	{ data : 'code' },
+		        	{ data : 'Form' },
+		        	{ data : 'To' },
+		        	{ data : 'Total' },
+                    @php 
+                    if(Auth::user()->user_type == 4){
+		        	echo "{ data : 'rate' },";
+                    }
+                    @endphp
+		        	{ data : 'work' },
+		        	{ data : 'status' },
 		        ],
             } );
         }
+        function selectSorttime(val,index){
+            console.log(val);
+
+            if(val == 5){
+                $step = 300;
+            }else{
+                $step = 360;
+            }
+            document.getElementById("ts_form_"+index).step = $step; 
+            document.getElementById("ts_to_"+index).step = $step; 
+        }
+        function calculateEdit(index)
+        {   
+            var s = document.getElementById("ts_form_"+index);
+            var e = document.getElementById("ts_to_"+index);
+           
+            var start = s.value;
+            var end = e.value;
+           
+            start = start.split(":");
+            end = end.split(":");
+            var startDate = new Date(0, 0, 0, start[0], start[1], 0);
+            var endDate = new Date(0, 0, 0, end[0], end[1], 0);
+            var diff = endDate.getTime() - startDate.getTime();
+            var hours = Math.floor(diff / 1000 / 60 / 60);
+            diff -= hours * 1000 * 60 * 60;
+            var minutes = Math.floor(diff / 1000 / 60);
+            $('#ts_total_time_'+index).val((hours < 9 ? "0" : "") + hours + ":" + (minutes < 9 ? "0" : "") + minutes);
+        }
+        
 
     </script>
 

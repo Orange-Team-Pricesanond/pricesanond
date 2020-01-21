@@ -119,7 +119,6 @@ class TimeController extends Controller
             return view('daily_time_sheet.time-sheet-create', [
                 'yellow' => $yellow ,
                 'sheet' => $sheet ,
-                'date' => $date ,
                 'count' => $count ,                
             ]);
 
@@ -148,9 +147,10 @@ class TimeController extends Controller
     public function insert(Request $request)
     {
         $date = date('ym');  
-        for($i=0 ; $i < count($request->input('ts_law_id')) ; $i++){ 
+        for($i=0 ; $i < count($request->input('ts_law_id')) ; $i++){
 
-            $yellow = yellowfileModel::where('yf_fileno', $request->input('master_name'))->first();
+            $random = mt_rand(000000, 999999);    
+            $yellow = yellowfileModel::where('yf_fileno', $request->input('master_name')[$i])->first();
             $law = DB::table('tb_law')->where('law_id',$request->input('ts_law_id')[$i])->first();
             $select = timerecordModel::orderBy('ts_no', 'DESC')->take(1)->first();
 
@@ -164,24 +164,43 @@ class TimeController extends Controller
                 $no = 'Q-'.$date.'-000001';
             }
 
-            $Lastid = DB::table('tb_timesheet')->insertGetId(
-                [
-                    'ts_id_yf' => $yellow->id_yf ,
-                    'ts_no' => $no,
-                    'ts_law_id' => $request->input('ts_law_id')[$i],
-                    'ts_reate_work' => $law->lw_yf_rates, 
-                    'ts_form' => $request->input('ts_form')[$i],
-                    'ts_to' => $request->input('ts_to')[$i],
-                    'ts_total_time' => $request->input('ts_total_time')[$i],
-                    'ts_woek' => $request->input('ts_woek')[$i],
-                    'ts_status' => $request->status,
-                    'created_at' => date('Y-m-d H:i:s'),
-                    'updated_at' => date('Y-m-d H:i:s'),
-                ]
-            );
+            $data = [
+                'ts_id_yf' => $yellow->id_yf ,
+                'ts_date' => $request->input('ts_date')[$i],
+                'ts_no' => $no,
+                'ts_law_id' => $request->input('ts_law_id')[$i],
+                'ts_reate_work' => $law->lw_yf_rates, 
+                'ts_form' => $request->input('ts_form')[$i],
+                'ts_to' => $request->input('ts_to')[$i],
+                'ts_total_time' => $request->input('ts_total_time')[$i],
+                'ts_woek' => $request->input('ts_woek')[$i],
+                'ts_status' => $request->status,
+                'ts_ref' => $random,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ];
+
+            $timesheetforaudit = [
+                'ts_id_yf' => $yellow->id_yf ,
+                'ts_date' => $request->input('ts_date')[$i],
+                'ts_no' => $no,
+                'ts_law_id' => $request->input('ts_law_id')[$i],
+                'ts_reate_work' => $law->lw_yf_rates, 
+                'ts_form' => $request->input('ts_form')[$i],
+                'ts_to' => $request->input('ts_to')[$i],
+                'ts_total_time' => $request->input('ts_total_time')[$i],
+                'ts_woek' => $request->input('ts_woek')[$i],
+                'ts_status' => $request->status,
+                'ts_ref' => $random,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ];
+
+            DB::table('tb_timesheet')->insert($data); 
+            DB::table('tb_timesheet_audit')->insert($timesheetforaudit); 
 
             $data = [
-                'ts_id' => $Lastid,
+                'ts_ref' => $random,
                 'id_member' =>$request->input('id'),
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
@@ -189,22 +208,6 @@ class TimeController extends Controller
             DB::table('tb_logtimesheet')->insert($data);
         }
 
-        // for($i=0 ; $i < count($request->input('ts_law_id')) ; $i++){ 
-        //     $timesheet = [
-        //         'ts_id_yf' => $request->input('ts_id_yf') ,
-        //         'ts_no' => $no,
-        //         'ts_law_id' => $request->input('ts_law_id')[$i],
-        //         'ts_reate_work' => $request->input('ts_reate_work')[$i],
-        //         'ts_form' => $request->input('ts_form')[$i],
-        //         'ts_to' => $request->input('ts_to')[$i],
-        //         'ts_total_time' => $request->input('ts_total_time')[$i],
-        //         'ts_woek' => $request->input('ts_woek')[$i],
-        //         'created_at' => date('Y-m-d H:i:s'),
-        //         'updated_at' => date('Y-m-d H:i:s'),
-        //     ];
-        //     // dd($timesheet);
-        //     DB::table('tb_timesheet')->insert($timesheet); 
-        // }    
         return redirect('dailytime');
     }
     public function deleteAjax(Request $request)
@@ -257,78 +260,148 @@ class TimeController extends Controller
     }
     public function showtimesheet(Request $request)
     {
-        $data = [];    
-        $select = yellowfileModel::all();
+        $select = timerecordModel::all();
+        $count = timerecordModel::count();
+        
         $i = 1;
-        foreach($select as $_val){
 
-            $Client = tb_client::where('id_ct', $_val->id_ct_yf )->first();
-            $partner_name = DB::table('tb_partner')->where('pt_id',$_val->yf_partner)->first();
-            $count = DB::table('tb_timesheet')->where('ts_id_yf',$_val->id_yf)->count();
+        if($count>0){
+            foreach($select as $_val){
 
-            $data['data'][]= array(
-                "id" =>  '<a href="timeseetview/'.$_val->id_yf.'">'.$i.'</a>',
-                "yf_fileno" => '<a href="timeseetview/'.$_val->id_yf.'">'.$_val->yf_fileno.'</a>',
-                "ct_yf" => '<a href="timeseetview/'.$_val->id_yf.'">'.$Client->ct_fn.'</a>',
-                "yf_mtt" => '<a href="timeseetview/'.$_val->id_yf.'">'.$_val->yf_mtt.'</a>',
-                "pt_name" => '<a href="timeseetview/'.$_val->id_yf.'">'.$partner_name->pt_name.'</a>',
-                "Status" => ( $count > 0 ? "Complete" : "Padding"),
-            );
-        $i++; }
+                $yellow = yellowfileModel::where('id_yf',$_val->ts_id_yf)->first();
+
+                if($_val->ts_status == 1 ){
+                    $status = "Lawyer";
+                }elseif( $_val->ts_status == 2 ){
+                    $status = "Admin";
+                }elseif( $_val->ts_status == 3 ){
+                    $status = "Partner";
+                }else{
+                    $status = "Audit";    
+                }
+
+                // search rate
+                if($_val->ts_reate_work == 'A')
+                {
+                    $rate = $yellow->yf_rates_a;
+                }
+                elseif($_val->ts_reate_work == 'B')
+                {   
+                    $rate = $yellow->yf_rates_b;
+                }
+                elseif($_val->ts_reate_work == "C")
+                {
+                    $rate = $yellow->yf_rates_c;
+                }
+                elseif($_val->ts_reate_work == "D")
+                {
+                    $rate = $yellow->yf_rates_d;
+                }
+                elseif($_val->ts_reate_work == "E")
+                {   
+                    $rate = $yellow->yf_rates_e;
+                }else{ // F
+                    $rate = $yellow->yf_rates_f;
+                }
+
+                $time = explode(':', $_val->ts_total_time);
+                $_total = (($time[0]*60) + ($time[1]))+ ($time[2]/60);
+
+                $Cal = number_format($_total/60 ,2, '.','');
+                $cal_rat = number_format($Cal*$rate);
+
+                $data['data'][]= array(
+                    "id" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$i.'</a>',
+                    "date" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_date.'</a>',
+                    "code" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_law_id.'</a>',
+                    "Form" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_form.'</a>',
+                    "To" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_to.'</a>',
+                    "Total" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.number_format($_total/60 ,2, '.','').'</a>',
+                    "rate" =>  $cal_rat,
+                    "work" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_woek.'</a>',
+                    "status" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$status.'</a>',
+                );
+            $i++; }
+        }else{
+            $data['data'] = [];
+        }
         echo json_encode($data);
     }
     public function searchtimesheet(Request $request)
     {
-        $type = $request->input('status');
-        $select = yellowfileModel::all();
-        $data = [];    
-        $data2 = [];    
-        $data3 = [];    
+        $data['data'] = [];
+        $i = 1;
+
+        $dates = $request->input('date');
+        $code = $request->input('code');
+
+        if(!empty($dates) && !empty($code)){
+            $select = timerecordModel::where('ts_date',$dates)->where('ts_law_id',$code)->get();
+        }else if(!empty($dates) && empty($code)){
+            $select = timerecordModel::where('ts_date',$dates)->get();
+        }else if(empty($dates) && !empty($code)){
+            $select = timerecordModel::where('ts_law_id',$code)->get();
+        }else{
+            $select = timerecordModel::all();
+        }
         $i = 1;
         foreach($select as $_val){
+            
+            $yellow = yellowfileModel::where('id_yf',$_val->ts_id_yf)->first();
 
-            $Client = tb_client::where('id_ct', $_val->id_ct_yf )->first();
-            $partner_name = DB::table('tb_partner')->where('pt_id',$_val->yf_partner)->first();
-            $count = DB::table('tb_timesheet')->where('ts_id_yf',$_val->id_yf)->count();
-
-            $data3['data'][]= array(
-                "id" =>  '<a href="timeseetview/'.$_val->id_yf.'">'.$i.'</a>',
-                "yf_fileno" => '<a href="timeseetview/'.$_val->id_yf.'">'.$_val->yf_fileno.'</a>',
-                "ct_yf" => '<a href="timeseetview/'.$_val->id_yf.'">'.$Client->ct_fn.'</a>',
-                "yf_mtt" => '<a href="timeseetview/'.$_val->id_yf.'">'.$_val->yf_mtt.'</a>',
-                "pt_name" => '<a href="timeseetview/'.$_val->id_yf.'">'.$partner_name->pt_name.'</a>',
-                "Status" => ( $count > 0 ? "Complete" : "Padding"),
-            ); 
-
-            if($count > 0){ // complete
-                $data['data'][] = array(
-                    "id" =>  '<a href="timeseetview/'.$_val->id_yf.'">'.$i.'</a>',
-                    "yf_fileno" => '<a href="timeseetview/'.$_val->id_yf.'">'.$_val->yf_fileno.'</a>',
-                    "ct_yf" => '<a href="timeseetview/'.$_val->id_yf.'">'.$Client->ct_fn.'</a>',
-                    "yf_mtt" => '<a href="timeseetview/'.$_val->id_yf.'">'.$_val->yf_mtt.'</a>',
-                    "pt_name" => '<a href="timeseetview/'.$_val->id_yf.'">'.$partner_name->pt_name.'</a>',
-                    "Status" => ( $count > 0 ? "Complete" : "Padding"),
-                );
-            }else{ // padding
-                $data2['data'][]= array(
-                    "id" =>  '<a href="timeseetview/'.$_val->id_yf.'">'.$i.'</a>',
-                    "yf_fileno" => '<a href="timeseetview/'.$_val->id_yf.'">'.$_val->yf_fileno.'</a>',
-                    "ct_yf" => '<a href="timeseetview/'.$_val->id_yf.'">'.$Client->ct_fn.'</a>',
-                    "yf_mtt" => '<a href="timeseetview/'.$_val->id_yf.'">'.$_val->yf_mtt.'</a>',
-                    "pt_name" => '<a href="timeseetview/'.$_val->id_yf.'">'.$partner_name->pt_name.'</a>',
-                    "Status" => ( $count > 0 ? "Complete" : "Padding"),
-                ); 
+            if($_val->ts_status == 1 ){
+                $status = "Lawyer";
+            }elseif( $_val->ts_status == 2 ){
+                $status = "Admin";
+            }elseif( $_val->ts_status == 3 ){
+                $status = "Partner";
+            }else{
+                $status = "Audit";    
             }
-        $i++; }
 
-        if ($type == 0) { // pandding
-            echo json_encode($data2);
-        } elseif($type == 1) { // complete
-            echo json_encode($data);
-        }else { // all
-            echo json_encode($data3);
-        }
-        
+            // search rate
+            if($_val->ts_reate_work == 'A')
+            {
+                $rate = $yellow->yf_rates_a;
+            }
+            elseif($_val->ts_reate_work == 'B')
+            {   
+                $rate = $yellow->yf_rates_b;
+            }
+            elseif($_val->ts_reate_work == "C")
+            {
+                $rate = $yellow->yf_rates_c;
+            }
+            elseif($_val->ts_reate_work == "D")
+            {
+                $rate = $yellow->yf_rates_d;
+            }
+            elseif($_val->ts_reate_work == "E")
+            {   
+                $rate = $yellow->yf_rates_e;
+            }else{ // F
+                $rate = $yellow->yf_rates_f;
+            }
+
+            $time = explode(':', $_val->ts_total_time);
+            $_total = (($time[0]*60) + ($time[1]))+ ($time[2]/60);
+
+            $Cal = number_format($_total/60 ,2, '.','');
+            $cal_rat = number_format($Cal*$rate);
+
+            $data['data'][]= array(
+                "id" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$i.'</a>',
+                "date" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_date.'</a>',
+                "code" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_law_id.'</a>',
+                "Form" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_form.'</a>',
+                "To" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_to.'</a>',
+                "Total" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.number_format($_total/60 ,2, '.','').'</a>',
+                "rate" => $cal_rat,
+                "work" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_woek.'</a>',
+                "status" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$status.'</a>',
+            );
+        $i++; }
+        echo json_encode($data);        
     }
     public function showDetaileTimesheet(Request $request)
     {
@@ -431,5 +504,52 @@ class TimeController extends Controller
         echo json_encode($data);
         
     }
+    public function edittimesheet(Request $request)
+    {
+        $personal = $request->input('id'); // 1 = Law , 4 = Audit
+        $ref = $request->input('ts_ref');
+
+        if($personal == 1){
+            $data = [
+                'ts_id_yf' => $request->input('ts_id_yf'),
+                'ts_law_id' => $request->input('ts_law_id'),
+                'ts_no' => $request->input('ts_no'),
+                'ts_form' => $request->input('ts_form'),
+                'ts_to' => $request->input('ts_to'),
+                'ts_total_time' => $request->input('ts_total_time'),
+                'ts_woek' => $request->input('ts_woek'),
+                'ts_date' => $request->input('ts_date'),
+                'updated_at' => date("Y-m-d H:i:s"),
+            ];
+            DB::table('tb_timesheet')->where('ts_ref',$ref)->update($data);
+            DB::table('tb_timesheet_audit')->where('ts_ref',$ref)->update($data);
+
+        }else{ // for Audit
+            $data = [
+                'ts_id_yf' => $request->input('ts_id_yf'),
+                'ts_law_id' => $request->input('ts_law_id'),
+                'ts_no' => $request->input('ts_no'),
+                'ts_form' => $request->input('ts_form'),
+                'ts_to' => $request->input('ts_to'),
+                'ts_total_time' => $request->input('ts_total_time'),
+                'ts_woek' => $request->input('ts_woek'),
+                'ts_date' => $request->input('ts_date'),
+                'updated_at' => date("Y-m-d H:i:s"),
+            ];
+            DB::table('tb_timesheet_audit')->where('ts_ref',$ref)->update($data);
+        }
+
+        $log = [
+            'ts_ref' => $ref,
+            'id_member' =>$request->input('id'),
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ];
+        DB::table('tb_logtimesheet')->insert($log);
+
+        return redirect('dailytime');
+        // dd("Complete");
+    }
+    
    
 }

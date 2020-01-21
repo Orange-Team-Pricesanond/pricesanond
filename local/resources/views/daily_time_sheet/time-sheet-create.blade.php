@@ -86,15 +86,14 @@
                             {{ csrf_field() }} 
                             <input type="hidden" id="id" name="id" value="{{ Auth::user()->id }}">
                             <div class="card shadow-on">
-                                <div class="card-header py-4 bg-white d-flex justify-content-between">
-                                    <div>DAILY TIME SHEET {{$date}}</div>
-                                </div>
+                                
                                 <div class="card-body">
 
                                     <table id="list_sm" class="listed table table-hover display responsive nowrap w-100">
                                         <thead>
                                             <tr>
                                                 <th width="30">#</th>
+                                                <th>Date</th>
                                                 <th>File No.</th>
                                                 <th>Code</th>
                                                 <th style="padding-left:1.25rem;" width="80">From</th>
@@ -112,7 +111,7 @@
                                 </div>
                                 <div id="allButton" name="allButton" class="card-footer py-4 bg-white text-right">
                                     <button type="submit" id="status" name="status" value="1" class="btn btn-primary ml-3">SAVE</button>
-                                    <button type="submit" id="status" name="status" value="2" class="btn btn-primary ml-3">SEND</button>
+                                    <button type="submit" id="status" name="status" value="4" class="btn btn-primary ml-3">SEND</button>
                                 </div>
                             </div>
                         </form>
@@ -130,7 +129,6 @@
             </div>
         </div>
     </div>
-
 
     <!-- page-wrapper -->
 
@@ -177,6 +175,7 @@
                 $(".clonefile:last").after("<tr class='clonefile' id='div_"+ nextindex +"'></tr>");
                 // Adding element to <div>
                 var table = '<td>'+nextindex+'</td>';
+                    table += '<td><input type="date" id="ts_date'+nextindex+'" name="ts_date[]" class="form-control form-control-sm border-0 rounded-0" ></td>';
                     table += '<div><input id="ts_no'+nextindex+'" name="ts_no[]" type="text" class="form-control form-control-sm border-0 rounded-0" style="width: 88px;" disabled /></div>';
                     table += '<td><input type="text" onChange="selectTime('+nextindex+')" autocomplete="off" list="masterfiles" id="master_'+nextindex+'" name="master_name[]" class="form-control" style="width: 75%;"></td>';
                     table += '<td><div><input id="ts_law_id'+nextindex+'" name="ts_law_id[]" type="number" class="form-control form-control-sm border-0 rounded-0" style="width: 60px;" /></div></td>';
@@ -201,9 +200,10 @@
             });                         
         });
 
-        function selectTime(index){
+        function selectTime(index)
+        {
             var master = $('#master_'+index+'').val();
-            console.log(master);
+            // console.log(master);
             $.ajax({
                 url: '{{url("selectTime")}}',
                 type: "get",
@@ -224,7 +224,6 @@
                 }
             });
         }
-
         function calculate(index)
         {
             var start = $('#ts_form'+index+'').val();
@@ -240,6 +239,9 @@
             var minutes = Math.floor(diff / 1000 / 60);
 
             $('#ts_total_time'+index+'').val((hours < 9 ? "0" : "") + hours + ":" + (minutes < 9 ? "0" : "") + minutes);
+            
+            console.log((hours < 9 ? "0" : "") + hours + ":" + (minutes < 9 ? "0" : "") + minutes);
+
             if($('#ts_total_time'+index+'').val() != ""){
                 var fileno = document.getElementById("master_"+index+"").value;
                 $.ajax({
@@ -249,7 +251,7 @@
                     datatype: "text",
                     success: function (data) {
 
-                        console.log(data);
+                        // console.log(data);
                         if(data == 1) {
                             swal(
                                 'Excess "FixFee" !',
@@ -266,7 +268,6 @@
 
             }
         }
-
         function deltesheet(id)
         {
             var token = $('meta[name="csrf-token"]').attr('content');

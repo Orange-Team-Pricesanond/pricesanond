@@ -85,7 +85,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="{{ url('personal') }}">
                         <i class="material-icons">account_circle</i>
                         <span class="menu-text">Personal</span>
                     </a>
