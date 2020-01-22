@@ -25,6 +25,7 @@
                     <th>Email</th>
                     <th>Phone</th>
                     <th>Status</th>
+                    <th></th>
                 </tr>
             </thead>
         </table>

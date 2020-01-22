@@ -64,7 +64,7 @@
                     <div class="work-tab">
                         <div></div>
                         <div>
-                            <button class="btn-c material-icons open-person" title="Add new">add_circle</button>
+                            <button onclick="openpreson('')" class="btn-c material-icons open-person" title="Add new">add_circle</button>
                         </div>
                     </div>
                     <div class="work-con">
@@ -98,6 +98,8 @@
     <script src="{{ asset('asset/js/script.js') }}"></script>
     <script src="{{ asset('asset/js/dropzone') }}"></script>
     <script src="{{ asset('asset/js/cropperjs') }}"></script>
+    <!-- sweetalert -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
     <script type="text/javascript" src="{{ asset('asset/DataTables/datatables.min.js')}}"></script>
 
@@ -115,24 +117,74 @@
 		        	{ data : 'Email' },
 		        	{ data : 'Phone' },
 		        	{ data : 'Status' },
+		        	{ data : 'action' },
 		        ],
                 }
              );
         });
+
+        function delete_personal(id){
+            var token = $('meta[name="csrf-token"]').attr('content');
+
+			swal({
+				title: "Item will be removed from Time Sheet!",
+				buttons: true,
+				dangerMode: true,
+			})
+				.then((willDelete) => {
+					if (willDelete) {
+							$.ajax({
+								url: '{{url("deletepersonal")}}',
+								type: "get",
+								data : {id:id},
+								datatype: "text",
+                                success: function (data) {
+                                    swal({
+                                        title: "Deleted!",
+                                        text: "Your row has been deleted.",
+                                        type: "success",
+                                        allowOutsideClick: false,
+                                    });
+                                    location.reload();
+								},error: function(err){
+									alert(err);
+								}
+							});
+					}
+				});
+            }
+
     </script>
 
     <script>
-        $( ".open-person" ).on( "click", open_window );
-        function open_window(){
-            document.getElementById("side_person").classList.add('active');
+        function openpreson(index){
+            if(index == ""){
+                document.getElementById("side_person").classList.add('active');
+            }else{
+                document.getElementById("side_person_"+index+"").classList.add('active');
+            }
+
         }
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                
+                reader.onload = function (e) {
+                    $('#profile-img-tag').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#profile-img").change(function(){
+            readURL(this);
+        });
 
     </script>
 
 
     <script id="rendered-js">
         Dropzone.options.myDropzone = {
-        url: '/post',
+        url: '/user/',
         // addRemoveLinks: true,
         maxFiles: 1,
         init: function() {
@@ -173,7 +225,6 @@
                 width: 256,
                 height: 256 });
 
-
             // Turn the canvas into a Blob (file object without a name)
             canvas.toBlob(function (blob) {
 
@@ -192,7 +243,6 @@
                 // Return modified file to dropzone
                 done(blob);
                 });
-
 
             });
 
@@ -214,7 +264,6 @@
             var cropper = new Cropper(image, {
             aspectRatio: 1
             });
-
 
         } };
         //# sourceURL=pen.js

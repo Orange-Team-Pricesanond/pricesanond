@@ -1,8 +1,8 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\yellowfileModel;
 use App\tb_client;
 use App\addressModel;
@@ -19,7 +19,9 @@ class PersonalController extends Controller
     public function index(Request $request)
     {
         $User = User::all();
-        return view('personal.index');
+        return view('personal.index',[
+            'userlist' => $User
+        ]);
     }
     public function getPersonal(Request $request)
     {
@@ -41,15 +43,60 @@ class PersonalController extends Controller
             $data['data'][] = array(
                 "Pic" => $_val->images ,
                 //<div class="img-member active"><div class="thumb"><img src="../../img/member/member_2.jpg"></div></div>
-                "Name" => '<div>'.$_val->name.'</div><div><span class="text-grey">Code</span><strong class="text-blue ml-2">'.(($_val->code != null) ? $_val->code : '-').'</strong>
+                "Name" => '<div onclick="openpreson('.$_val->id.')">'.$_val->name.'</div><div><span class="text-grey">Code</span><strong class="text-blue ml-2">'.(($_val->code != null) ? $_val->code : '-').'</strong>
                 </div>',
-                "Role" => '<div class="d-block py-2 badge badge-pill badge-secondary">'.$Role.'</div>',
-                "Email" => '<div>'.$_val->email.'</div><div class="text-grey">Email</div>',
-                "Phone" => '<div>'.$_val->phone.'</div> <div class="text-grey">Phone</div>',
+                "Role" => '<div onclick="openpreson('.$_val->id.')" class="d-block py-2 badge badge-pill badge-secondary">'.$Role.'</div>',
+                "Email" => '<div onclick="openpreson('.$_val->id.')">'.$_val->email.'</div><div class="text-grey">Email</div>',
+                "Phone" => '<div onclick="openpreson('.$_val->id.')">'.$_val->phone.'</div> <div class="text-grey">Phone</div>',
                 "Status" => ($_val->status == 0)? 'Inactive' : 'Active',
+                "action" => '<i class="material-icons" onclick="delete_personal('.$_val->id.')">delete</i>',
             );
 
         $i++; }
         echo json_encode($data);  
+    }
+    public function inserpersonal(Request $request)
+    {
+        $fullname = $request->input('name');
+        $code = $request->input('code');
+        $email = $request->input('email');
+        $phone = $request->input('phone');
+        $role = $request->input('role');
+        $status = $request->input('status');
+        $pass =   $request->input('password');
+
+        $data = [
+            'name' => $fullname,
+            'code' => $code,
+            'email' => $email,
+            'phone' => $phone,
+            'password' =>  Hash::make($pass),
+            'user_type' => $role,
+            'status' => $status,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ];
+        if(!empty($request->file('file'))){
+                
+            $file = $request->file('file');
+            $ext = $file->getClientOriginalExtension();
+        
+            $imagename = '';
+            $imagename = date('Y-m-d-H-i-s').rand().'.'.$ext;
+        
+            $destinationPath_origi = public_path('/user/');            
+            $thumb_img_origi = Image::make($file->getRealPath());
+            $thumb_img_origi->save($destinationPath_origi.$imagename);
+
+            $data['images'] = $imagename;
+        }   
+        User::insert($data); 
+        return redirect('personal');
+
+    }
+    public function delete(Request $request)
+    {
+        DB::table('users')->where('id',$request->id)->delete();
+        echo 'complete';
     }
 }

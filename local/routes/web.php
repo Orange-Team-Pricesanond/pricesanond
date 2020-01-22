@@ -94,6 +94,8 @@ Route::post('edittimesheet', 'TimeController@edittimesheet');
 
 Route::get('personal', 'PersonalController@index');
 Route::get('getPersonal', 'PersonalController@getPersonal');
+Route::post('inserpersonal', 'PersonalController@inserpersonal');
+Route::get('deletepersonal', 'PersonalController@delete');
 
 
 
