@@ -17,7 +17,10 @@
                         <span>Drop image here to upload</span>
                     </div>
                 </div> -->
-                <input type="text" name="images" id="images" />
+                <input type="file" name="file" id="profile-img">
+                <div style=" text-align: center; ">
+                    <img src="" id="profile-img-tag" width="200px" />
+                </div>
             </div>
             <input name="id_personal" id="id_personal" type="hidden" class="form-control" value="{{$_value->id}}">
             <h6 class="card-title mb-3">

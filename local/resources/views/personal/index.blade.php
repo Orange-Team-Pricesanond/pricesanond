@@ -16,7 +16,7 @@
 
     <link rel="stylesheet" href="{{ asset('asset/css/sidebar-main.css') }}" >
     <link rel="stylesheet" href="{{ asset('asset/css/sidebar-themes.css') }}" >
-    <link rel="stylesheet" href="{{ asset('asset/css/styles.css') }}" >
+    <link rel="stylesheet" href="{{ asset('asset/css/styles2.css') }}" >
     <link rel="stylesheet" href="{{ asset('asset/css/simplebar.css') }}" >
     
     <link rel="stylesheet" href="{{ asset('asset/css/dropzone.css') }}" >
@@ -33,7 +33,7 @@
         border-radius: .25rem;
         border: 1px solid #ced4da; 
     }
-        a {
+    a {
         text-decoration: none !important;
         color: black;
     } 
@@ -41,7 +41,6 @@
         background-color: #F2F4F6;
         color: #778CA2;
     }
-  
 
 </style>
 <body>
