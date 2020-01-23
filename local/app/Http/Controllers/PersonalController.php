@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Crypt;
 use App\yellowfileModel;
 use App\tb_client;
 use App\addressModel;
@@ -39,10 +40,18 @@ class PersonalController extends Controller
             }else {
                 $Role = 'AUDIT';
             }
+            if(!empty($_val->images)){
+                $imgval = '<div class="img-member active">
+                    <div class="thumb">
+                        <img src="local/public/user/'.$_val->images.'">
+                    </div>
+                </div>';
+            }else{
+                $imgval = '<p style="color: darkgray;">Not Found</p>';
+            }
 
             $data['data'][] = array(
-                "Pic" => $_val->images ,
-                //<div class="img-member active"><div class="thumb"><img src="../../img/member/member_2.jpg"></div></div>
+                "Pic" =>  $imgval,
                 "Name" => '<div onclick="openpreson('.$_val->id.')">'.$_val->name.'</div><div><span class="text-grey">Code</span><strong class="text-blue ml-2">'.(($_val->code != null) ? $_val->code : '-').'</strong>
                 </div>',
                 "Role" => '<div onclick="openpreson('.$_val->id.')" class="d-block py-2 badge badge-pill badge-secondary">'.$Role.'</div>',
@@ -96,7 +105,45 @@ class PersonalController extends Controller
     }
     public function delete(Request $request)
     {
+        $oldpic = DB::table('users')->where('id',$request->id)->first();
+        @unlink(public_path('/user/').$oldpic->ct_images); // delete old picture
+
         DB::table('users')->where('id',$request->id)->delete();
         echo 'complete';
+    }
+    public function update(Request $request)
+    {
+       
+        $data = [
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'phone' => $request->input('phone'),
+            'user_type' => $request->input('role'),
+            'code' => $request->input('code'),
+            'status' => $request->input('status'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ];
+
+        if(!empty($request->file('file'))){
+                
+            $oldpic = DB::table('users')->where('id',$request->input('id_personal'))->first();
+            @unlink(public_path('/user/').$oldpic->images); // delete old picture
+        
+            $file = $request->file('file');
+            $ext = $file->getClientOriginalExtension();
+        
+            $imagename = '';
+            $imagename = date('Y-m-d-H-i-s').rand().'.'.$ext;
+        
+            $destinationPath_origi = public_path('/user/');            
+            $thumb_img_origi = Image::make($file->getRealPath());
+            $thumb_img_origi->save($destinationPath_origi.$imagename);
+
+            $data['images'] = $imagename;
+        } 
+
+        DB::table('users')->where('id',$request->input('id_personal'))->update($data);
+        return redirect('personal');
+
     }
 }
