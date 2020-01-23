@@ -29,7 +29,12 @@
     </style>
 
 </head>
-
+<?php
+    if (!Auth::check()) {
+        echo "<script>window.location.href = 'login2'</script>";
+        // exit();
+    }
+?>
 <body>
 
     <!-- page-wrapper -->

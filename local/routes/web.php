@@ -33,6 +33,15 @@ Route::get('/edityellow', function () {
     return view('yellowfiledit');
 });
 
+//----------------------- Login --------------------------------
+Route::get('/login2', function () {
+    return view('login');
+});
+Route::get('/recover_password', function () {
+    return view('recover_password');
+});
+//--------------------------------------------------------------
+
 // Cliecnt
 Route::get('about', 'ClientController@index');
 Route::post('/submitclient', 'ClientController@Submit');
@@ -40,7 +49,7 @@ Route::get('editclient/{id}', 'ClientController@view');
 Route::post('submiteditclient', 'ClientController@edit');
 
 Auth::routes();
-// Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home');
 //Yellowfile
 Route::get('tasks', 'yellowfileController@index');
 Route::get('newtask', 'yellowfileController@viewClient');

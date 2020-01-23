@@ -72,9 +72,11 @@
                 </div>
             </div>
     </div>
+    @if(Auth::user()->user_type == 2)
     <div class="side-foot p-0">
         <button type="submit" class="side-close font-weight-bold text-blue w-100">SAVE</button>
     </div>
+    @endif
     </form>
 <div>
 @endforeach

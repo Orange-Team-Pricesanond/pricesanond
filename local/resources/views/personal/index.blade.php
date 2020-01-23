@@ -25,24 +25,24 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('asset/DataTables/datatables.min.css') }}"/>
 
 </head>
-<style type="text/css">
-    [type=search] {
-        font-size: 1rem;
-        color: #495057;
-        background-color: #fff;
-        border-radius: .25rem;
-        border: 1px solid #ced4da; 
-    }
-    a {
-        text-decoration: none !important;
-        color: black;
-    } 
-    .btn-secondary, .badge-secondary {
-        background-color: #F2F4F6;
-        color: #778CA2;
-    }
+    <style type="text/css">
+        [type=search] {
+            font-size: 1rem;
+            color: #495057;
+            background-color: #fff;
+            border-radius: .25rem;
+            border: 1px solid #ced4da; 
+        }
+        a {
+            text-decoration: none !important;
+            color: black;
+        } 
+        .btn-secondary, .badge-secondary {
+            background-color: #F2F4F6;
+            color: #778CA2;
+        }
 
-</style>
+    </style>
 <body>
 
     <!-- page-wrapper -->
@@ -116,11 +116,54 @@
 		        	{ data : 'Email' },
 		        	{ data : 'Phone' },
 		        	{ data : 'Status' },
-		        	{ data : 'action' },
+                    <?php
+                        if(Auth::user()->user_type == 4){
+                        echo "{ data : 'action' },";
+                    }
+                    ?>
 		        ],
                 }
              );
         });
+
+        $( ".selectStatus" ).change(function() {
+            $('.tbpersonal').DataTable().destroy();
+			searchpn($(this).val());
+		});
+        
+        function searchpn()
+        {
+            var token = $('meta[name="csrf-token"]').attr('content');
+            var status = document.getElementById("status").value; 
+
+            console.log(status);
+
+            $('.tbpersonal').DataTable( {
+                scrollY: true,
+			  	scrollCollapse: true,
+                "ajax": {
+			    "url": '{{url("getPersonal")}}',
+			   	"type": 'GET',       
+			    "data": {
+			        "status": status,
+			        "_token": token,
+			    },
+			  },
+              columns : [
+		        	{ data : 'Pic' },
+		        	{ data : 'Name' },
+		        	{ data : 'Role' },
+		        	{ data : 'Email' },
+		        	{ data : 'Phone' },
+		        	{ data : 'Status' },
+                    <?php
+                        if(Auth::user()->user_type == 4){
+                        echo "{ data : 'action' },";
+                    }
+                    ?>
+		        ],
+            } );
+        }
 
         function delete_personal(id){
             var token = $('meta[name="csrf-token"]').attr('content');
