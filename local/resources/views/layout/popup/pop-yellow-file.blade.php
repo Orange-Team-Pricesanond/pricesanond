@@ -23,7 +23,7 @@
                     <div id="yellow_con_1" aria-labelledby="yellow_tab_1" role="tabpanel" class="tab-pane fade show active">
                         @include('yellow_file.yellow_view')
                     </div>
-                    <div id="yellow_con_2" aria-labelledby="yellow_tab_2" role="tabpanel" class="tab-pane fade">
+                    <div id="yellow_con_2" aria-labelledby="yellow_tab_2" role="tabpanel" class="tab-pane fade ">
                         @include('yellow_file.time_record')
                     </div>
                 </div>

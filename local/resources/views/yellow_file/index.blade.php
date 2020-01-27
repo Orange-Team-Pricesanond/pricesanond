@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="{{ asset('asset/css/sidebar-main.css') }}" >
     <link rel="stylesheet" href="{{ asset('asset/css/sidebar-themes.css') }}" >
     <link rel="stylesheet" href="{{ asset('asset/css/styles.css') }}" >
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="{{ asset('asset/DataTables/datatables.min.css') }}"/>
 
@@ -26,6 +27,18 @@
         font-size: 17px !important;
         padding-top: 4px !important;
     }
+        [type=search] {
+            font-size: 1rem;
+            color: #495057;
+            background-color: #fff;
+            border-radius: .25rem;
+            border: 1px solid #ced4da; 
+        }
+        a {
+            text-decoration: none !important;
+            color: black;
+        } 
+
     </style>
 
 </head>
@@ -99,15 +112,32 @@
     <script src="{{ asset('asset/js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
 
     <script src="{{ asset('asset/js/sidebar-main.js') }}"></script>
+    <!-- sweetalert -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    
     <script type="text/javascript" src="{{ asset('asset/DataTables/datatables.min.js')}}"></script>
 
     <script>
         $(document).ready(function() {
-            $('.table').DataTable();
-            $('.select2').select2();
+            $('.tableyl').DataTable( 
+                {
+                scrollY: true,
+			  	scrollCollapse: true,
+                "ajax": '{{url("getYellow")}}',
+                columns : [
+		        	{ data : 'No' },
+		        	{ data : 'File' },
+		        	{ data : 'Client' },
+		        	{ data : 'Matter' },
+		        	{ data : 'Person' },
+		        	{ data : 'Status' },
+		        	{ data : 'Active' },
+		        ],
+                }
+             );
+             $('.select2').select2();
         });
         function changBranch(id){
             $.ajax({
@@ -150,6 +180,35 @@
                     $('#dy_atten').val(data.ct_ad_atten);
                 }
             });
+        }
+        function delete_yellow(id){
+            var token = $('meta[name="csrf-token"]').attr('content');
+            swal({
+                title: "Item will be removed from Master file!",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                            $.ajax({
+                                url: '{{url("deleteYellow")}}',
+                                type: "get",
+                                data : {id:id},
+                                datatype: "text",
+                                success: function (data) {
+                                    swal({
+                                        title: "Deleted!",
+                                        text: "Your row has been deleted.",
+                                        type: "success",
+                                        allowOutsideClick: false,
+                                    });
+                                    location.reload();
+                                },error: function(err){
+                                    alert(err);
+                                }
+                            });
+                    }
+                });
         }
     </script>
    

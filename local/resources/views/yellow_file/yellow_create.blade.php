@@ -184,35 +184,7 @@
                         <label>Company's name</label>
                         <input type="text" class="form-control" id="yf_inv_num" name="yf_inv_num" />
                     </div>
-                </div>
-                <!-- <div class="row form-group">
-                    <div class="col-lg-4">
-                        <label>Country</label>
-                        <input type="text" class="form-control" id="yf_country" name="yf_country" />
-                    </div>
-                    <div class="col-lg-4">
-                        <label>Province</label>
-                        <input type="text" class="form-control" id="yf_provice" name="yf_provice" />
-                    </div>
-                    <div class="col-lg-4">
-                        <label>Postal Code</label>
-                        <input type="text" class="form-control" id="yf_code" name="yf_code" />
-                    </div>
-                </div> -->
-                <!-- <div class="row form-group">
-                    <div class="col-lg-4">
-                        <label>District / Area</label>
-                        <input type="text" class="form-control" id="yf_dis" name="yf_dis" />
-                    </div>
-                    <div class="col-lg-4">
-                        <label>Sub-district / Sub-area</label>
-                        <input type="text" class="form-control" id="yf_subdis" name="yf_subdis" />
-                    </div>
-                    <div class="col-lg-4">
-                        <label>Road</label>
-                        <input type="text" class="form-control" id="yf_road" name="yf_road" />
-                    </div>
-                </div> -->
+                </div>               
                 <div class="row form-group">
                     <div class="col-lg-12">
                         <label>Address</label>

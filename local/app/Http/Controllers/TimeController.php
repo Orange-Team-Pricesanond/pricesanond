@@ -231,7 +231,7 @@ class TimeController extends Controller
         {
             $reate_yellow = $_sheet->ts_reate_work;
             $arrays = explode(':', $_sheet->ts_total_time); 
-            $total_all = (intval($arrays[0])*60)+$arrays[1];
+            $total_all = (intval($arrays[0]))+$arrays[1]*60;
 
             if($reate_yellow == "A"){                
                 $total = $total_all;

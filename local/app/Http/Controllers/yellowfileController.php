@@ -213,7 +213,7 @@ class yellowfileController extends Controller
         $client = tb_client::all();
         $money = moneyModel::all();
         $yellowfile = yellowfileModel::all();
-        $TimeSheet = timerecordModel::where('ts_id_yf', 1)->get();
+        $TimeSheet = timerecordModel::all();
         $address = addressModel::all();
        
         return view('yellow_file.index', [
@@ -337,6 +337,37 @@ class yellowfileController extends Controller
         DB::table('tb_logyellowfile')->insert($log);  
         return redirect('masterpage');
     }
+    public function getYellow(Request $request)
+    {
+        $yellowfile = yellowfileModel::all();
+       
+        $data['data'] = [];                
+        $i = 1; 
+
+        foreach($yellowfile as $val){
+
+            $client_name = DB::table('tb_clients')->where('id_ct',$val->id_ct_yf)->first();
+            $partner_name = DB::table('tb_partner')->where('pt_id',$val->yf_partner)->first();
+            $count = DB::table('tb_timesheet')->where('ts_id_yf',$val->id_yf)->count();
+
+            $data['data'][] = array(
+                "No" =>  '<a href="yellow-file/'.$val->id_yf.'">'.$i.'</a>',
+                "File" => '<a href="yellow-file/'.$val->id_yf.'">'.$val->yf_fileno.'</a>',
+                "Client" => '<a href="yellow-file/'.$val->id_yf.'">'.$client_name->ct_fn.'</a>',
+                "Matter" => '<a href="yellow-file/'.$val->id_yf.'">'.$partner_name->pt_name.'</a>',
+                "Person" => '<a href="yellow-file/'.$val->id_yf.'">'.$val->yf_mtt.'</a>',
+                "Status" => '<a href="yellow-file/'.$val->id_yf.'">'.( $count > 0 ? "Complete" : "Padding").'</a>',
+                "Active" => ' <span class="more material-icons md-14" id="ac_dts_1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">more_vert</span>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="ac_dts_1">
+                    <a class="dropdown-item" href="#">Submit</a>
+                    <a class="dropdown-item" onclick="delete_yellow('.$val->id_yf.')">Delete</a>
+                </div>',
+            );
+
+        $i++; }
+        echo json_encode($data);  
+
+    }
     public function Master_yellow_edit(Request $request)
     {
         $yf_fileno = $request->input('yf_fileno');
@@ -441,10 +472,10 @@ class yellowfileController extends Controller
 
         return redirect('masterpage');
     }
-    public function delete($id)
+    public function delete(Request $request)
     {
-        DB::table('tb_yellowfiles')->where('id_yf',$id)->delete();
-        return redirect('masterpage');
+        DB::table('tb_yellowfiles')->where('id_yf',$request->id)->delete();
+        echo 'complete';
     }
     public function editcl($id)
     {
@@ -598,6 +629,23 @@ class yellowfileController extends Controller
             DB::table('tb_address_clients')->insert($address);             
         }
         return redirect('masterpage');
+    }
+    public function showyellow($id)
+    {
+       $select = DB::table('tb_yellowfiles')->where('id_yf',$id)->first();
+       $client = tb_client::all();
+       $partner = partnerModel::all();
+       $address = addressModel::all();
+       $address = addressModel::all();
+       $TimeSheet = timerecordModel::where('ts_id_yf', $id)->get();
+
+       return view('yellow_file.yellow-file',[
+           'yellows' => $select,
+           'client' => $client,
+           'partner' => $partner,
+           'address' => $address,
+           'record' => $TimeSheet,
+       ]);
     }
 
 }

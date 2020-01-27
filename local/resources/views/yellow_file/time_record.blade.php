@@ -14,7 +14,7 @@
     $rate_e = 0;
     $rate_f = 0;
 ?>
-   
+{{$_getID->id_yf}}
 <table id="list_sm" class="listed table table-hover display responsive nowrap w-100">
     <thead>
         <tr>

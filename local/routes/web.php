@@ -57,7 +57,7 @@ Route::post('/submityellowfile', 'yellowfileController@Submityf');
 Route::get('appendAddress', 'yellowfileController@getAddress');
 Route::get('edityellow/{id}', 'yellowfileController@view');
 Route::post('/submitEdityellowfile', 'yellowfileController@edit');
-Route::get('deleteYellow/{id}' , 'yellowfileController@delete');
+Route::get('deleteYellow' , 'yellowfileController@delete');
 
 //----------------------- Masterfile --------------------------------
 
@@ -80,9 +80,16 @@ Route::get('insertclient2', function () {
     return view('yellow_file.client_insert');
 });
 
+Route::get('getYellow', 'yellowfileController@getYellow');
+
 Route::get('viewclient/{id}', 'yellowfileController@editcl');
 Route::post('clientEditsumit', 'yellowfileController@editSubmit');
 Route::post('clientinsertsubmit', 'yellowfileController@Submitcl');
+
+// New
+
+Route::get('yellow-file/{id}', 'yellowfileController@showyellow');
+
 
 //----------------------- TimeSheet --------------------------------
 
