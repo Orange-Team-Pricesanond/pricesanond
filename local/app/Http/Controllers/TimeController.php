@@ -223,11 +223,12 @@ class TimeController extends Controller
         $yellow = yellowfileModel::where('yf_fileno',$request->fileno)->first(); // 1 row
         $timesheet = timerecordModel::where('ts_id_yf',$yellow->id_yf)->get(); // many row
         $fixfee = $yellow->yf_fixfee;
+        $estimate = $yellow->yf_estimate;
 
         //----------- now add -------------------
 
-        $hrs = $request->input(hours);
-        $min = $request->input(minutes);
+        $hrs = $request->hours;
+        $min = $request->minutes;
 
         $now = number_format(intval($hrs)+($min/60),2);
         $law = LawModel::where('law_id',$request->Law)->first();
@@ -249,6 +250,7 @@ class TimeController extends Controller
 
         //--------------- daily -----------------
         $last_total = 0;
+        $anwer = 0;
         $total = 0;
         foreach($timesheet as $_sheet)
         {
@@ -280,11 +282,10 @@ class TimeController extends Controller
             }else{ // F
                 $total = $first_total*$yellow->yf_rates_f;
             }
-            $last_total += number_format($total ,2);
+            $last_total += $total;
         }
-       
-        // echo "total->".$last_total." >= FixFee -> ".$fixfee;
-        echo ($last_total>=$fixfee) ? 1 : 0;
+        $anwer = $last_total + $total_now;
+        echo ($anwer>=$fixfee) ? 1 : 0;
     }
     public function showtimesheet(Request $request)
     {

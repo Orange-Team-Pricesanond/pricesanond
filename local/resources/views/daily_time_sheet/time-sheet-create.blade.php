@@ -237,11 +237,11 @@
             var hours = Math.floor(diff / 1000 / 60 / 60);
             diff -= hours * 1000 * 60 * 60;
             var minutes = Math.floor(diff / 1000 / 60);
+            var Law = $('#ts_law_id'+index+'').val();
 
             $('#ts_total_time'+index+'').val((hours < 9 ? "0" : "") + hours + ":" + (minutes < 9 ? "0" : "") + minutes);
-            
-            // console.log((hours < 9 ? "0" : "") + hours + ":" + (minutes < 9 ? "0" : "") + minutes);
-            var Law = $('#ts_law_id'+index+'').val();
+            console.log("Total time -> "+(hours < 9 ? "0" : "") + hours + ":" + (minutes < 9 ? "0" : "") + minutes);
+            console.log("Law Code -> "+Law);
 
             if($('#ts_total_time'+index+'').val() != ""){
                 var fileno = document.getElementById("master_"+index+"").value;
@@ -263,7 +263,7 @@
                         }
 
                     },error: function(err){
-                        alert(err);
+                        // alert(err);
                     }
                 });
             }
