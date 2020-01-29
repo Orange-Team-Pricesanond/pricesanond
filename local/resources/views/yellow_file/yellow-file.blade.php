@@ -67,7 +67,6 @@
                         <nav class="nav nav-pills" id="yellow-tab" role="tablist">
                             <a id="yellow_tab_1" href="#yellow_con_1" aria-controls="yellow_con_1" class="nav-item nav-link active" data-toggle="tab" role="tab" aria-selected="true">YELLOW FILE</a>
                             <a id="yellow_tab_2" href="#yellow_con_2" aria-controls="yellow_con_2" class="nav-item nav-link" data-toggle="tab" role="tab" aria-selected="false">TIME RECORD</a>
-                            <a id="yellow_tab_3" href="#yellow_con_3" aria-controls="yellow_con_3" class="nav-item nav-link" data-toggle="tab" role="tab" aria-selected="false">ACC STATEMENT</a>
                         </nav>
 
                         <div class="tab-content my-3" id="yellow-tabContent">
@@ -76,9 +75,6 @@
                             </div>
                             <div id="yellow_con_2" aria-labelledby="yellow_tab_2" role="tabpanel" class="tab-pane tab2 fade">
                                 @include('yellow_file.list-time')
-                            </div>
-                            <div id="yellow_con_3" aria-labelledby="yellow_tab_3" role="tabpanel" class="tab-pane tab3 fade">
-                                <!-- @include('yellow_file.list-time') -->
                             </div>
                         </div>
                     </div>
@@ -106,27 +102,14 @@
         $("#yellow_tab_1").click(function(){
             var tab1 = document.getElementsByClassName('tab1')[0]; 
             var tab2 = document.getElementsByClassName('tab2')[0]; 
-            var tab3 = document.getElementsByClassName('tab3')[0]; 
             tab1.style.display = "block";
             tab2.style.display = "none";
-            tab3.style.display = "none";
         });
         $("#yellow_tab_2").click(function(){
             var tab1 = document.getElementsByClassName('tab1')[0]; 
             var tab2 = document.getElementsByClassName('tab2')[0]; 
-            var tab3 = document.getElementsByClassName('tab3')[0]; 
             tab1.style.display = "none";
             tab2.style.display = "block";
-            tab3.style.display = "none";
-        });
-        $("#yellow_tab_3").click(function(){
-            var tab1 = document.getElementsByClassName('tab1')[0]; 
-            var tab2 = document.getElementsByClassName('tab2')[0]; 
-            var tab3 = document.getElementsByClassName('tab3')[0]; 
-            tab1.style.display = "none";
-            tab3.style.display = "block";
-            tab2.style.display = "none";
-            
         });
     });
 

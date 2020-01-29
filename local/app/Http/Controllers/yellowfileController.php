@@ -359,7 +359,6 @@ class yellowfileController extends Controller
                 "Status" => '<a href="yellow-file/'.$val->id_yf.'">'.( $count > 0 ? "Complete" : "Padding").'</a>',
                 "Active" => ' <span class="more material-icons md-14" id="ac_dts_1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">more_vert</span>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="ac_dts_1">
-                    <a class="dropdown-item" href="#">Submit</a>
                     <a class="dropdown-item" onclick="delete_yellow('.$val->id_yf.')">Delete</a>
                 </div>',
             );

@@ -115,6 +115,7 @@
                 }
              );
         } );
+        
         $( ".search" ).change(function() {
             $('#list_index').DataTable().destroy();
 			search($(this).val());

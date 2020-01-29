@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="{{ asset('asset/css/cropper.css') }}">
     
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-markdown/2.10.0/css/bootstrap-markdown.min.css">
 
 
@@ -141,7 +141,7 @@
     <script src="{{ asset('asset/js/dropzone') }}"></script>
     <script src="{{ asset('asset/js/cropperjs') }}"></script>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
@@ -225,10 +225,10 @@
             });
         }
         function calculate(index)
-        {
+        {            
             var start = $('#ts_form'+index+'').val();
             var end = $('#ts_to'+index+'').val();
-           
+          
             start = start.split(":");
             end = end.split(":");
             var startDate = new Date(0, 0, 0, start[0], start[1], 0);
@@ -240,18 +240,19 @@
 
             $('#ts_total_time'+index+'').val((hours < 9 ? "0" : "") + hours + ":" + (minutes < 9 ? "0" : "") + minutes);
             
-            console.log((hours < 9 ? "0" : "") + hours + ":" + (minutes < 9 ? "0" : "") + minutes);
+            // console.log((hours < 9 ? "0" : "") + hours + ":" + (minutes < 9 ? "0" : "") + minutes);
+            var Law = $('#ts_law_id'+index+'').val();
 
             if($('#ts_total_time'+index+'').val() != ""){
                 var fileno = document.getElementById("master_"+index+"").value;
                 $.ajax({
                     url: '{{url("selectFixFee")}}',
                     type: "get",
-                    data : {hours:hours , minutes:minutes , fileno:fileno},
+                    data : {hours:hours , minutes:minutes , fileno:fileno , Law:Law},
                     datatype: "text",
                     success: function (data) {
 
-                        // console.log(data);
+                        console.log(data);
                         if(data == 1) {
                             swal(
                                 'Excess "FixFee" !',
@@ -265,7 +266,6 @@
                         alert(err);
                     }
                 });
-
             }
         }
         function deltesheet(id)

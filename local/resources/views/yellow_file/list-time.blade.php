@@ -5,8 +5,6 @@
     $total_d = 0;
     $total_e = 0;
     $total_f = 0;
-    $last_total = 0;
-    $total_all = 0;
 
     $rate_a = 0;
     $rate_b = 0;
@@ -14,7 +12,21 @@
     $rate_d = 0;
     $rate_e = 0;
     $rate_f = 0;
+
+    $lastA = 0;
+    $lastB = 0;
+    $lastC = 0;
+    $lastD = 0;
+    $lastE = 0;
+    $lastF = 0;
+
+    $andlast = 0;
+    $i = 1;   
+
 @endphp
+
+
+
 <div class="card shadow-on">
     <div class="card-header py-4 bg-transparent d-flex justify-content-between">
         <div>TIME RECORD</div>
@@ -30,8 +42,8 @@
         </div>
     </div>
     {{ csrf_field() }}
-   
-    <div class="card-body">
+
+    <div class="card-body">        
         <table id="list_sm" class="listed table table-hover display responsive nowrap w-100">
             <thead>
                 <tr>
@@ -52,13 +64,9 @@
             <tbody>
             @foreach($record as $_val)
                 @php
-                    $i = 1;
                     $arrays = explode(':', $_val->ts_total_time); 
-                    $total_all += (intval($arrays[0]))+($arrays[1]*60);
-                    echo $total_all;
-                    echo "<br>";
-
-                    $total = intval($arrays[0]).".".$arrays[1];
+                    
+                    $total = number_format(intval($arrays[0])+($arrays[1]/60),2);
                     $yellow = DB::table('tb_yellowfiles')->where('id_yf',$_val->ts_id_yf)->first();
 
                     if($_val->ts_reate_work == 'A')
@@ -90,8 +98,15 @@
                         $rate_f = $yellow->yf_rates_f;
                     }
 
+                    $lastA = $total_a*$yellow->yf_rates_a;
+                    $lastB = $total_b*$yellow->yf_rates_b;
+                    $lastC = $total_c*$yellow->yf_rates_c;
+                    $lastD = $total_d*$yellow->yf_rates_d;
+                    $lastE = $total_e*$yellow->yf_rates_e;
+                    $lastF = $total_f*$yellow->yf_rates_f;
+                    
                 @endphp
-                <!-- <tr>
+                <tr>
                     <td>{{$i}}</td>
                     <td>{{$_val->ts_date}}</td>
                     <td>{{$_val->ts_form}}</td>
@@ -103,17 +118,12 @@
                     <td class="text-right text-pink">{{ ($_val->ts_reate_work == "D") ? $total : "-" }}</td>
                     <td class="text-right text-purple">{{ ($_val->ts_reate_work == "E") ? $total : "-" }}</td>
                     <td class="text-right text-grey">{{ ($_val->ts_reate_work == "F") ? $total : "-" }}</td>
-                    <td>
-                        <div><strong>DR</strong> email to Mr. Robin re work permit information.</div>
-                        <div><strong>DR</strong> email to Mr. Robin re work permit information.</div>
-                    </td>
-                </tr> -->
+                    <td><div>{{$_val->ts_woek}}</div></td>
+                </tr>
                 @php
                     $i++;
                 @endphp
             @endforeach
-
-
 
                 <tr class="bg-light">
                     <td>#</td>
@@ -140,18 +150,18 @@
                 <tr class="bg-light">
                     <td>#</td>
                     <td colspan="4">SUBTOTAL</td>
-                    <td class="text-right text-blue">{{ ($total_a == 0) ? "-" : number_format(($total_a/60)*$rate_a ,2) }} <?php ($total_a == 0) ? "" : $last_total += number_format(($total_a/60)*$rate_a ,2); ?></td>
-                    <td class="text-right text-green">{{ ($total_b == 0) ? "-" : number_format(($total_b/60)*$rate_b ,2) }} <?php ($total_b == 0) ? "" : $last_total += number_format(($total_b/60)*$rate_b ,2); ?></td>
-                    <td class="text-right text-orange">{{ ($total_c == 0) ? "-" : number_format(($total_c/60)*$rate_c) }} <?php ($total_c == 0) ? "" : $last_total += number_format(($total_c/60)*$rate_c ,2); ?></td>
-                    <td class="text-right text-pink">{{ ($total_d == 0) ? "-" : number_format(($total_d/60)*$rate_d) }} <?php ($total_d == 0) ? "" : $last_total += number_format(($total_d/60)*$rate_d ,2); ?></td>
-                    <td class="text-right text-purple">{{ ($total_e == 0) ? "-" : number_format(($total_e/60)*$rate_e) }} <?php ($total_e == 0) ? "" : $last_total += number_format(($total_e/60)*$rate_e ,2); ?></td>
-                    <td class="text-right text-grey">{{ ($total_f == 0) ? "-" : number_format(($total_f/60)*$rate_f) }} <?php ($total_f == 0) ? "" : $last_total += number_format(($total_f/60)*$rate_f ,2); ?></td>
+                    <td class="text-right text-blue">{{ ($total_a == 0) ? "-" : $lastA }}   <?php $andlast += ($total_a == 0) ? 0 : $lastA ?></td>
+                    <td class="text-right text-green">{{ ($total_b == 0) ? "-" : $lastB }}  <?php $andlast += ($total_b == 0) ? 0 : $lastB ?></td>
+                    <td class="text-right text-orange">{{ ($total_c == 0) ? "-" : $lastC }} <?php $andlast += ($total_c == 0) ? 0 : $lastC ?></td>
+                    <td class="text-right text-pink">{{ ($total_d == 0) ? "-" : $lastD }}   <?php $andlast += ($total_d == 0) ? 0 : $lastD ?></td>
+                    <td class="text-right text-purple">{{ ($total_e == 0) ? "-" : $lastE }} <?php $andlast += ($total_e == 0) ? 0 : $lastE ?></td>
+                    <td class="text-right text-grey">{{ ($total_f == 0) ? "-" : $lastF }}   <?php $andlast += ($total_f == 0) ? 0 : $lastF ?></td>
                     <td>USD</td>
                 </tr>
                 <tr class="bg-light">
                     <td>#</td>
                     <td colspan="4">TOTAL VALUE</td>
-                    <td colspan="6" class="text-right text-red"><strong>{{$total_all}}</strong></td>
+                    <td colspan="6" class="text-right text-red"><strong>{{ number_format($andlast,2) }}</strong></td>
                     <td>USD</td>
                 </tr>
 

@@ -10,7 +10,6 @@
     <ul class="head-menu nav nav-tabs" id="nav-group" role="tablist">
         <li><span class="head-tab font-weight-bold">Page Title</span></li>
     </ul>
-    
     <ul>
         <li class="m-0">
             <button class="btn-c material-icons ml-1" title="Search Protocol">search</button>
@@ -45,12 +44,11 @@
         <li class="dropdown">
             <button class="btn-c member ml-1 dropdown-toggle" type="button" id="i_member" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="0,7" title="Username">
                 <span class="overflow-hidden">
-                    <img class="img-responsive img-rounded" src="{{ asset('asset/img/avatar.svg') }}" alt="User picture">
-
+                    <img class="img-responsive img-rounded" src="{{url('local/public/user/').'/'.Auth::user()->images }}" alt="User picture">
                 </span>
             </button>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="i_member">
-                <h6 class="dropdown-header">{{ Auth::user()->name }} </h6>
+                <h6 class="dropdown-header">{{ Auth::user()->name }}  </h6>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">Profile Setting</a>
                 
