@@ -379,7 +379,7 @@ class yellowfileController extends Controller
         $fix = $request->input('yf_fixfee');
         $estimate = $request->input('yf_estimate');
         $dis = $request->input('yf_discount');
-        $time = $request->input('yf_time');
+        $time = $request->input('time');
         $reate1 = $request->input('yf_rates_a');
         $reate2 = $request->input('yf_rates_b');
         $reate3 = $request->input('yf_rates_c');

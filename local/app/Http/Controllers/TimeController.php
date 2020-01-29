@@ -293,12 +293,14 @@ class TimeController extends Controller
         $count = timerecordModel::count();
         
         $i = 1;
+        $sl_time = 0;
 
         if($count>0){
             foreach($select as $_val){
 
-                $yellow = yellowfileModel::where('id_yf',$_val->ts_id_yf)->first();
-
+                $yellow = DB::table('tb_yellowfiles')->where('id_yf',$_val->ts_id_yf)->first();
+                $sl_time = $yellow->yf_time;
+                
                 if($_val->ts_status == 1 ){
                     $status = "Lawyer";
                 }elseif( $_val->ts_status == 2 ){
@@ -340,15 +342,16 @@ class TimeController extends Controller
                 $cal_rat = number_format($Cal*$rate);
 
                 $data['data'][]= array(
-                    "id" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$i.'</a>',
-                    "date" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_date.'</a>',
-                    "code" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_law_id.'</a>',
-                    "Form" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_form.'</a>',
-                    "To" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_to.'</a>',
-                    "Total" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.number_format($_total/60 ,2, '.','').'</a>',
+                    "id" => '<a data-toggle="modal" onClick="selectSorttime('.$sl_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$i.'</a>',
+                    "date" => '<a data-toggle="modal" onClick="selectSorttime('.$sl_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_date.'</a>',
+                    "code" => '<a data-toggle="modal" onClick="selectSorttime('.$sl_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_law_id.'</a>',
+                    "Form" => '<a data-toggle="modal" onClick="selectSorttime('.$sl_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_form.'</a>',
+                    "To" => '<a data-toggle="modal" onClick="selectSorttime('.$sl_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_to.'</a>',
+                    "Total" => '<a data-toggle="modal" onClick="selectSorttime('.$sl_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.number_format($_total/60 ,2, '.','').'</a>',
                     "rate" =>  $cal_rat,
-                    "work" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_woek.'</a>',
-                    "status" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$status.'</a>',
+                    "work" => '<a data-toggle="modal" onClick="selectSorttime('.$sl_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_woek.'</a>',
+                    "status" => '<a data-toggle="modal" onClick="selectSorttime('.$sl_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$status.'</a>',
+                    "delete" => '<i class="material-icons md-12">delete</i>',
                 );
             $i++; }
         }else{
@@ -428,6 +431,7 @@ class TimeController extends Controller
                 "rate" => $cal_rat,
                 "work" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_woek.'</a>',
                 "status" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$status.'</a>',
+                "delete" => '<i class="material-icons md-12">delete</i>',
             );
         $i++; }
         echo json_encode($data);        

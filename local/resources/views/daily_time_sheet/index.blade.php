@@ -110,12 +110,16 @@
                     }
                     @endphp
 		        	{ data : 'work' },
-		        	{ data : 'status' },
+                    { data : 'status' },
+                    @php 
+                    if(Auth::user()->user_type == 2){
+		        	echo "{ data : 'delete' },";
+                    }
+                    @endphp
 		        ],
                 }
              );
         } );
-        
         $( ".search" ).change(function() {
             $('#list_index').DataTable().destroy();
 			search($(this).val());
@@ -154,12 +158,19 @@
                     }
                     @endphp
 		        	{ data : 'work' },
-		        	{ data : 'status' },
+                    { data : 'status' },
+                    @php 
+                    if(Auth::user()->user_type == 2){
+		        	echo "{ data : 'delete' },";
+                    }
+                    @endphp
 		        ],
             } );
         }
+
         function selectSorttime(val,index){
             console.log(val);
+            console.log(index);
 
             if(val == 5){
                 $step = 300;

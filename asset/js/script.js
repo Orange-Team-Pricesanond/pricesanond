@@ -1,8 +1,8 @@
 // *** Box Side
-$(".open-person").click(function(){
-    $(".box-side").removeClass('active');
-    $("#side_person").addClass('active');
-});
+// $(".open-person").click(function(){
+//     $(".box-side").removeClass('active');
+//     $("#side_person").addClass('active');
+// });
 
 $(".side-close").click(function(){
     $(".box-side").removeClass('active');

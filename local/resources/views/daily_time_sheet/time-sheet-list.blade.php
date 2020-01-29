@@ -38,6 +38,11 @@
                     @endphp
                     <th>work performed</th>
                     <th>Status</th>
+                    @php
+                    if(Auth::user()->user_type == 2){
+                    echo '<th><i class="material-icons md-12">delete</i></th>';
+                    } 
+                    @endphp
                 </tr>
             </thead>
         </table>
