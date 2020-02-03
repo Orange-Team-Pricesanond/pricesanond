@@ -10,6 +10,7 @@ use App\partnerModel;
 use App\moneyModel;
 use App\timerecordModel;
 use App\logyellowfileModel;
+use App\LawModel;
 use DB;
 use Image;
 
@@ -203,7 +204,6 @@ class yellowfileController extends Controller
         DB::table('tb_yellowfiles')->update($data);
         return redirect('tasks');
     }
- 
     //----------- Master File --------------
     
     public function viewAddress()
@@ -215,7 +215,7 @@ class yellowfileController extends Controller
         $yellowfile = yellowfileModel::all();
         $TimeSheet = timerecordModel::all();
         $address = addressModel::all();
-       
+
         return view('yellow_file.index', [
             'address' => $address,
             'partner' => $partner,

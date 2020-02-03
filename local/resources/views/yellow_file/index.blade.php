@@ -16,12 +16,15 @@
 
     <link rel="stylesheet" href="{{ asset('asset/css/sidebar-main.css') }}" >
     <link rel="stylesheet" href="{{ asset('asset/css/sidebar-themes.css') }}" >
-    <link rel="stylesheet" href="{{ asset('asset/css/styles.css') }}" >
+    <link rel="stylesheet" href="{{ asset('asset/css/styles3.css') }}" >
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="{{ asset('asset/DataTables/datatables.min.css') }}"/>
 
     <style>
+
+
     .select2-selection{
         height: 37px !important; 
         font-size: 17px !important;
@@ -39,6 +42,7 @@
             color: black;
         } 
 
+        
     </style>
 
 </head>

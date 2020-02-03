@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="{{ asset('asset/css/material-icons.css') }}"></script>
     
     <link rel="stylesheet" href="{{ asset('asset/css/sidebar-main.css') }}"></script>
-    <link rel="stylesheet" href="{{ asset('asset/css/styles.css') }}"></script>
+    <link rel="stylesheet" href="{{ asset('asset/css/styles3.css') }}"></script>
     <link rel="stylesheet" href="{{ asset('asset/css/simplebar.css') }}"></script>
    
     <link rel="stylesheet" href="{{ asset('asset/css/dropzone.css') }}"></script>
@@ -43,13 +43,7 @@
     z-index: 1;
     background-color: white;
 }
-.page-wrapper {
-    position: relative;
-    height: 100vh;
-    max-height: 100vh;
-    background-color: #f8fafb;
-    border-top: 1px solid #f1f1f1;
-}
+ 
 </style>
 <body>
     <!-- page-wrapper -->
@@ -145,7 +139,7 @@
                                         <input type="text" class="form-control" id="attent" name="attent[]" required />
                                     </div>
                                     <div class="col-lg-4 mb-3">
-                                        <label>Option</label>
+                                        <label>Confict</label>
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" id="yf_confict_0" name="invoicepotion0" value="1">
                                             <label class="form-check-label" for="yf_confict_0">

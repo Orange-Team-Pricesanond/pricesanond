@@ -230,7 +230,7 @@ class TimeController extends Controller
         $hrs = $request->hours;
         $min = $request->minutes;
 
-        $now = number_format(intval($hrs)+($min/60),2);
+        $now = intval($hrs)+($min/60);
         $law = LawModel::where('law_id',$request->Law)->first();
         if($law->lw_yf_rates == "A"){
             $yellow_now = $yellow->yf_rates_a;
