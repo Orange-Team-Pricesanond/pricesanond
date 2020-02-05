@@ -339,7 +339,11 @@ class yellowfileController extends Controller
     }
     public function getYellow(Request $request)
     {
-        $yellowfile = yellowfileModel::all();
+        if($request->input('id')){
+            $yellowfile = yellowfileModel::where('yt_group',$request->input('id'))->get();
+        }else{
+            $yellowfile = yellowfileModel::all();
+        }
        
         $data['data'] = [];                
         $i = 1; 
@@ -389,6 +393,7 @@ class yellowfileController extends Controller
         $tex = $request->input('yf_taxnumber');
         $team = $request->input('yf_team');
         $vat = $request->input('yf_vat');
+        $group = $request->input('yt_group');
         //invoice Address
         $branch = $request->input('yf_branch');        
         $invname = $request->input('yf_inv_num');
@@ -417,6 +422,7 @@ class yellowfileController extends Controller
             'id_ct_yf' => $fullname,
             'yf_fileno' => $yf_fileno,
             'yf_mtt' => $matter,
+            'yt_group' => $group,
             'yf_currency' => $currency,
             'yf_partner' => $partner,
             'yf_currencyter' => $currencyter,

@@ -111,11 +111,11 @@
                     @endphp
 		        	{ data : 'work' },
                     { data : 'status' },
-                    @php 
-                    if(Auth::user()->user_type == 2){
-		        	echo "{ data : 'delete' },";
-                    }
-                    @endphp
+                    <?php 
+                        if(Auth::user()->user_type == 2){
+                        echo "{ data : 'delete' },";
+                        }
+                    ?>
 		        ],
                 }
              );
@@ -159,11 +159,11 @@
                     @endphp
 		        	{ data : 'work' },
                     { data : 'status' },
-                    @php 
-                    if(Auth::user()->user_type == 2){
-		        	echo "{ data : 'delete' },";
-                    }
-                    @endphp
+                    <?php 
+                        if(Auth::user()->user_type == 2){
+                        echo "{ data : 'delete' },";
+                        }
+                    ?>
 		        ],
             } );
         }

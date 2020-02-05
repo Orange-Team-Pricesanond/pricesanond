@@ -46,8 +46,9 @@
                         </select>
                     </div>
                 </div>
+
                 <div class="row form-group">
-                    <div class="col-lg-2">
+                    <div class="col-lg-3">
                         <label>Currency</label>
                         <select id="yf_currency" name="yf_currency" class="form-control" data-live-search="true" title="Please select">
                             @foreach ($money as $_money)
@@ -55,7 +56,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-3">
                         <label>Converter to</label>
                         <select id="yf_currencyter" name="yf_currencyter" class="form-control" data-live-search="true" title="Please select">
                             @foreach ($money as $_money)
@@ -63,34 +64,24 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-lg-1">
+                    <div class="col-lg-2">
                         <label>Fix Fee</label>
                         <input type="number" min="0" class="form-control" id="yf_fixfee" name="yf_fixfee" placeholder="0">
                     </div>
-                    <div class="col-lg-1">
+                    <div class="col-lg-2">
                         <label>Estimate</label>
                         <input type="number" min="0" class="form-control" id="yf_estimate" name="yf_estimate" placeholder="0.00">
                     </div>
-                    <div class="col-lg-1">
+                    <div class="col-lg-2">
                         <label>Discount</label>
                         <input type="number" min="0" class="form-control" id="yf_discount" name="yf_discount" placeholder="0">
                     </div>
-                    <div class="col-lg-1">
-                        <label>Vat</label>
-                        <input type="number" min="7" class="form-control" id="yf_vat" name="yf_vat" placeholder="0">
-                    </div>
-                    <div class="col-lg-4">
-                        <label class="d-block">Time</label>
-                        <div class="custom-control custom-radio custom-control-inline mt-2">
-                            <input type="radio" id="time_1" name="yf_time" class="custom-control-input" value="5">
-                            <label class="custom-control-label" for="time_1">5 Increment</label>
-                        </div>
-                        <div class="custom-control custom-radio custom-control-inline  mt-2">
-                            <input type="radio" id="time_2" name="yf_time" class="custom-control-input" value="6">
-                            <label class="custom-control-label" for="time_2">6 Increment</label>
-                        </div>
-                    </div>
                 </div>
+
+                <div class="row form-group">
+                    
+                </div>
+
                 <div class="row form-group">
                     <label class="col-12">Hourly rates</label>
                     <div class="col-lg-2">

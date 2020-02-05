@@ -82,7 +82,7 @@
         </div>
 
         <div class="row form-group">
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <label class="d-block">Currency Both option</label>
                 <div class="custom-control custom-radio custom-control-inline mt-2">
                     <input type="radio" id="both_1" name="yf_bothcurrency" class="custom-control-input" value="1" {{ ( $yellows->yf_bothcurrency == "1" ) ? "checked" : "" }}>
@@ -108,6 +108,10 @@
                     <input type="radio" id="time_2" name="time" class="custom-control-input" value="6" {{ ( $yellows->yf_time == "6" ) ? "checked" : "" }}>
                     <label class="custom-control-label" for="time_2">6 Increment</label>
                 </div>
+            </div>
+            <div class="col-lg-3">
+                <label>Group</label>
+                <input type="text" min="7" class="form-control" id="yt_group" name="yt_group" value="{{$yellows->yt_group}}">
             </div>
         </div>
 

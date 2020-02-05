@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/png" href="{{ asset('asset/img/ic/favicon.png') }}" >
     <link rel="icon" type="image/png" href="{{ asset('asset/img/ic/favicon@2x.png') }}" >
     <title>Master Data</title>
@@ -142,6 +143,39 @@
              );
              $('.select2').select2();
         });
+
+        $( ".selectGroup" ).change(function() {
+            $('.tableyl').DataTable().destroy();
+			search_group($(this).val());
+		})
+
+        function search_group(id)
+        {
+            var token = $('meta[name="csrf-token"]').attr('content');
+
+             $('.tableyl').DataTable( {
+                scrollY: true,
+			  	scrollCollapse: true,
+                "ajax": {
+			    "url": '{{url("getYellow")}}',
+			   	"type": 'GET',       
+			    "data": {
+			        "id": id,
+			        "_token": token,
+			    },
+			  },
+              columns : [
+                    { data : 'No' },
+		        	{ data : 'File' },
+		        	{ data : 'Client' },
+		        	{ data : 'Matter' },
+		        	{ data : 'Person' },
+		        	{ data : 'Status' },
+		        	{ data : 'Active' },
+		        ],
+            } );
+        }
+
         function changBranch(id){
             $.ajax({
                 type:'get',
