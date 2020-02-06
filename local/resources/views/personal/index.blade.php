@@ -116,11 +116,7 @@
 		        	{ data : 'Email' },
 		        	{ data : 'Phone' },
 		        	{ data : 'Status' },
-                    <?php
-                        if(Auth::user()->user_type == 4){
-                        echo "{ data : 'action' },";
-                    }
-                    ?>
+                    { data : 'action' },
 		        ],
                 }
              );
@@ -135,8 +131,7 @@
         {
             var token = $('meta[name="csrf-token"]').attr('content');
             var status = document.getElementById("status").value; 
-
-            console.log(status);
+            var name = document.getElementById("name").value; 
 
             $('.tbpersonal').DataTable( {
                 scrollY: true,
@@ -146,6 +141,7 @@
 			   	"type": 'GET',       
 			    "data": {
 			        "status": status,
+			        "name": name,
 			        "_token": token,
 			    },
 			  },
@@ -156,11 +152,7 @@
 		        	{ data : 'Email' },
 		        	{ data : 'Phone' },
 		        	{ data : 'Status' },
-                    <?php
-                        if(Auth::user()->user_type == 4){
-                        echo "{ data : 'action' },";
-                    }
-                    ?>
+                    { data : 'action' },
 		        ],
             } );
         }
@@ -194,8 +186,14 @@
 							});
 					}
 				});
-            }
+        }
 
+        function clone_personal(id)
+        {
+            document.getElementById("side_person_clone_"+id+"").classList.add('active');
+        }
+   
+   
     </script>
 
     <script>

@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class LawModel extends Model
 {
-    protected $table = 'tb_law';
+    protected $table = 'users';
     protected $fullable = [
-        "law_id" , "lw_name" , "lw_yf_rates" ,
+        "id" , "name" , "images" ,"email" ,"phone" ,"user_type" ,
+        "password" ,"code" ,"lw_yf_rates" ,"status" ,"created_at" ,"updated_at" ,
     ];
 }

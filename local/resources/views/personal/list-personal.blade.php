@@ -6,10 +6,16 @@
                     <div class="input-group-text border-0 material-icons">info</div>
                 </div>
                 <select class="form-control selectStatus" name="status" id="status">
-                    <option value="2">All</option>
-                    <option value="1">Active</option>
-                    <option value="0">Inactive</option>
+                    <option value="ALL">All</option>
+                    <option value="A">Active</option>
+                    <option value="N">Inactive</option>
                 </select>
+            </div>
+            <div class="input-group input-group-sm mr-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text border-0">Name</div>
+                </div>
+                <input class="form-control selectStatus" name="name" id="name">
             </div>
         </div>
     </div>
@@ -25,11 +31,7 @@
                     <th>Email</th>
                     <th>Phone</th>
                     <th>Status</th>
-                    @php 
-                        if(Auth::user()->user_type == 4){
-                        echo "<th></th>";
-                    }
-                    @endphp
+                    <th><i class="material-icons md-14">more_vert</i></th>
                 </tr>
             </thead>
         </table>

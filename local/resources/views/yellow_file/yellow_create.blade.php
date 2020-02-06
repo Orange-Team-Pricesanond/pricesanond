@@ -79,7 +79,37 @@
                 </div>
 
                 <div class="row form-group">
-                    
+                    <div class="col-lg-3">
+                        <label class="d-block">Currency Both option</label>
+                        <div class="custom-control custom-radio custom-control-inline mt-2">
+                            <input type="radio" id="both_1" name="both" class="custom-control-input" value="1">
+                            <label class="custom-control-label" for="both_1">THB</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline  mt-2">
+                            <input type="radio" id="both_2" name="both" class="custom-control-input" value="2">
+                            <label class="custom-control-label" for="both_2">Both</label>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <label>Vat</label>
+                        <input type="number" min="7" class="form-control" id="yf_vat" name="yf_vat" />
+                    </div> 
+                    <div class="col-lg-4">
+                        <label class="d-block">Time</label>
+                        <div class="custom-control custom-radio custom-control-inline mt-2">
+                            <input type="radio" id="time_1" name="time" class="custom-control-input" value="5">
+                            <label class="custom-control-label" for="time_1">5 Increment</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline  mt-2">
+                            <input type="radio" id="time_2" name="time" class="custom-control-input" value="6">
+                            <label class="custom-control-label" for="time_2">6 Increment</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <label>Group</label>
+                        <input type="text" class="form-control" id="yt_group" name="yt_group" />
+                    </div>
                 </div>
 
                 <div class="row form-group">
@@ -134,22 +164,11 @@
                     </div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
                         <label>Remark condition</label>
                         <textarea class="form-control" id="yf_remark" name="yf_remark" rows="3"></textarea>
                     </div>
-                    <div class="col-lg-4">
-                        <label>Currency Both option</label><br>
-                        <div class="custom-control custom-radio custom-control-inline mt-2">
-                            <input type="radio" name="both" id="both_1" class="custom-control-input" value="1">
-                            <label class="custom-control-label" for="both_1">BOTH</label>
-                        </div><br>
-                        <div class="custom-control custom-radio custom-control-inline mt-2">
-                            <input type="radio" name="both" id="both_2" class="custom-control-input" value="0">
-                            <label class="custom-control-label" for="both_2">THB</label>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
                         <label>Team</label>
                         <textarea class="form-control" id="yf_team" name="yf_team" rows="3"></textarea>
                     </div>

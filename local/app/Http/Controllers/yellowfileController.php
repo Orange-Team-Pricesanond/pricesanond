@@ -228,18 +228,20 @@ class yellowfileController extends Controller
     }
     public function Master_yellow_submit(Request $request)
     {
+        // dd($request->input());
         $id = $request->input('id');
         $nofile = $request->input('yf_fileno');
         $remark = $request->input('yf_remark');
         $fullname = $request->input('id_ct_yf');
         $matter = $request->input('yf_mtt');
+        $group = $request->input('yt_group');
         $currency = $request->input('yf_currency');
         $currencyter = $request->input('yf_currencyter');
         $partner = $request->input('yf_partner');
         $fix = $request->input('yf_fixfee');
         $estimate = $request->input('yf_estimate');
         $dis = $request->input('yf_discount');
-        $time = $request->input('yf_time');
+        $time = $request->input('time');
         $reate1 = $request->input('yf_rates_a');
         $reate2 = $request->input('yf_rates_b');
         $reate3 = $request->input('yf_rates_c');
@@ -248,55 +250,43 @@ class yellowfileController extends Controller
         $reate6 = $request->input('yf_rates_f');
         $tex = $request->input('yf_taxnumber');
         $team = $request->input('yf_team');
-        //invoice Address
+
         $branch = $request->input('yf_branch');        
         $invname = $request->input('yf_inv_num');
         $address = $request->input('yf_address');
-        // $road = $request->input('yf_road');
-        // $district = $request->input('yf_dis');
-        // $subdis = $request->input('yf_subdis');
-        // $provice = $request->input('yf_provice');
-        // $code = $request->input('yf_code');
-        // $country = $request->input('yf_country');
         $phone = $request->input('yf_phone');
         $fax = $request->input('yf_fax');
         $mail = $request->input('yf_email');
         $atten = $request->input('yf_atten');
         $invtext = $request->input('yf_invioctext');
-        //delivery location
-        // $branch_dely = $request->input('dy_branch'); 
+
         $tex_dely = $request->input('dy_taxnumber'); 
         $invname_dely = $request->input('dy_inv_num');
         $address_dely = $request->input('dy_address');
-        // $road_dely = $request->input('dy_road');
-        // $district_dely = $request->input('dy_dis');
-        // $subdis_dely = $request->input('dy_subdis');
-        // $provice_dely = $request->input('dy_provice');
-        // $code_dely = $request->input('dy_code');
-        // $country_dely = $request->input('dy_country');
         $phone_dely = $request->input('dy_phone');
         $fax_dely = $request->input('dy_fax');
         $mail_dely = $request->input('dy_email');
         $atten_dely = $request->input('dy_atten');
-        // $invtext_dely = $request->input('dy_invioctext');
 
         $location = $request->input('yf_location');
         $refer = $request->input('yf_refer');
         $confict = $request->input('yf_confict');
         $both = $request->input('both');
+        $vat = $request->input('yf_vat');
         
         $data = DB::table('tb_yellowfiles')->insertGetId(
             [
             'id_ct_yf' => $fullname,
             'yf_fileno' => $nofile,
             'yf_mtt' => $matter,
+            'yt_group' => $group,
             'yf_currency' => $currency,
             'yf_partner' => $partner,
             'yf_currencyter' => $currencyter,
             'yf_fixfee' => $fix,
             'yf_estimate' => $estimate,
             'yf_discount' => $dis,
-            'yf_vat' => $request->input('yf_vat'),
+            'yf_vat' => $vat,
             'yf_remark' => $remark,
             'yf_branch' => $branch,
             'yf_time' => $time,

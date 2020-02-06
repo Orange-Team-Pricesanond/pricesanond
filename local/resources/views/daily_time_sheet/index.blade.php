@@ -169,9 +169,6 @@
         }
 
         function selectSorttime(val,index){
-            console.log(val);
-            console.log(index);
-
             if(val == 5){
                 $step = 300;
             }else{

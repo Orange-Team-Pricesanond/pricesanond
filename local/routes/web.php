@@ -49,7 +49,7 @@ Route::get('editclient/{id}', 'ClientController@view');
 Route::post('submiteditclient', 'ClientController@edit');
 
 Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
 //Yellowfile
 Route::get('tasks', 'yellowfileController@index');
 Route::get('newtask', 'yellowfileController@viewClient');
@@ -81,13 +81,11 @@ Route::get('insertclient2', function () {
 });
 
 Route::get('getYellow', 'yellowfileController@getYellow');
-
 Route::get('viewclient/{id}', 'yellowfileController@editcl');
 Route::post('clientEditsumit', 'yellowfileController@editSubmit');
 Route::post('clientinsertsubmit', 'yellowfileController@Submitcl');
 
 // New
-
 Route::get('yellow-file/{id}', 'yellowfileController@showyellow');
 
 

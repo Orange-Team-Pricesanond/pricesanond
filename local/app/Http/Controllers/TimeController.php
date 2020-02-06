@@ -144,12 +144,13 @@ class TimeController extends Controller
     }
     public function insert(Request $request)
     {
+        // dd($request->input());
         $date = date('ym');  
         for($i=0 ; $i < count($request->input('ts_law_id')) ; $i++){
 
             $random = mt_rand(000000, 999999);    
             $yellow = yellowfileModel::where('yf_fileno', $request->input('master_name')[$i])->first();
-            $law = DB::table('tb_law')->where('law_id',$request->input('ts_law_id')[$i])->first();
+            $law = DB::table('users')->where('code',$request->input('ts_law_id')[$i])->first();
             $select = timerecordModel::orderBy('ts_no', 'DESC')->take(1)->first();
 
             if($select != null)
@@ -220,6 +221,8 @@ class TimeController extends Controller
     }
     public function selectFixFeeAjax(Request $request)
     {
+        // dd($request->input('ts_law_id'));
+
         $yellow = yellowfileModel::where('yf_fileno',$request->fileno)->first(); // 1 row
         $timesheet = timerecordModel::where('ts_id_yf',$yellow->id_yf)->get(); // many row
         $fixfee = $yellow->yf_fixfee;
@@ -231,7 +234,8 @@ class TimeController extends Controller
         $min = $request->minutes;
 
         $now = intval($hrs)+($min/60);
-        $law = LawModel::where('law_id',$request->Law)->first();
+        $law = LawModel::where('code',$request->input('ts_law_id'))->first();
+
         if($law->lw_yf_rates == "A"){
             $yellow_now = $yellow->yf_rates_a;
         }elseif ($law->lw_yf_rates == "B") {
