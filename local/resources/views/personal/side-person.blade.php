@@ -66,6 +66,12 @@
                         </select>
                     </div>
                 </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Code</label>
+                        <input name="code" id="code" type="text" class="form-control" value="{{$_value->code }}">
+                    </div>
+                </div>
             </div>
             @if(Auth::user()->user_type == 2|| Auth::user()->user_type == 4)
             <div class="side-foot p-0">
@@ -148,6 +154,12 @@
                         </select>
                     </div>
                 </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Code</label>
+                        <input name="code" id="code" type="text" class="form-control" />
+                    </div>
+                </div>
             </div>
             <div class="side-foot p-0">
                 <button type="submit" class="side-close font-weight-bold text-blue w-100">SAVE</button>
@@ -220,6 +232,12 @@
                             <option value="A" <?php echo ( $_value->status == 'A') ? "selected" : "" ; ?>>Active</option>
                             <option value="N" <?php echo ( $_value->status == 'N') ? "selected" : "" ; ?>>Inactive</option>
                         </select>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Code</label>
+                        <input name="code" id="code" type="text" class="form-control" value="{{$_value->code }}">
                     </div>
                 </div>
             </div>
