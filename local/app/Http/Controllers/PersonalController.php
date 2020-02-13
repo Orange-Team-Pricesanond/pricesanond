@@ -149,6 +149,7 @@ class PersonalController extends Controller
         $code = $request->input('code');
         $email = $request->input('email');
         $phone = $request->input('phone');
+        $rate = $request->input('rates');
         $role = $request->input('role');
         $status = $request->input('status');
         $pass =   $request->input('password');
@@ -159,6 +160,7 @@ class PersonalController extends Controller
             'email' => $email,
             'phone' => $phone,
             'password' =>  Hash::make($pass),
+            'lw_yf_rates' =>  $rate,
             'user_type' => $role,
             'status' => $status,
             'created_at' => date('Y-m-d H:i:s'),
@@ -196,6 +198,7 @@ class PersonalController extends Controller
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'phone' => $request->input('phone'),
+            'lw_yf_rates' => $request->input('rates'),
             'user_type' => $request->input('role'),
             'code' => $request->input('code'),
             'status' => $request->input('status'),

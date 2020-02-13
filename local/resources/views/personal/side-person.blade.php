@@ -68,8 +68,8 @@
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label>Code</label>
-                        <input name="code" id="code" type="text" class="form-control" value="{{$_value->code }}">
+                        <label>Rate</label>
+                        <input name="rates" id="rates" type="text" class="form-control" value="{{$_value->lw_yf_rates }}">
                     </div>
                 </div>
             </div>
@@ -156,8 +156,8 @@
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label>Code</label>
-                        <input name="code" id="code" type="text" class="form-control" />
+                        <label>Rate</label>
+                        <input name="rates" id="rates" type="text" class="form-control" />
                     </div>
                 </div>
             </div>
@@ -168,7 +168,7 @@
     </form>
 <div>
 
-<!-- Colne Data for new Save -->
+<!-- Colne Insert data -->
 @foreach( $userlist as $_value)
 <div class="box-side" id="side_person_clone_{{$_value->id}}" style="width: 400px;">
     <div class="side-head">
@@ -206,7 +206,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>Email</label>
-                        <input name="email" id="email" type="text" class="form-control" value="{{$_value->email}}">
+                        <input name="email" id="email" type="text" class="form-control" />
                     </div>
                 </div>
                 <div class="col-md-12">
@@ -215,10 +215,16 @@
                         <input name="phone" id="phone" type="text" class="form-control" value="{{$_value->phone	}}">
                     </div>
                 </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input name="password" id="password" type="text" class="form-control" require>
+                    </div>
+                </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Role</label>
-                        <select class="form-control" name="role" id="role">
+                        <select class="form-control" name="role" id="role" require>
                             <option value="3" <?php echo ( $_value->user_type == 3) ? "selected" : "" ; ?>>Partner</option>
                             <option value="1" <?php echo ( $_value->user_type == 1) ? "selected" : "" ; ?>>Lawyer</option>
                             <option value="4" <?php echo ( $_value->user_type == 4) ? "selected" : "" ; ?>>Audit</option>
@@ -236,8 +242,8 @@
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label>Code</label>
-                        <input name="code" id="code" type="text" class="form-control" value="{{$_value->code }}">
+                        <label>Rate</label>
+                        <input name="rates" id="rates" type="text" class="form-control" value="{{$_value->lw_yf_rates }}">
                     </div>
                 </div>
             </div>
@@ -250,5 +256,6 @@
     </form>
 <div>
 @endforeach
+
 
 
