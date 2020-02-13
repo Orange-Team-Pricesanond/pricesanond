@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -10,20 +9,11 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+// use MemberAdmin.php
 
-//----------------------- Login --------------------------------
-
-Route::get('/login2', function () {
-    return view('login');
-});
-Route::get('/recover_password', function () {
-    return view('recover_password');
-});
+Route::group(['middleware' => 'auth'], function(){
 
 
-    Route::get('/', function () {
-        return view('login');
-    });
     Route::get('/about', function () {
         return view('about');
     });
@@ -49,7 +39,6 @@ Route::get('/recover_password', function () {
     Route::get('editclient/{id}', 'ClientController@view');
     Route::post('submiteditclient', 'ClientController@edit');
 
-    // Auth::routes();
     // Route::get('/home', 'HomeController@index')->name('home');
     //Yellowfile
     Route::get('tasks', 'yellowfileController@index');
@@ -113,5 +102,19 @@ Route::get('/recover_password', function () {
     Route::get('deletepersonal', 'PersonalController@delete');
     Route::post('updatepersonal', 'PersonalController@update');
 
+});
 
+//----------------------- Login --------------------------------
+Auth::routes();
+Route::get('/', function () {
+    return view('login');
+});
+Route::get('/login2', function () {
+    return view('login');
+});
+Route::get('/recover_password', function () {
+    return view('recover_password');
+});
 //--------------------------------------------------------------
+Auth::routes();
+Route::get('/home', 'HomeController@index')->name('home');
