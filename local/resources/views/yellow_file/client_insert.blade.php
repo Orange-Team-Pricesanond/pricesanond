@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="{{ asset('asset/css/material-icons.css') }}"></script>
     
     <link rel="stylesheet" href="{{ asset('asset/css/sidebar-main.css') }}"></script>
-    <link rel="stylesheet" href="{{ asset('asset/css/styles3.css') }}"></script>
+    <link rel="stylesheet" href="{{ asset('asset/css/styles.css') }}"></script>
     <link rel="stylesheet" href="{{ asset('asset/css/simplebar.css') }}"></script>
    
     <link rel="stylesheet" href="{{ asset('asset/css/dropzone.css') }}"></script>
