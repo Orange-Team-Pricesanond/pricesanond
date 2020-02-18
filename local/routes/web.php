@@ -94,6 +94,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('searchtimesheet', 'TimeController@searchtimesheet');
     Route::post('showDetaileTimesheet', 'TimeController@showDetaileTimesheet');
     Route::post('edittimesheet', 'TimeController@edittimesheet');
+    Route::get('getTextConfirm', 'TimeController@getTextConfirmAjax');
 
     // ---------------------------- Personal ---------------------------
 

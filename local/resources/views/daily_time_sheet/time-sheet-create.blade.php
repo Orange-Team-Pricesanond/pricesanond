@@ -81,7 +81,7 @@
             </div>
             <div class="docs-body on-simple-bar">
                 <div class="docs-pane">
-                    <div class="w-100 py-2">
+                    <div class="py-2" style="width: 1040px;">
                         <form method="post" action="{{ url('timesheetInsert') }}">
                             {{ csrf_field() }} 
                             <input type="hidden" id="id" name="id" value="{{ Auth::user()->id }}">
@@ -93,14 +93,14 @@
                                         <thead>
                                             <tr>
                                                 <th width="30">#</th>
-                                                <th>Date</th>
-                                                <th>File No.</th>
-                                                <th>Code</th>
+                                                <th width="40">Date</th>
+                                                <th width="130">File No.</th>
+                                                <th width="40">Code</th>
                                                 <th style="padding-left:1.25rem;" width="80">From</th>
                                                 <th style="padding-left:1.25rem;" width="80">To</th>
                                                 <th style="padding-left:1.25rem;" width="80">Time</th>
-                                                <th style="padding-left:1.25rem;">Woek Performed</th>
-                                                <th width="30" class="text-center"><i class="material-icons md-12">delete</i></th>
+                                                <th style="padding-left:1.25rem;" width="150">Woek Performed</th>
+                                                <th width="120" class="text-center"><i class="material-icons md-12">settings</i></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -156,6 +156,57 @@
             // Add new element
             $(".add").click(function(){
                 
+                // Finding total number of elements added
+                var total_element = $(".clonefile").length;
+
+                // last <div> with element class id
+                var lastid = $(".clonefile:last").attr("id");
+                var split_id = lastid.split("_");
+
+                var nextindex = Number(split_id[1]) + 1;
+                var max = 20;
+                var idv = nextindex; 
+                var int = nextindex-1;
+                var tem = nextindex+1;
+
+                // Check total number elements
+                if(total_element < max ){
+                    
+                    // Adding new div container after last occurance of element class
+                    $(".clonefile:last").after("<tr class='clonefile' id='div_"+ nextindex +"'></tr>");
+                    // Adding element to <div>
+                    var table = '<td>'+nextindex+'</td>';
+                        table += '<td><input style=" width: 144px; " type="date" id="ts_date'+nextindex+'" name="ts_date[]" class="form-control form-control-sm border-0 rounded-0" ></td>';
+                        table += '<div><input id="ts_no'+nextindex+'" name="ts_no[]" type="text" class="form-control form-control-sm border-0 rounded-0" style="width: 88px;" disabled /></div>';
+                        table += '<td><input type="text" onChange="selectTime('+nextindex+'),confirm('+nextindex+')" autocomplete="off" list="masterfiles" id="master_'+nextindex+'" name="master_name[]" class="form-control"></td>';
+                        table += '<td><div><input id="ts_law_id'+nextindex+'" name="ts_law_id[]" type="text" class="form-control form-control-sm border-0 rounded-0" style="width: 60px;" /></div></td>';
+                        table += '<td><div><input id="ts_form'+nextindex+'" name="ts_form[]" type="time" value="08:00" class="form-control form-control-sm border-0 rounded-0" /></div></td>';
+                        table += '<td><div><input id="ts_to'+nextindex+'" name="ts_to[]" type="time" value="08:00" class="form-control form-control-sm border-0 rounded-0" onChange="calculate('+nextindex+')" /></div></td>';
+                        table += '<td><div><input id="ts_total_time'+nextindex+'" name="ts_total_time[]" type="text" class="form-control form-control-sm border-0 rounded-0 text-blue bg-transparent"></div></td>';
+                        table += '<td><textarea class="form-control" rows="1" cols="50" id="ts_woek'+nextindex+'" name="ts_woek[]"></textarea></td>';
+                        table += '<td width="100">';
+                        table += '<button type="button" onclick="add_list()" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">add_circle_outline</span></button>';
+                        table += '<button type="button" onclick="copy_list('+nextindex+')" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">reply_all</span></button>';
+                        table += '<button type="button" class="remove" id="remove_'+nextindex+'" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">delete</span></button>';
+                        table += '</td>';
+                    
+                        $("#div_" + nextindex).append(table);
+                    }
+                    $('.remove').click(function(){
+                    var id = this.id;
+                    // console.log(id);
+
+                    var split_id = id.split("_");
+                    var deletenextindex = split_id[1];
+                    // Remove <div> with id
+                    $("#div_" + deletenextindex).remove();
+                    });
+            });   
+
+        });
+
+        function add_list()
+        {
             // Finding total number of elements added
             var total_element = $(".clonefile").length;
 
@@ -176,18 +227,22 @@
                 $(".clonefile:last").after("<tr class='clonefile' id='div_"+ nextindex +"'></tr>");
                 // Adding element to <div>
                 var table = '<td>'+nextindex+'</td>';
-                    table += '<td><input type="date" id="ts_date'+nextindex+'" name="ts_date[]" class="form-control form-control-sm border-0 rounded-0" ></td>';
+                    table += '<td><input style=" width: 144px; " type="date" id="ts_date'+nextindex+'" name="ts_date[]" class="form-control form-control-sm border-0 rounded-0" ></td>';
                     table += '<div><input id="ts_no'+nextindex+'" name="ts_no[]" type="text" class="form-control form-control-sm border-0 rounded-0" style="width: 88px;" disabled /></div>';
-                    table += '<td><input type="text" onChange="selectTime('+nextindex+')" autocomplete="off" list="masterfiles" id="master_'+nextindex+'" name="master_name[]" class="form-control" style="width: 75%;"></td>';
+                    table += '<td><input type="text" onChange="selectTime('+nextindex+'),confirm('+nextindex+')" autocomplete="off" list="masterfiles" id="master_'+nextindex+'" name="master_name[]" class="form-control"></td>';
                     table += '<td><div><input id="ts_law_id'+nextindex+'" name="ts_law_id[]" type="text" class="form-control form-control-sm border-0 rounded-0" style="width: 60px;" /></div></td>';
                     table += '<td><div><input id="ts_form'+nextindex+'" name="ts_form[]" type="time" value="08:00" class="form-control form-control-sm border-0 rounded-0" /></div></td>';
                     table += '<td><div><input id="ts_to'+nextindex+'" name="ts_to[]" type="time" value="08:00" class="form-control form-control-sm border-0 rounded-0" onChange="calculate('+nextindex+')" /></div></td>';
                     table += '<td><div><input id="ts_total_time'+nextindex+'" name="ts_total_time[]" type="text" class="form-control form-control-sm border-0 rounded-0 text-blue bg-transparent"></div></td>';
-                    table += '<td><input id="ts_woek'+nextindex+'" name="ts_woek[]" type="text" class="form-control form-control-sm border-0 rounded-0" /></td>';
-                    table += '<td><button type="button" class="remove" style="background-color: #ffffff00;border-color: #f0f8ff00;" id="remove_'+nextindex+'"><span class="more material-icons md-12">delete</span></button></td>';
-                  
+                    table += '<td><textarea class="form-control" rows="1" cols="50" id="ts_woek'+nextindex+'" name="ts_woek[]"></textarea></td>';
+                    table += '<td width="100">';
+                    table += '<button type="button" onclick="add_list()" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">add_circle_outline</span></button>';
+                    table += '<button type="button" class="copy" id="copy_'+nextindex+'" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">reply_all</span></button>';
+                    table += '<button type="button" class="remove" id="remove_'+nextindex+'" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">delete</span></button>';
+                    table += '</td>';
+                
                     $("#div_" + nextindex).append(table);
-            }
+                }
                 $('.remove').click(function(){
                 var id = this.id;
                 // console.log(id);
@@ -197,14 +252,61 @@
                 // Remove <div> with id
                 $("#div_" + deletenextindex).remove();
                 });
-                
-            });                         
-        });
+        }
+        function copy_list(element)
+        {
+            var date = $('#ts_date'+element+'').val();
+            var no = $('#ts_no'+element+'').val();
+            var master = $('#master_'+element+'').val();
+            var law = $('#ts_law_id'+element+'').val();
+            var form = $('#ts_form'+element+'').val();
+            var to = $('#ts_to'+element+'').val();
+            var total = $('#ts_total_time'+element+'').val();
+            var work = $('#ts_woek'+element+'').val();
+            
+            var total_element = $(".clonefile").length;
+            // last <div> with element class id
+            var lastid = $(".clonefile:last").attr("id");
+            var split_id = lastid.split("_");
 
+            var nextindex = Number(split_id[1]) + 1;
+            var max = 20;
+            var idv = nextindex; 
+            var int = nextindex-1;
+            var tem = nextindex+1;
+
+            $(".clonefile:last").after("<tr class='clonefile' id='div_"+ nextindex +"'></tr>");
+                    // Adding element to <div>
+                    var table = '<td>'+nextindex+'</td>';
+                        table += '<td><input value="'+date+'" style="width: 144px;" type="date" id="ts_date'+nextindex+'" name="ts_date[]" class="form-control form-control-sm border-0 rounded-0" ></td>';
+                        table += '<div><input value="'+no+'" id="ts_no'+nextindex+'" name="ts_no[]" type="text" class="form-control form-control-sm border-0 rounded-0" style="width: 88px;" disabled /></div>';
+                        table += '<td><input value="'+master+'" type="text" onChange="selectTime('+nextindex+'),confirm('+nextindex+')" autocomplete="off" list="masterfiles" id="master_'+nextindex+'" name="master_name[]" class="form-control"></td>';
+                        table += '<td><div><input value="'+law+'" value="'+law+'" id="ts_law_id'+nextindex+'" name="ts_law_id[]" type="text" class="form-control form-control-sm border-0 rounded-0" style="width: 60px;" /></div></td>';
+                        table += '<td><div><input value="'+form+'" id="ts_form'+nextindex+'" name="ts_form[]" type="time" value="08:00" class="form-control form-control-sm border-0 rounded-0" /></div></td>';
+                        table += '<td><div><input value="'+to+'" id="ts_to'+nextindex+'" name="ts_to[]" type="time" value="08:00" class="form-control form-control-sm border-0 rounded-0" onChange="calculate('+nextindex+')" /></div></td>';
+                        table += '<td><div><input value="'+total+'" id="ts_total_time'+nextindex+'" name="ts_total_time[]" type="text" class="form-control form-control-sm border-0 rounded-0 text-blue bg-transparent"></div></td>';
+                        table += '<td><textarea class="form-control" rows="1" cols="50" id="ts_woek'+nextindex+'" name="ts_woek[]">'+work+'</textarea></td>';
+                        table += '<td width="100">';
+                        table += '<button type="button" onclick="add_list()" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">add_circle_outline</span></button>';
+                        table += '<button type="button" onclick="copy_list('+nextindex+')" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">reply_all</span></button>';
+                        table += '<button type="button" class="remove" id="remove_'+nextindex+'" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">delete</span></button>';
+                        table += '</td>';
+                    
+            $("#div_" + nextindex).append(table);
+            $('.remove').click(function(){
+                var id = this.id;
+                // console.log(id);
+
+                var split_id = id.split("_");
+                var deletenextindex = split_id[1];
+                // Remove <div> with id
+                $("#div_" + deletenextindex).remove();
+            });
+        }   
         function selectTime(index)
         {
             var master = $('#master_'+index+'').val();
-            // console.log(master);
+            console.log(master);
             $.ajax({
                 url: '{{url("selectTime")}}',
                 type: "get",
@@ -214,9 +316,12 @@
                     $('#time_'+index+'').val(data);
                     if(data == 5){
                         $step = 300;
-                    }else{
+                    }else if(data == 6){
                         $step = 360;
+                    }else{
+                        $step = data*60;
                     }
+
                     document.getElementById("ts_form"+index+"").step = $step; 
                     document.getElementById("ts_to"+index+"").step = $step; 
                    
@@ -225,11 +330,52 @@
                 }
             });
         }
+        function confirm(index)
+        {
+            var val = $('#master_'+index+'').val();
+            $.ajax({
+                url: '{{url("getTextConfirm")}}',
+                type: "get",
+                data : {val:val},
+                datatype: "text",
+                success: function (data) {
+                    swal({
+                        title: "Are you sure ??",
+                        text: data, 
+                        // icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            swal("Choose successful!");
+                        }else{
+                            $('#master_'+index+'').val("");
+                        }
+                    });
+
+                },error: function(err){
+					alert(err);
+                }
+            });
+            
+
+        }
         function calculate(index)
         {            
             var start = $('#ts_form'+index+'').val();
             var end = $('#ts_to'+index+'').val();
-          
+            
+            var datetime1 = $('#ts_date'+index+'').val()+' '+start;
+            var datetime2 = $('#ts_date'+index+'').val()+' '+end;
+
+            var startDate = new Date(datetime1);
+            var endDate   = new Date(datetime2);
+            
+            if (endDate>startDate == false) {
+                swal("Error filling in time slot. Please try again.");
+            } 
+
             start = start.split(":");
             end = end.split(":");
             var startDate = new Date(0, 0, 0, start[0], start[1], 0);
@@ -241,8 +387,8 @@
             var Law = $('#ts_law_id'+index+'').val();
 
             $('#ts_total_time'+index+'').val((hours < 9 ? "0" : "") + hours + ":" + (minutes < 9 ? "0" : "") + minutes);
-            console.log("Total time -> "+(hours < 9 ? "0" : "") + hours + ":" + (minutes < 9 ? "0" : "") + minutes);
-            console.log("Law Code -> "+Law);
+            // console.log("Total time -> "+(hours < 9 ? "0" : "") + hours + ":" + (minutes < 9 ? "0" : "") + minutes);
+            // console.log("Law Code -> "+Law);
 
             if($('#ts_total_time'+index+'').val() != ""){
                 var fileno = document.getElementById("master_"+index+"").value;

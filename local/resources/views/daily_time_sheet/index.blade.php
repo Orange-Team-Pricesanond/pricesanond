@@ -99,6 +99,7 @@
                 "ajax": '{{url("showtimesheet")}}',
                 columns : [
 		        	{ data : 'id' },
+		        	{ data : 'ref' },
 		        	{ data : 'date' },
 		        	{ data : 'code' },
 		        	{ data : 'Form' },
@@ -129,9 +130,13 @@
             var token = $('meta[name="csrf-token"]').attr('content');
             var date = document.getElementById("search_date").value; 
             var code = document.getElementById("search_code").value; 
+            var ref = document.getElementById("search_ref").value; 
+            var atten = document.getElementById("search_att").value; 
 
             console.log(date);
             console.log(code);
+            console.log(ref);
+            console.log(atten);
 
             $('#list_index').DataTable( {
                 scrollY: true,
@@ -142,6 +147,8 @@
 			    "data": {
 			        "date": date,
 			        "code": code,
+			        "ref": ref,
+			        "atten": atten,
 			        "_token": token,
 			    },
 			  },

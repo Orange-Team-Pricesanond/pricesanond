@@ -1,6 +1,5 @@
 <div class="card border-0">
      <div class="card-header py-4 bg-white d-flex justify-content-between">
-        <!--<form method="get"> -->
             <div class="d-flex">
                 <div class="input-group input-group-sm mr-2" >
                     <div class="input-group-prepend">
@@ -10,12 +9,23 @@
                 </div>
                 <div class="input-group input-group-sm mr-2">
                     <div class="input-group-prepend">
-                        <div class="input-group-text border-0 material-icons">info</div>
+                        <div class="input-group-text border-0">Code</div>
                     </div>
-                    <input type="number" id="search_code" name="search_code" value="" class="form-control search" />
+                    <input type="number" id="search_code" name="search_code" class="form-control search" />
+                </div>
+                <div class="input-group input-group-sm mr-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text border-0">Files No.</div>
+                    </div>
+                    <input type="text" id="search_ref" name="search_ref" class="form-control search" />
+                </div>
+                <div class="input-group input-group-sm mr-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text border-0">Attention.</div>
+                    </div>
+                    <input type="text" id="search_att" name="search_att" class="form-control search" />
                 </div>
             </div>
-        <!-- </form> -->
         {{ csrf_field() }} 
         
     </div>
@@ -26,6 +36,7 @@
             <thead>
                 <tr>
                     <th width="30">#</th>
+                    <th>Files No.</th>
                     <th>Date</th>
                     <th>Code</th>
                     <th>Form</th>

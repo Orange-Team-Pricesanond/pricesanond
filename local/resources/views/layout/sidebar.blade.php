@@ -81,7 +81,26 @@
                 <li>
                     <a href="#">
                         <i class="material-icons">monetization_on</i>
-                        <span class="menu-text">Invoice</span>
+                        <span class="menu-text">Time Sheet</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="material-icons">credit_card</i>
+                        <span class="menu-text">Receiver / Credit Note</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="material-icons">card_travel</i>
+                        <span class="menu-text">Voucher</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="#">
+                        <i class="material-icons">card_giftcard</i>
+                        <span class="menu-text">Nature Voucher</span>
                     </a>
                 </li>
                 <li>

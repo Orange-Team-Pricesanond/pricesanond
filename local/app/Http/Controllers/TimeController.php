@@ -346,6 +346,7 @@ class TimeController extends Controller
                 $cal_rat = number_format($Cal*$rate);
 
                 $data['data'][]= array(
+                    "ref" => $yellow->yf_fileno,
                     "id" => '<a data-toggle="modal" onClick="selectSorttime('.$sl_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$i.'</a>',
                     "date" => '<a data-toggle="modal" onClick="selectSorttime('.$sl_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_date.'</a>',
                     "code" => '<a data-toggle="modal" onClick="selectSorttime('.$sl_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_law_id.'</a>',
@@ -366,10 +367,11 @@ class TimeController extends Controller
     public function searchtimesheet(Request $request)
     {
         $data['data'] = [];
-        $i = 1;
 
         $dates = $request->input('date');
         $code = $request->input('code');
+        $ref = $request->input('ref');
+        $atten = $request->input('atten');
 
         if(!empty($dates) && !empty($code)){
             $select = timerecordModel::where('ts_date',$dates)->where('ts_law_id',$code)->get();
@@ -426,6 +428,7 @@ class TimeController extends Controller
             $cal_rat = number_format($Cal*$rate);
 
             $data['data'][]= array(
+                "ref" => $yellow->yf_fileno,
                 "id" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$i.'</a>',
                 "date" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_date.'</a>',
                 "code" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_law_id.'</a>',
@@ -587,6 +590,16 @@ class TimeController extends Controller
         return redirect('dailytime');
         // dd("Complete");
     }
-    
+    public function getTextConfirmAjax(Request $request)
+    {
+        $yellow = DB::table('tb_yellowfiles')->where('yf_fileno',$request->val)->first();
+        $cilents = DB::table('tb_clients')->where('id_ct',$yellow->id_ct_yf)->first();
+
+        $text = "Files No. : ".$request->val;
+        $text .= "\n Matter Name. : ".$yellow->yf_mtt;
+        $text .= "\n Client Name. : ".$cilents->ct_fn;
+
+        echo $text;
+    }
    
 }
