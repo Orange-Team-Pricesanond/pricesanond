@@ -346,7 +346,7 @@ class TimeController extends Controller
                 $cal_rat = number_format($Cal*$rate);
 
                 $data['data'][]= array(
-                    "ref" => $yellow->yf_fileno,
+                    "ref" => $_val->ts_no,
                     "id" => '<a data-toggle="modal" onClick="selectSorttime('.$sl_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$i.'</a>',
                     "date" => '<a data-toggle="modal" onClick="selectSorttime('.$sl_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_date.'</a>',
                     "code" => '<a data-toggle="modal" onClick="selectSorttime('.$sl_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_law_id.'</a>',
@@ -373,15 +373,26 @@ class TimeController extends Controller
         $ref = $request->input('ref');
         $atten = $request->input('atten');
 
-        if(!empty($dates) && !empty($code)){
-            $select = timerecordModel::where('ts_date',$dates)->where('ts_law_id',$code)->get();
-        }else if(!empty($dates) && empty($code)){
-            $select = timerecordModel::where('ts_date',$dates)->get();
-        }else if(empty($dates) && !empty($code)){
-            $select = timerecordModel::where('ts_law_id',$code)->get();
+        if (!empty($dates)) {
+            if (!empty($code)) {
+                if (!empty($ref)) {
+                    if (!empty($atten)) {  
+                        $yw = yellowfileModel::where('yf_atten','like','%'.$atten.'%')->first();
+                        $select = timerecordModel::where('ts_date',$dates)->where('ts_law_id',$code)->where('ts_no','like','%'.$ref.'%')->where('ts_id_yf',$yw->id_yf)->get();
+                    }else{
+                        $select = timerecordModel::where('ts_date',$dates)->where('ts_law_id',$code)->where('ts_no','like','%'.$ref.'%')->get();
+                    }
+                }else{
+                    $select = timerecordModel::where('ts_date',$dates)->where('ts_law_id',$code)->get();
+                }
+            }else{
+                $select = timerecordModel::where('ts_date',$dates)->get();
+            }
         }else{
             $select = timerecordModel::all();
         }
+
+
         $i = 1;
         foreach($select as $_val){
             
@@ -428,7 +439,7 @@ class TimeController extends Controller
             $cal_rat = number_format($Cal*$rate);
 
             $data['data'][]= array(
-                "ref" => $yellow->yf_fileno,
+                "ref" => $_val->ts_no,
                 "id" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$i.'</a>',
                 "date" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_date.'</a>',
                 "code" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_law_id.'</a>',

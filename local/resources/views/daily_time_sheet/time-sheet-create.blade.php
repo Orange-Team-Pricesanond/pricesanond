@@ -237,7 +237,7 @@
                     table += '<td><textarea class="form-control" rows="1" cols="50" id="ts_woek'+nextindex+'" name="ts_woek[]"></textarea></td>';
                     table += '<td width="100">';
                     table += '<button type="button" onclick="add_list()" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">add_circle_outline</span></button>';
-                    table += '<button type="button" class="copy" id="copy_'+nextindex+'" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">reply_all</span></button>';
+                    table += '<button type="button" onclick="copy_list('+nextindex+')" id="copy_'+nextindex+'" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">reply_all</span></button>';
                     table += '<button type="button" class="remove" id="remove_'+nextindex+'" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">delete</span></button>';
                     table += '</td>';
                 

@@ -154,6 +154,7 @@
 			  },
               columns : [
                     { data : 'id' },
+                    { data : 'ref' },
 		        	{ data : 'date' },
 		        	{ data : 'code' },
 		        	{ data : 'Form' },

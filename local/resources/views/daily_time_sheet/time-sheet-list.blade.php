@@ -15,7 +15,7 @@
                 </div>
                 <div class="input-group input-group-sm mr-2">
                     <div class="input-group-prepend">
-                        <div class="input-group-text border-0">Files No.</div>
+                        <div class="input-group-text border-0">DS No.</div>
                     </div>
                     <input type="text" id="search_ref" name="search_ref" class="form-control search" />
                 </div>
@@ -36,7 +36,7 @@
             <thead>
                 <tr>
                     <th width="30">#</th>
-                    <th>Files No.</th>
+                    <th>DS. No.</th>
                     <th>Date</th>
                     <th>Code</th>
                     <th>Form</th>
