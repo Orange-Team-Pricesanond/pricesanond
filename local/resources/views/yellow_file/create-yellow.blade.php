@@ -25,13 +25,6 @@
             <div class="col-lg-4">
                 <label>File name</label>
                 <div class="input-group">
-                    <!-- <div class="input-group-prepend" data-toggle="modal" data-target="#pop_client">
-                        <div class="input-group-text border-0">
-                            <i class="material-icons">search</i>
-                        </div>
-                    </div>
-                    <input type="text" class="form-control"> -->
-                   
                     <select id="id_ct_yf" name="id_ct_yf" class="form-control select2" style="width:100%; height:37px;">
                         @foreach ($client as $val)
                             <option value="{{ $val->id_ct }}"  {{ ( $val->id_ct == $yellows->id_ct_yf) ? "selected" : "" }}> {{ $val->ct_fn }} </option>
@@ -115,14 +108,14 @@
             </div>
         </div>
 
-        <div class="row form-group">
-            <label class="col-12">Hourly rates</label>
+        <!-- <div class="row form-group">
+            <label class="col-12">Hourly rates</label>            
             <div class="col-lg-2">
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
                         <div class="input-group-text border-0">A</div>
                     </div>
-                    <input type="text" class="form-control" id="yf_rates_a" name="yf_rates_a" value="{{$yellows->yf_rates_a}}">
+                    <input type="text" class="form-control" id="yf_rates_a" name="yf_rates_a" value="{{$val->yfd_rates_a}}">
                 </div>
             </div>
             <div class="col-lg-2">
@@ -130,7 +123,7 @@
                     <div class="input-group-prepend">
                         <div class="input-group-text border-0">B</div>
                     </div>
-                    <input type="text" class="form-control" id="yf_rates_b" name="yf_rates_b" value="{{$yellows->yf_rates_b}}">
+                    <input type="text" class="form-control" id="yf_rates_b" name="yf_rates_b" value="{{$val->yfd_rates_b}}">
                 </div>
             </div>
             <div class="col-lg-2">
@@ -138,7 +131,7 @@
                     <div class="input-group-prepend">
                         <div class="input-group-text border-0">C</div>
                     </div>
-                    <input type="text" class="form-control" id="yf_rates_c" name="yf_rates_c" value="{{$yellows->yf_rates_c}}">
+                    <input type="text" class="form-control" id="yf_rates_c" name="yf_rates_c" value="{{$val->yfd_rates_c}}">
                 </div>
             </div>
             <div class="col-lg-2">
@@ -146,7 +139,7 @@
                     <div class="input-group-prepend">
                         <div class="input-group-text border-0">D</div>
                     </div>
-                    <input type="text" class="form-control" id="yf_rates_d" name="yf_rates_d" value="{{$yellows->yf_rates_d}}">
+                    <input type="text" class="form-control" id="yf_rates_d" name="yf_rates_d" value="{{$val->yfd_rates_d}}">
                 </div>
             </div>
             <div class="col-lg-2">
@@ -154,7 +147,7 @@
                     <div class="input-group-prepend">
                         <div class="input-group-text border-0">E</div>
                     </div>
-                    <input type="text" class="form-control" id="yf_rates_e" name="yf_rates_e" value="{{$yellows->yf_rates_e}}">
+                    <input type="text" class="form-control" id="yf_rates_e" name="yf_rates_e" value="{{$val->yfd_rates_e}}">
                 </div>
             </div>
             <div class="col-lg-2">
@@ -162,10 +155,64 @@
                     <div class="input-group-prepend">
                         <div class="input-group-text border-0">F</div>
                     </div>
-                    <input type="text" class="form-control" id="yf_rates_f" name="yf_rates_f" value="{{$yellows->yf_rates_f}}">
+                    <input type="text" class="form-control" id="yf_rates_f" name="yf_rates_f" value="{{$val->yfd_rates_f}}">
+                </div>
+            </div>
+        </div> -->
+
+        @foreach ($detail as $val)
+        <div class="row form-group">
+            <label class="col-12">Hourly rates</label>            
+            <div class="col-lg-2">
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text border-0">A</div>
+                    </div>
+                    <p class="form-control">{{$val->yfd_rates_a}}</p>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text border-0">B</div>
+                    </div>
+                    <p class="form-control">{{$val->yfd_rates_b}}</p>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text border-0">C</div>
+                    </div>
+                    <p class="form-control">{{$val->yfd_rates_c}}</p>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text border-0">D</div>
+                    </div>
+                    <p class="form-control">{{$val->yfd_rates_d}}</p>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text border-0">E</div>
+                    </div>
+                    <p class="form-control">{{$val->yfd_rates_e}}</p>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text border-0">F</div>
+                    </div>
+                    <p class="form-control">{{$val->yfd_rates_f}}</p>
                 </div>
             </div>
         </div>
+        @endforeach
         <div class="row form-group">
             <div class="col-lg-4">
                 <div class="form-group">

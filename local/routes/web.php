@@ -74,6 +74,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('viewclient/{id}', 'yellowfileController@editcl');
     Route::post('clientEditsumit', 'yellowfileController@editSubmit');
     Route::post('clientinsertsubmit', 'yellowfileController@Submitcl');
+    Route::post('yellow_edit_rate', 'yellowfileController@rates');
 
     // New
     Route::get('yellow-file/{id}', 'yellowfileController@showyellow');
@@ -109,9 +110,9 @@ Auth::routes();
 Route::get('/', function () {
     return view('login');
 });
-Route::get('/login2', function () {
-    return view('login');
-});
+// Route::get('/login2', function () {
+//     return view('login');
+// });
 Route::get('/recover_password', function () {
     return view('recover_password');
 });

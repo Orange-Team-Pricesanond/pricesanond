@@ -75,6 +75,7 @@
                             <a id="tab_1" href="#con_1" aria-controls="con_1" class="nav-item nav-link active" data-toggle="tab" role="tab" aria-selected="true">Task</a>
                             <a id="tab_2" href="#con_2" aria-controls="con_2" class="nav-item nav-link" data-toggle="tab" role="tab" aria-selected="false">New Task</a>
                             <a id="tab_3" href="#con_3" aria-controls="con_3" class="nav-item nav-link" data-toggle="tab" role="tab" aria-selected="false">Client</a>
+                            <a id="tab_4" href="#con_4" aria-controls="con_4" class="nav-item nav-link" data-toggle="tab" role="tab" aria-selected="false">Rates</a>
                         </nav>
                         <div>
                             <!-- <button class="btn-c material-icons" title="client" data-toggle="modal" data-target="#pop_client_list">add_circle_outline</button> -->
@@ -93,6 +94,9 @@
                             </div>
                             <div id="con_3" aria-labelledby="3" role="tabpanel" class="tab-pane fade">
                                 @include('yellow_file.client_list')
+                            </div>
+                            <div id="con_4" aria-labelledby="4" role="tabpanel" class="tab-pane fade">
+                                @include('yellow_file.yellow_edit_rate')
                             </div>
                         </div>
                     </div>
@@ -249,5 +253,30 @@
         }
     </script>
    
+    <script>
+        function getData(elem)
+        {
+            var value = elem.value;
+            if (value == 1) {
+                document.getElementById("div_group").style.display = "block";
+                document.getElementById("div_partner").style.display = "none";
+                document.getElementById("div_chang").style.display = "none";
+            }else if(value == 2){
+                document.getElementById("div_partner").style.display = "block";
+                document.getElementById("div_group").style.display = "none";
+                document.getElementById("div_chang").style.display = "none";
+            }else if(value == 0){
+                document.getElementById("div_chang").style.display = "block";
+                document.getElementById("div_partner").style.display = "none";
+                document.getElementById("div_group").style.display = "none";
+            }else{
+                document.getElementById("div_partner").style.display = "none";
+                document.getElementById("div_group").style.display = "none";
+                document.getElementById("div_chang").style.display = "none";
+            }
+        }
+
+    </script>
+
 </body>
 </html>

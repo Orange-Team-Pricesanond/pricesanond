@@ -11,6 +11,7 @@ use App\moneyModel;
 use App\timerecordModel;
 use App\logyellowfileModel;
 use App\LawModel;
+use App\yellowdetailModel;
 use DB;
 use Image;
 
@@ -215,8 +216,10 @@ class yellowfileController extends Controller
         $yellowfile = yellowfileModel::all();
         $TimeSheet = timerecordModel::all();
         $address = addressModel::all();
+        $datenow = date("Y-m-d");
 
         return view('yellow_file.index', [
+            'datenow' => $datenow,
             'address' => $address,
             'partner' => $partner,
             'client' => $client,
@@ -228,7 +231,7 @@ class yellowfileController extends Controller
     }
     public function Master_yellow_submit(Request $request)
     {
-        // dd($request->input());
+        $datenow = date("Y-m-d H:i:s");
         $id = $request->input('id');
         $nofile = $request->input('yf_fileno');
         $remark = $request->input('yf_remark');
@@ -242,12 +245,14 @@ class yellowfileController extends Controller
         $estimate = $request->input('yf_estimate');
         $dis = $request->input('yf_discount');
         $time = $request->input('time');
+        // About Rate
         $reate1 = $request->input('yf_rates_a');
         $reate2 = $request->input('yf_rates_b');
         $reate3 = $request->input('yf_rates_c');
         $reate4 = $request->input('yf_rates_d');
         $reate5 = $request->input('yf_rates_e');
         $reate6 = $request->input('yf_rates_f');
+
         $tex = $request->input('yf_taxnumber');
         $team = $request->input('yf_team');
 
@@ -290,12 +295,12 @@ class yellowfileController extends Controller
             'yf_remark' => $remark,
             'yf_branch' => $branch,
             'yf_time' => $time,
-            'yf_rates_a' => $reate1,
-            'yf_rates_b' => $reate2,
-            'yf_rates_c' => $reate3,
-            'yf_rates_d' => $reate4,
-            'yf_rates_e' => $reate5,
-            'yf_rates_f' => $reate6,
+            // 'yf_rates_a' => $reate1,
+            // 'yf_rates_b' => $reate2,
+            // 'yf_rates_c' => $reate3,
+            // 'yf_rates_d' => $reate4,
+            // 'yf_rates_e' => $reate5,
+            // 'yf_rates_f' => $reate6,
             'yf_taxnumber' => $tex,
             'yf_inv_num' => $invname,
             'yf_address' => $address,
@@ -316,15 +321,34 @@ class yellowfileController extends Controller
             'yf_team' => $team,
             'yf_location' => $location,
             'yf_refer' => $refer,
-            'yf_confict' => $confict,            
+            'yf_confict' => $confict,      
+            'created_at' => $datenow,
+            'updated_at' => $datenow,
         ]);
-        // DB::table('tb_yellowfiles')->insert($data);
+       
         $log = [
             'id_ct' => $fullname, 
             'id_yf' => $data, 
             'id_user' => $id,
         ];
-        DB::table('tb_logyellowfile')->insert($log);  
+        DB::table('tb_logyellowfile')->insert($log);
+        
+        $data2 = 
+        [
+            'id_yf' => $data,
+            'yfd_rates_a' => $reate1,
+            'yfd_rates_b' => $reate2,
+            'yfd_rates_c' => $reate3,
+            'yfd_rates_d' => $reate4,
+            'yfd_rates_e' => $reate5,
+            'yfd_rates_f' => $reate6,
+            'yfd_setdate' => $datenow,
+            'yfd_update' => $datenow,
+            'yfd_create' => $datenow,
+             
+        ];
+        DB::table('tb_yellowfiles_detail')->insert($data2);
+        
         return redirect('masterpage');
     }
     public function getYellow(Request $request)
@@ -363,6 +387,7 @@ class yellowfileController extends Controller
     }
     public function Master_yellow_edit(Request $request)
     {
+        // dd($request->input());
         $yf_fileno = $request->input('yf_fileno');
         $remark = $request->input('yf_remark');
         $fullname = $request->input('id_ct_yf');
@@ -374,12 +399,12 @@ class yellowfileController extends Controller
         $estimate = $request->input('yf_estimate');
         $dis = $request->input('yf_discount');
         $time = $request->input('time');
-        $reate1 = $request->input('yf_rates_a');
-        $reate2 = $request->input('yf_rates_b');
-        $reate3 = $request->input('yf_rates_c');
-        $reate4 = $request->input('yf_rates_d');
-        $reate5 = $request->input('yf_rates_e');
-        $reate6 = $request->input('yf_rates_f');
+        // $reate1 = $request->input('yf_rates_a');
+        // $reate2 = $request->input('yf_rates_b');
+        // $reate3 = $request->input('yf_rates_c');
+        // $reate4 = $request->input('yf_rates_d');
+        // $reate5 = $request->input('yf_rates_e');
+        // $reate6 = $request->input('yf_rates_f');
         $tex = $request->input('yf_taxnumber');
         $team = $request->input('yf_team');
         $vat = $request->input('yf_vat');
@@ -423,12 +448,12 @@ class yellowfileController extends Controller
             'yf_remark' => $remark,
             'yf_branch' => $branch,
             'yf_time' => $time,
-            'yf_rates_a' => $reate1,
-            'yf_rates_b' => $reate2,
-            'yf_rates_c' => $reate3,
-            'yf_rates_d' => $reate4,
-            'yf_rates_e' => $reate5,
-            'yf_rates_f' => $reate6,
+            // 'yf_rates_a' => $reate1,
+            // 'yf_rates_b' => $reate2,
+            // 'yf_rates_c' => $reate3,
+            // 'yf_rates_d' => $reate4,
+            // 'yf_rates_e' => $reate5,
+            // 'yf_rates_f' => $reate6,
             'yf_taxnumber' => $tex,
             'yf_inv_num' => $invname,
             'yf_address' => $address,
@@ -437,9 +462,7 @@ class yellowfileController extends Controller
             'yf_email' => $mail,
             'yf_atten' => $atten,
             'yf_invioctext' => $invtext,
-
             'yf_bothcurrency' => $request->input('both'),
-
             'dy_taxnumber' => $tex_dely,
             'dy_inv_num' => $invname_dely,
             'dy_address' => $address_dely,
@@ -448,7 +471,6 @@ class yellowfileController extends Controller
             'dy_email' => $mail_dely,
             'dy_atten' => $atten_dely,
             'dy_invioctext' => $invtext_dely,
-
             'yf_team' => $team,
             'yf_location' => $location,
             'yf_refer' => $refer,
@@ -631,16 +653,98 @@ class yellowfileController extends Controller
        $client = tb_client::all();
        $partner = partnerModel::all();
        $address = addressModel::all();
-       $address = addressModel::all();
+       $detail = DB::table('tb_yellowfiles_detail')->where('id_yf',$id)->get();
        $TimeSheet = timerecordModel::where('ts_id_yf', $id)->get();
 
        return view('yellow_file.yellow-file',[
            'yellows' => $select,
+           'detail' => $detail,
            'client' => $client,
            'partner' => $partner,
            'address' => $address,
            'record' => $TimeSheet,
        ]);
+    }
+    public function rates(Request $request)
+    {
+        if ($request->input('option') == '1') { // where group
+            $select = DB::table('tb_yellowfiles')->where('yt_group',$request->input('group'))->get();
+            foreach($select as $_val){
+                $data = [
+                    'id_yf' => $_val->id_yf,
+                    'yfd_rates_a' => $request->input('yf_rates_a'),
+                    'yfd_rates_b' => $request->input('yf_rates_b'),
+                    'yfd_rates_c' => $request->input('yf_rates_c'),
+                    'yfd_rates_d' => $request->input('yf_rates_d'),
+                    'yfd_rates_e' => $request->input('yf_rates_e'),
+                    'yfd_rates_f' => $request->input('yf_rates_f'),
+                    'yfd_style' => $request->input('option'),
+                    'yfd_setdate' => $request->input('adjust'),
+                    'yfd_update' => date("Y-m-d H:i:s"),
+                    'yfd_create' => date("Y-m-d H:i:s"),
+                ];
+                DB::table('tb_yellowfiles_detail')->insert($data);
+            }                
+        }elseif ($request->input('option') == '2') { // where partner
+            $select = DB::table('tb_yellowfiles')->where('yf_partner',$request->input('partner'))->get();
+            foreach($select as $_val){
+                $data = [
+                    'id_yf' => $_val->id_yf,
+                    'yfd_rates_a' => $request->input('yf_rates_a'),
+                    'yfd_rates_b' => $request->input('yf_rates_b'),
+                    'yfd_rates_c' => $request->input('yf_rates_c'),
+                    'yfd_rates_d' => $request->input('yf_rates_d'),
+                    'yfd_rates_e' => $request->input('yf_rates_e'),
+                    'yfd_rates_f' => $request->input('yf_rates_f'),
+                    'yfd_style' => $request->input('option'),
+                    'yfd_setdate' => $request->input('adjust'),
+                    'yfd_update' => date("Y-m-d H:i:s"),
+                    'yfd_create' => date("Y-m-d H:i:s"),
+                ];
+                DB::table('tb_yellowfiles_detail')->insert($data);
+            }      
+        }elseif ($request->input('option') == '3') { // where hold work
+            $count = DB::table('tb_timesheet_audit')->where('ts_status','1')->count();
+            $sql = DB::table('tb_timesheet_audit')->where('ts_status','1')->get();
+            foreach($sql as $_val){
+                $array[] = $_val->ts_id_yf;
+            }
+            $result = array_unique($array);
+            $items = DB::table('tb_yellowfiles')->whereIn('id_yf', $result)->get();
+            foreach($items as $_val){
+                $data = [
+                    'id_yf' => $_val->id_yf,
+                    'yfd_rates_a' => $request->input('yf_rates_a'),
+                    'yfd_rates_b' => $request->input('yf_rates_b'),
+                    'yfd_rates_c' => $request->input('yf_rates_c'),
+                    'yfd_rates_d' => $request->input('yf_rates_d'),
+                    'yfd_rates_e' => $request->input('yf_rates_e'),
+                    'yfd_rates_f' => $request->input('yf_rates_f'),
+                    'yfd_style' => $request->input('option'),
+                    'yfd_setdate' => $request->input('adjust'),
+                    'yfd_update' => date("Y-m-d H:i:s"),
+                    'yfd_create' => date("Y-m-d H:i:s"),
+                ];
+                DB::table('tb_yellowfiles_detail')->insert($data);
+            }
+                
+        }else{ // val = 0
+            $data = [
+                'id_yf' => $request->input('file_no'),
+                'yfd_rates_a' => $request->input('yf_rates_a'),
+                'yfd_rates_b' => $request->input('yf_rates_b'),
+                'yfd_rates_c' => $request->input('yf_rates_c'),
+                'yfd_rates_d' => $request->input('yf_rates_d'),
+                'yfd_rates_e' => $request->input('yf_rates_e'),
+                'yfd_rates_f' => $request->input('yf_rates_f'),
+                'yfd_style' => $request->input('option'),
+                'yfd_setdate' => $request->input('adjust'),
+                'yfd_update' => date("Y-m-d H:i:s"),
+                'yfd_create' => date("Y-m-d H:i:s"),
+            ];
+            DB::table('tb_yellowfiles_detail')->insert($data);
+        }
+        return redirect('masterpage');
     }
 
 }

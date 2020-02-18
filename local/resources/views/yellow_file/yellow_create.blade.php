@@ -79,7 +79,7 @@
                 </div>
 
                 <div class="row form-group">
-                    <div class="col-lg-3">
+                    <div class="col-lg-2">
                         <label class="d-block">Currency Both option</label>
                         <div class="custom-control custom-radio custom-control-inline mt-2">
                             <input type="radio" id="both_1" name="both" class="custom-control-input" value="1">
@@ -95,7 +95,7 @@
                         <label>Vat</label>
                         <input type="number" min="7" class="form-control" id="yf_vat" name="yf_vat" />
                     </div> 
-                    <div class="col-lg-4">
+                    <div class="col-lg-5">
                         <label class="d-block">Time</label>
                         <div class="custom-control custom-radio custom-control-inline mt-2">
                             <input type="radio" id="time_1" name="time" class="custom-control-input" value="5">
@@ -104,6 +104,10 @@
                         <div class="custom-control custom-radio custom-control-inline  mt-2">
                             <input type="radio" id="time_2" name="time" class="custom-control-input" value="6">
                             <label class="custom-control-label" for="time_2">6 Increment</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline  mt-2">
+                            <input style=" width: 60px; " type="text" id="time_3" name="time" class="form-control" />
+                            <label class="form-control" for="time_3" style="border: none;">Other</label>
                         </div>
                     </div>
                     <div class="col-lg-3">
