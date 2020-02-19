@@ -1,4 +1,3 @@
-
 <div class="card border-0">
     <div class="card-header py-4 bg-white d-flex justify-content-between">
         <div>INSTRUCTION FOR OPENING YELLOW FILE</div>
@@ -16,7 +15,7 @@
     <form method="post" action=" {{ url('yellow_file_submit') }} " enctype="multipart/form-data">
         <div class="card-body">
             {{ csrf_field() }}
-            
+
                 <input type="hidden" name="yf_fileno" id="yf_fileno" value="{{ $fileno }}" >
                 <input type="hidden" name="id" id="id" value="{{ Auth::user()->id }}" >
                 
@@ -64,18 +63,56 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-lg-2">
-                        <label>Fix Fee</label>
-                        <input type="number" min="0" class="form-control" id="yf_fixfee" name="yf_fixfee" placeholder="0">
-                    </div>
-                    <div class="col-lg-2">
+                    
+                    <div class="col-lg-3">
                         <label>Estimate</label>
                         <input type="number" min="0" class="form-control" id="yf_estimate" name="yf_estimate" placeholder="0.00">
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-3">
                         <label>Discount</label>
                         <input type="number" min="0" class="form-control" id="yf_discount" name="yf_discount" placeholder="0">
+                    </div>                    
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-lg-6">
+                        <label>Fix Fee</label>
+                        <input type="number" min="0" class="form-control" id="yf_fixfee" name="yf_fixfee" placeholder="0">
                     </div>
+                    <div class="col-lg-6">
+                        <label>Month</label>
+                        <select class="js-example-basic-multiple form-control" id="month" name="month[]" multiple="multiple">
+                            <option value="01">JAN</option>
+                            <option value="02">FEB</option>
+                            <option value="03">MAR</option>
+                            <option value="04">APR</option>
+                            <option value="05">MAY</option>
+                            <option value="06">JUN</option>
+                            <option value="07">JUL</option>
+                            <option value="08">AUG</option>
+                            <option value="09">SEP</option>
+                            <option value="10">OCT</option>
+                            <option value="11">ONV</option>
+                            <option value="12">DEC</option>
+                        </select>
+                    </div>
+                    <!-- <div class="col-lg-6">
+                        <label>Month</label>
+                        <select class="js-example-basic-multiple form-control" id="month" name="month[]" multiple="multiple" style="width: 10.75em;border-color: #E8ECEF;">
+                            <option value="01">JAN</option>
+                            <option value="02">FEB</option>
+                            <option value="03">MAR</option>
+                            <option value="04">APR</option>
+                            <option value="05">MAY</option>
+                            <option value="06">JUN</option>
+                            <option value="07">JUL</option>
+                            <option value="08">AUG</option>
+                            <option value="09">SEP</option>
+                            <option value="10">OCT</option>
+                            <option value="11">ONV</option>
+                            <option value="12">DEC</option>
+                        </select>
+                    </div> -->
                 </div>
 
                 <div class="row form-group">
@@ -167,6 +204,7 @@
                         </div>
                     </div>
                 </div>
+               
                 <div class="row form-group">
                     <div class="col-lg-6">
                         <label>Remark condition</label>

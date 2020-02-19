@@ -231,6 +231,7 @@ class yellowfileController extends Controller
     }
     public function Master_yellow_submit(Request $request)
     {
+        dd($request->input());
         $datenow = date("Y-m-d H:i:s");
         $id = $request->input('id');
         $nofile = $request->input('yf_fileno');

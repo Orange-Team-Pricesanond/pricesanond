@@ -43,7 +43,13 @@
             color: black;
         } 
 
-        
+    .select2-search__field {
+        width: 33.75em !important;
+    }
+
+    .select2-selection__choice {
+        margin-top: 2px !important;
+    }
     </style>
 
 </head>
@@ -251,6 +257,10 @@
                     }
                 });
         }
+
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2();
+        });
     </script>
    
     <script>
