@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{ asset('asset/css/sidebar-main.css') }}">
     <link rel="stylesheet" href="{{ asset('asset/css/styles3.css') }}">
     <link rel="stylesheet" href="{{ asset('asset/css/simplebar.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
 
 </head>
 <style>
@@ -95,9 +96,12 @@
 
     <script src="{{ asset('asset/js/sidebar-main.js') }}"></script>
     <script src="{{ asset('asset/js/script.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
     
     <script>
-
+     $(document).ready(function() {
+            $('.js-example-basic-multiple').select2();
+        });
     $(document).ready(function(){
         $("#yellow_tab_1").click(function(){
             var tab1 = document.getElementsByClassName('tab1')[0]; 

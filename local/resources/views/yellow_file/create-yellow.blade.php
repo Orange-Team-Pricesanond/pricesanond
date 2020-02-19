@@ -7,14 +7,10 @@
                 <span class="ml-2">File No. </span>
                 <span class="text-blue">{{$yellows->yf_fileno}}</span>
             </div>
-            <!-- <div class='d-inline-block'>
-                <span class="ml-2">Status : </span>
-                <span class="text-green">ACTIVE</span>
-            </div> -->
         </div>
     </div>
     <div class="card-body">
-    {{ csrf_field() }}
+    {{ csrf_field() }}        
         
         <input type="hidden" name="yf_fileno" id="yf_fileno" value="{{ $yellows->yf_fileno }}" >
         <input type="hidden" name="id" id="id" value="{{ Auth::user()->id }}" >
@@ -60,17 +56,40 @@
                     <option {{ ( $yellows->yf_currencyter == "TH") ? "selected" : "" }}>THB</option>
                 </select>
             </div>
-            <div class="col-lg-2">
-                <label>Fix Fee</label>
-                <input type="number" min="0" class="form-control" id="yf_fixfee" name="yf_fixfee" value="{{$yellows->yf_fixfee}}">
-            </div>
-            <div class="col-lg-2">
+           
+            <div class="col-lg-3">
                 <label>Estimate</label>
                 <input type="number" min="0" class="form-control" id="yf_estimate" name="yf_estimate" value="{{$yellows->yf_estimate}}">
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-3">
                 <label>Discount</label>
                 <input type="number" min="0" class="form-control" id="yf_discount" name="yf_discount" value="{{$yellows->yf_discount}}">
+            </div>
+        </div>
+            @php
+                $array = ['01'=>"JAN",'02'=>"FEB",'03'=>"MAR",'04'=>"APR",'05'=>"MAY",'06'=>"JUN",'07'=>"JUL",'08'=>"AUG",'09'=>"SEP",'10'=>"OCT",'11'=>"ONV",'12'=>"DEC"];
+                $month = explode(',',$yellows->yf_fixfee_month);
+            @endphp
+        <div class="row form-group">
+            <div class="col-lg-6">
+                <label>Fix Fee</label>
+                <input type="number" min="0" class="form-control" id="yf_fixfee" name="yf_fixfee" value="{{$yellows->yf_fixfee}}">
+            </div>            
+            <div class="col-lg-6">
+                <label>Month</label>
+                <select class="js-example-basic-multiple form-control" id="month" name="month[]" multiple="multiple">
+                @php
+                $i = 0;
+                foreach($array as $key => $value) {     
+                    if($key == @$month[$i]){ //@ for unset 
+                        echo '<option value="'.$key.'" selected>'.$value.'</option>';
+                        $i++;
+                    }else{
+                        echo '<option value="'.$key.'">'.$value.'</option>';    
+                    }
+                }  
+                @endphp   
+                </select>
             </div>
         </div>
 

@@ -21,9 +21,14 @@
                 </div>
                 <div class="input-group input-group-sm mr-2">
                     <div class="input-group-prepend">
-                        <div class="input-group-text border-0">Attention.</div>
+                        <div class="input-group-text border-0">Action.</div>
                     </div>
-                    <input type="text" id="search_att" name="search_att" class="form-control search" />
+                    <select id="search_att" name="search_att" class="form-control search">
+                        <option value="1">Lawyer</option>
+                        <option value="2">Admin</option>
+                        <option value="3">Partner</option>
+                        <option value="4">Account</option>
+                    </select>
                 </div>
             </div>
         {{ csrf_field() }} 

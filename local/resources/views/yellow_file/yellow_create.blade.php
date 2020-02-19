@@ -236,13 +236,13 @@
                         <label>Company's name</label>
                         <input type="text" class="form-control" id="yf_inv_num" name="yf_inv_num" />
                     </div>
-                </div>               
+                </div> 
                 <div class="row form-group">
                     <div class="col-lg-12">
                         <label>Address</label>
                         <textarea id="yf_address" name="yf_address" class="form-control"></textarea>
                     </div>
-                </div>
+                </div>                
                 <div class="row form-group">
                     <div class="col-lg-4">
                         <label>Phone</label>
@@ -256,7 +256,7 @@
                         <label>Email address</label>
                         <input type="email" class="form-control" id="yf_email" name="yf_email" />
                     </div>
-                </div>
+                </div>                
                 <div class="row form-group">
                     <div class="col-lg-4">
                         <label>Attention</label>

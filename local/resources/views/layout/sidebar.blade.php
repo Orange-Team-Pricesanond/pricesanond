@@ -75,7 +75,7 @@
                 <li>
                     <a href="{{ url('dailytime') }}">
                         <i class="material-icons">event</i>
-                        <span class="menu-text">Daily time sheet</span>
+                        <span class="menu-text">Daily time sheet (Associate)</span>
                     </a>
                 </li>
                 <li>

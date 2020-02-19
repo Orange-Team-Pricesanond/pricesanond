@@ -231,7 +231,12 @@ class yellowfileController extends Controller
     }
     public function Master_yellow_submit(Request $request)
     {
-        dd($request->input());
+        if (!empty($request->input('month'))) {
+            $month = implode(',',$request->input('month'));
+        } else {
+            $month = '';
+        }
+        
         $datenow = date("Y-m-d H:i:s");
         $id = $request->input('id');
         $nofile = $request->input('yf_fileno');
@@ -290,6 +295,7 @@ class yellowfileController extends Controller
             'yf_partner' => $partner,
             'yf_currencyter' => $currencyter,
             'yf_fixfee' => $fix,
+            'yf_fixfee_month' => $month,
             'yf_estimate' => $estimate,
             'yf_discount' => $dis,
             'yf_vat' => $vat,
@@ -388,7 +394,7 @@ class yellowfileController extends Controller
     }
     public function Master_yellow_edit(Request $request)
     {
-        // dd($request->input());
+        $month = implode(',',$request->input('month'));
         $yf_fileno = $request->input('yf_fileno');
         $remark = $request->input('yf_remark');
         $fullname = $request->input('id_ct_yf');
@@ -443,6 +449,7 @@ class yellowfileController extends Controller
             'yf_partner' => $partner,
             'yf_currencyter' => $currencyter,
             'yf_fixfee' => $fix,
+            'yf_fixfee_month' => $month,
             'yf_estimate' => $estimate,
             'yf_discount' => $dis,
             'yf_vat' => $vat,

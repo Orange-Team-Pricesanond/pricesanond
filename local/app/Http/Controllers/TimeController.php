@@ -373,24 +373,100 @@ class TimeController extends Controller
         $ref = $request->input('ref');
         $atten = $request->input('atten');
 
-        if (!empty($dates)) {
+       if (!empty($dates)) {
+           
             if (!empty($code)) {
+               
                 if (!empty($ref)) {
-                    if (!empty($atten)) {  
-                        $yw = yellowfileModel::where('yf_atten','like','%'.$atten.'%')->first();
-                        $select = timerecordModel::where('ts_date',$dates)->where('ts_law_id',$code)->where('ts_no','like','%'.$ref.'%')->where('ts_id_yf',$yw->id_yf)->get();
-                    }else{
-                        $select = timerecordModel::where('ts_date',$dates)->where('ts_law_id',$code)->where('ts_no','like','%'.$ref.'%')->get();
+                    
+                    if (!empty($atten)) { // have dates , code , ref , atten
+                        
+                    } else { // have dates , code , ref | No atten
+                        
                     }
-                }else{
-                    $select = timerecordModel::where('ts_date',$dates)->where('ts_law_id',$code)->get();
+                    
+                } else { 
+                    
+                    if (!empty($atten)) { // have dates , code , atten | No ref
+                        
+                    } else { // have dates , code | No ref , atten
+                        
+                    }
+
                 }
-            }else{
-                $select = timerecordModel::where('ts_date',$dates)->get();
+
+           } else { // have dates | No code
+                
+                if (!empty($ref)) {  
+                    
+                    if (!empty($atten)) { // have dates , ref , atten | No code
+                        
+                    } else { // have dates , ref  | No code , atten
+                        
+                    }
+
+                } else {  // have dates | No code , ref
+                    
+                    if (!empty($atten)) { // have date , atten | No code , ref
+                        
+                    } else { // have date | No code , ref , atten 
+                        
+                    }
+                    
+                    
+                }
+
+           }
+           
+       } else { // no date
+            
+            if (!empty($code)) {
+                
+                if (!empty($ref)) {
+                    
+                    if (!empty($atten)) { // have , code , ref , atten | No dates
+                        
+                    } else { // have , code , ref | No atten , dates
+                        
+                    }
+                    
+
+                } else { 
+                    
+                    if (!empty($atten)) {  // have code , atten | No ref , dates
+                        
+                    } else { // have , code | No atten , dates , ref
+                        
+                    }
+
+                }
+                
+
+            } else { //  | No code , dates
+                
+                if (!empty($ref)) {  // have ref | No code , dates
+
+                    if (!empty($atten)) {   // have ref , atten | No code , dates
+                        
+                    } else {    // have ref | No code , dates , atten
+                        
+                    }
+                    
+
+                }else{  
+
+                    if (!empty($atten)) { // have atten  | No code , dates , ref
+                        
+                    } else { //  | No code , dates , ref , atten
+                        
+                    }
+                    
+                }
+
             }
-        }else{
-            $select = timerecordModel::all();
-        }
+
+       }
+       
 
 
         $i = 1;
