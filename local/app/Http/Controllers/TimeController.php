@@ -9,7 +9,7 @@ use App\timerecordModel;
 use App\yellowfileModel;
 use App\tb_client;
 use App\addressModel;
-use App\LawModel;
+use App\user_detailModel;
 use DB;
 use Image;
 
@@ -150,7 +150,7 @@ class TimeController extends Controller
 
             $random = mt_rand(000000, 999999);    
             $yellow = yellowfileModel::where('yf_fileno', $request->input('master_name')[$i])->first();
-            $law = DB::table('users')->where('code',$request->input('ts_law_id')[$i])->first();
+            $law = DB::table('user_detail')->where('code',$request->input('ts_law_id')[$i])->first();
             $select = timerecordModel::orderBy('ts_no', 'DESC')->take(1)->first();
 
             if($select != null)
@@ -221,9 +221,10 @@ class TimeController extends Controller
     }
     public function selectFixFeeAjax(Request $request)
     {
-        // dd($request->input('ts_law_id'));
+        $code_d = $request->input('Law');
 
         $yellow = yellowfileModel::where('yf_fileno',$request->fileno)->first(); // 1 row
+        $detail = DB::table('tb_yellowfiles_detail')->where('id_yf',$yellow->id_yf)->first(); // 1 row
         $timesheet = timerecordModel::where('ts_id_yf',$yellow->id_yf)->get(); // many row
         $fixfee = $yellow->yf_fixfee;
         $estimate = $yellow->yf_estimate;
@@ -232,19 +233,19 @@ class TimeController extends Controller
 
         $hrs = $request->hours;
         $min = $request->minutes;
-
         $now = intval($hrs)+($min/60);
-        $law = LawModel::where('code',$request->input('ts_law_id'))->first();
 
-        if($law->lw_yf_rates == "A"){
+        $select_law = DB::table('user_detail')->where('code',$code_d)->first();
+
+        if($select_law->lw_yf_rates == "A"){
             $yellow_now = $yellow->yf_rates_a;
-        }elseif ($law->lw_yf_rates == "B") {
+        }elseif ($select_law->lw_yf_rates == "B") {
             $yellow_now = $yellow->yf_rates_b;
-        }elseif ($law->lw_yf_rates == "C") {
+        }elseif ($select_law->lw_yf_rates == "C") {
             $yellow_now = $yellow->yf_rates_c;
-        }elseif ($law->lw_yf_rates == "D") {
+        }elseif ($select_law->lw_yf_rates == "D") {
             $yellow_now = $yellow->yf_rates_d;
-        }elseif ($law->lw_yf_rates == "E") {
+        }elseif ($select_law->lw_yf_rates == "E") {
             $yellow_now = $yellow->yf_rates_e;
         }else {
             $yellow_now = $yellow->yf_rates_f;   
@@ -266,25 +267,25 @@ class TimeController extends Controller
             
             if($reate_yellow == 'A')
             {
-                $total = $first_total*$yellow->yf_rates_a;
+                $total = $first_total*$detail->yfd_rates_a;
             }
             elseif($reate_yellow == 'B')
             {
-                $total = $first_total*$yellow->yf_rates_b;
+                $total = $first_total*$detail->yfd_rates_b;
             }
             elseif($reate_yellow == "C")
             {
-                $total = $first_total*$yellow->yf_rates_c;
+                $total = $first_total*$detail->yfd_rates_c;
             }
             elseif($reate_yellow == "D")
             {
-                $total = $first_total*$yellow->yf_rates_d;
+                $total = $first_total*$detail->yfd_rates_d;
             }
             elseif($reate_yellow == "E")
             {
-                $total = $first_total*$yellow->yf_rates_e;
+                $total = $first_total*$detail->yfd_rates_e;
             }else{ // F
-                $total = $first_total*$yellow->yf_rates_f;
+                $total = $first_total*$detail->yfd_rates_f;
             }
             $last_total += $total;
         }
@@ -380,16 +381,23 @@ class TimeController extends Controller
                 if (!empty($ref)) {
                     
                     if (!empty($atten)) { // have dates , code , ref , atten
+
+                        $ywl = yellowfileModel::where('yf_fileno',$ref)->first();
+                        $select = timerecordModel::where('ts_date',$dates)->where('ts_law_id',$code)->where('ts_id_yf',$ywl->id_yf)->where('ts_status',$atten)->get();
                         
                     } else { // have dates , code , ref | No atten
+                        $ywl = yellowfileModel::where('yf_fileno',$ref)->first();
+                        $select = timerecordModel::where('ts_date',$dates)->where('ts_law_id',$code)->where('ts_id_yf',$ywl->id_yf)->get();
                         
                     }
                     
                 } else { 
                     
                     if (!empty($atten)) { // have dates , code , atten | No ref
+                        $select = timerecordModel::where('ts_date',$dates)->where('ts_law_id',$code)->where('ts_status',$atten)->get();
                         
                     } else { // have dates , code | No ref , atten
+                        $select = timerecordModel::where('ts_date',$dates)->where('ts_law_id',$code)->get();
                         
                     }
 
@@ -400,17 +408,23 @@ class TimeController extends Controller
                 if (!empty($ref)) {  
                     
                     if (!empty($atten)) { // have dates , ref , atten | No code
+
+                        $ywl = yellowfileModel::where('yf_fileno',$ref)->first();
+                        $select = timerecordModel::where('ts_date',$dates)->where('ts_id_yf',$ywl->id_yf)->where('ts_status',$atten)->get();
                         
                     } else { // have dates , ref  | No code , atten
-                        
+                        $ywl = yellowfileModel::where('yf_fileno',$ref)->first();
+                        $select = timerecordModel::where('ts_date',$dates)->where('ts_id_yf',$ywl->id_yf)->get();
                     }
 
                 } else {  // have dates | No code , ref
                     
                     if (!empty($atten)) { // have date , atten | No code , ref
+                        $select = timerecordModel::where('ts_date',$dates)->where('ts_status',$atten)->get();
                         
                     } else { // have date | No code , ref , atten 
-                        
+                        $select = timerecordModel::where('ts_date',$dates)->get();
+
                     }
                     
                     
@@ -425,8 +439,12 @@ class TimeController extends Controller
                 if (!empty($ref)) {
                     
                     if (!empty($atten)) { // have , code , ref , atten | No dates
+                        $ywl = yellowfileModel::where('yf_fileno',$ref)->first();
+                        $select = timerecordModel::where('ts_id_yf',$ywl->id_yf)->where('ts_status',$atten)->get();
                         
                     } else { // have , code , ref | No atten , dates
+                        $ywl = yellowfileModel::where('yf_fileno',$ref)->first();
+                        $select = timerecordModel::where('ts_id_yf',$ywl->id_yf)->where('ts_status',$atten)->get();
                         
                     }
                     
@@ -435,7 +453,11 @@ class TimeController extends Controller
                     
                     if (!empty($atten)) {  // have code , atten | No ref , dates
                         
+                        $select = timerecordModel::where('ts_law_id',$code)->where('ts_status',$atten)->get();
+                        
                     } else { // have , code | No atten , dates , ref
+                        
+                        $select = timerecordModel::where('ts_law_id',$code)->get();
                         
                     }
 
@@ -448,7 +470,13 @@ class TimeController extends Controller
 
                     if (!empty($atten)) {   // have ref , atten | No code , dates
                         
+                        $ywl = yellowfileModel::where('yf_fileno',$ref)->first();
+                        $select = timerecordModel::where('ts_id_yf',$ywl->id_yf)->where('ts_status',$atten)->get();
+                        
                     } else {    // have ref | No code , dates , atten
+                        
+                        $ywl = yellowfileModel::where('yf_fileno',$ref)->first();
+                        $select = timerecordModel::where('ts_id_yf',$ywl->id_yf)->get();
                         
                     }
                     
@@ -456,9 +484,9 @@ class TimeController extends Controller
                 }else{  
 
                     if (!empty($atten)) { // have atten  | No code , dates , ref
-                        
+                        $select = timerecordModel::where('ts_status',$atten)->get();
                     } else { //  | No code , dates , ref , atten
-                        
+                        $select = timerecordModel::all();
                     }
                     
                 }

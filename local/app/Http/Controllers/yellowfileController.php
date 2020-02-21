@@ -10,8 +10,8 @@ use App\partnerModel;
 use App\moneyModel;
 use App\timerecordModel;
 use App\logyellowfileModel;
-use App\LawModel;
 use App\yellowdetailModel;
+use App\yellowfilesDetailModel;
 use DB;
 use Image;
 
@@ -754,5 +754,7 @@ class yellowfileController extends Controller
         }
         return redirect('masterpage');
     }
+   
+
 
 }

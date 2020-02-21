@@ -115,6 +115,7 @@
                                 </div>
                             </div>
                         </form>
+
                         <datalist id="masterfiles">
                             @foreach ($yellow as $_value)
                             <?php 
@@ -185,7 +186,7 @@
                         table += '<td><div><input id="ts_total_time'+nextindex+'" name="ts_total_time[]" type="text" class="form-control form-control-sm border-0 rounded-0 text-blue bg-transparent"></div></td>';
                         table += '<td><textarea class="form-control" rows="1" cols="50" id="ts_woek'+nextindex+'" name="ts_woek[]"></textarea></td>';
                         table += '<td width="100">';
-                        table += '<button type="button" onclick="add_list()" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">add_circle_outline</span></button>';
+                        table += '<button type="button" onclick="add_list('+nextindex+')" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">add_circle_outline</span></button>';
                         table += '<button type="button" onclick="copy_list('+nextindex+')" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">reply_all</span></button>';
                         table += '<button type="button" class="remove" id="remove_'+nextindex+'" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">delete</span></button>';
                         table += '</td>';
@@ -205,8 +206,10 @@
 
         });
 
-        function add_list()
+        function add_list(element)
         {
+            var getdate = $('#ts_date'+element+'').val();
+
             // Finding total number of elements added
             var total_element = $(".clonefile").length;
 
@@ -227,7 +230,7 @@
                 $(".clonefile:last").after("<tr class='clonefile' id='div_"+ nextindex +"'></tr>");
                 // Adding element to <div>
                 var table = '<td>'+nextindex+'</td>';
-                    table += '<td><input style=" width: 144px; " type="date" id="ts_date'+nextindex+'" name="ts_date[]" class="form-control form-control-sm border-0 rounded-0" ></td>';
+                    table += '<td><input style=" width: 144px; " type="date" id="ts_date'+nextindex+'" name="ts_date[]" class="form-control form-control-sm border-0 rounded-0" value="'+getdate+'"></td>';
                     table += '<div><input id="ts_no'+nextindex+'" name="ts_no[]" type="text" class="form-control form-control-sm border-0 rounded-0" style="width: 88px;" disabled /></div>';
                     table += '<td><input type="text" onChange="selectTime('+nextindex+'),confirm('+nextindex+')" autocomplete="off" list="masterfiles" id="master_'+nextindex+'" name="master_name[]" class="form-control"></td>';
                     table += '<td><div><input id="ts_law_id'+nextindex+'" name="ts_law_id[]" type="text" class="form-control form-control-sm border-0 rounded-0" style="width: 60px;" /></div></td>';
@@ -236,7 +239,7 @@
                     table += '<td><div><input id="ts_total_time'+nextindex+'" name="ts_total_time[]" type="text" class="form-control form-control-sm border-0 rounded-0 text-blue bg-transparent"></div></td>';
                     table += '<td><textarea class="form-control" rows="1" cols="50" id="ts_woek'+nextindex+'" name="ts_woek[]"></textarea></td>';
                     table += '<td width="100">';
-                    table += '<button type="button" onclick="add_list()" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">add_circle_outline</span></button>';
+                    table += '<button type="button" onclick="add_list('+nextindex+')" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">add_circle_outline</span></button>';
                     table += '<button type="button" onclick="copy_list('+nextindex+')" id="copy_'+nextindex+'" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">reply_all</span></button>';
                     table += '<button type="button" class="remove" id="remove_'+nextindex+'" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">delete</span></button>';
                     table += '</td>';
@@ -287,7 +290,7 @@
                         table += '<td><div><input value="'+total+'" id="ts_total_time'+nextindex+'" name="ts_total_time[]" type="text" class="form-control form-control-sm border-0 rounded-0 text-blue bg-transparent"></div></td>';
                         table += '<td><textarea class="form-control" rows="1" cols="50" id="ts_woek'+nextindex+'" name="ts_woek[]">'+work+'</textarea></td>';
                         table += '<td width="100">';
-                        table += '<button type="button" onclick="add_list()" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">add_circle_outline</span></button>';
+                        table += '<button type="button" onclick="add_list('+nextindex+')" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">add_circle_outline</span></button>';
                         table += '<button type="button" onclick="copy_list('+nextindex+')" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">reply_all</span></button>';
                         table += '<button type="button" class="remove" id="remove_'+nextindex+'" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">delete</span></button>';
                         table += '</td>';
@@ -306,7 +309,7 @@
         function selectTime(index)
         {
             var master = $('#master_'+index+'').val();
-            console.log(master);
+            // console.log(master);
             $.ajax({
                 url: '{{url("selectTime")}}',
                 type: "get",
@@ -399,16 +402,23 @@
                     datatype: "text",
                     success: function (data) {
                         if(data == 1) {
-                            swal(
-                                'Excess "FixFee" !',
-                                '',
-                                'error'
-                            )
-                            $("#allButton").addClass("disabledbutton");
+                            
+                            swal({
+                                title: "Excess FixFee!. Do you want to continue using it?",
+                                buttons: true,
+                                dangerMode: true,
+                            })
+                                .then((willDelete) => {
+                                    if (willDelete) { // Yes -> next step
+                                    }else{
+                                        $("#allButton").addClass("disabledbutton");
+                                    }
+                                });
+
                         }
 
                     },error: function(err){
-                        // alert(err);
+                        swal(err);
                     }
                 });
             }

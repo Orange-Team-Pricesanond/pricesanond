@@ -147,13 +147,12 @@
                 }
              );
              $('.select2').select2();
+           
         });
-
         $( ".selectGroup" ).change(function() {
             $('.tableyl').DataTable().destroy();
 			search_group($(this).val());
 		})
-
         function search_group(id)
         {
             var token = $('meta[name="csrf-token"]').attr('content');
@@ -180,7 +179,8 @@
 		        ],
             } );
         }
-
+        
+       
         function changBranch(id){
             $.ajax({
                 type:'get',
@@ -252,7 +252,6 @@
                     }
                 });
         }
-
         $(document).ready(function() {
             $('.js-example-basic-multiple').select2();
         });
@@ -280,7 +279,6 @@
                 document.getElementById("div_chang").style.display = "none";
             }
         }
-
     </script>
 
 </body>
