@@ -146,8 +146,7 @@
 		        ],
                 }
              );
-             $('.select2').select2();
-           
+             $('.select2').select2();        
         });
         $( ".selectGroup" ).change(function() {
             $('.tableyl').DataTable().destroy();
@@ -179,7 +178,6 @@
 		        ],
             } );
         }
-        
        
         function changBranch(id){
             $.ajax({
@@ -280,6 +278,28 @@
             }
         }
     </script>
+
+    <script>
+        function getCopyClient(element)
+        {
+            var id = element;
+            var token = $('meta[name="csrf-token"]').attr('content');
+
+            $.ajax({
+                type:'get',
+                url:"{{ url('copyClientAjax') }}",
+                data:{id:id,_token:token},
+                type : 'GET', 
+                success:function(data){
+                   swal(data);
+                   location.reload();
+
+                }
+            });
+
+        }
+    </script>
+
 
 </body>
 </html>

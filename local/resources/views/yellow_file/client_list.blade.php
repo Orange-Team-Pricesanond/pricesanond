@@ -1,7 +1,7 @@
 <div class="card border-0">
     
     <div class="card-body">
-        <table class="listed table table-hover ">
+        <table id="cline_list" class="listed table table-hover">
             <thead>
                 <tr>
                     <th width="30">#</th>
@@ -22,6 +22,7 @@
                     <td class="text-center">
                         <span class="more material-icons md-14" id="ac_dts_1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">more_vert</span>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="ac_dts_1">
+                            <a class="dropdown-item" Onclick="getCopyClient({{ $_client->id_ct }})">Copy</a>
                             <a class="dropdown-item" href="{{ url('deleteclient') }}/{{$_client->id_ct}}">Delete</a>
                         </div>
                     </td>

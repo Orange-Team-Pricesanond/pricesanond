@@ -152,7 +152,57 @@ class ClientController extends Controller
         return redirect('masterpage');
     }   
 
+    public function copyClientAjax(Request $request)
+    {
+        $select = DB::table('tb_clients')->where('id_ct',$request->id)->first();
+        $getall = DB::table('tb_clients')->orderBy('id_ct', 'DESC')->first();
+        $select_detail = DB::table('tb_address_clients')->where('ct_ad_ref',$select->ct_ad_ref)->get();
+        
+        $random_number = mt_rand(000000, 999999);
+        if(!$getall){
+            $no = "C-000001";
+        }else{
+            //run number
+            $oldno = intval(substr($getall->ct_no,2))+1;
+            $no = sprintf('C-%06d', $oldno);
+        }
 
+        $data_client = [
+            'ct_no' => $no ,
+            'ct_fn' => $select->ct_fn ,
+            'ct_country' => $select->ct_country,
+            'ct_inn' => $select->ct_inn ,
+            'ct_tax' => $select->ct_tax ,
+            'ct_ad_ref' => $random_number,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ];
+        DB::table('tb_clients')->insert($data_client);  
+
+        foreach($select_detail as $_val){
+            $data_detail = [
+                'ct_ad' => $_val->ct_ad,
+                'ct_ad_branch' => $_val->ct_ad_branch ,
+                'ct_ad_road' => $_val->ct_ad_road ,
+                'ct_ad_subarea' => $_val->ct_ad_subarea ,
+                'ct_ad_area' => $_val->ct_ad_area ,
+                'ct_ad_province' => $_val->ct_ad_province ,
+                'ct_ad_code' => $_val->ct_ad_code ,
+                'ct_ad_country' => $_val->ct_ad_country ,
+                'ct_ad_phone' => $_val->ct_ad_phone ,
+                'ct_ad_fax' => $_val->ct_ad_fax ,
+                'ct_ad_mail' => $_val->ct_ad_mail ,
+                'ct_ad_atten' => $_val->ct_ad_atten ,
+                'ct_ad_invoice' => $_val->ct_ad_invoice ,
+                'ct_ad_ref' => $random_number,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ];
+            DB::table('tb_address_clients')->insert($data_detail);  
+        }
+        echo "Copy client Success.";
+
+    }
     
     
 }

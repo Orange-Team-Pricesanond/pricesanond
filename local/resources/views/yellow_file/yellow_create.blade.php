@@ -75,9 +75,16 @@
                 </div>
 
                 <div class="row form-group">
-                    <div class="col-lg-6">
+                    <div class="col-lg-3">
                         <label>Fix Fee</label>
                         <input type="number" min="0" class="form-control" id="yf_fixfee" name="yf_fixfee" placeholder="0">
+                    </div>
+                    <div class="col-lg-3">
+                        <label>Annual Fee</label>
+                        <select class="form-control" id="yf_annual_fee" name="yf_annual_fee">
+                              <option value="0">Inctive</option>  
+                              <option value="1">Active</option>  
+                        </select>
                     </div>
                     <div class="col-lg-6">
                         <label>Month</label>
@@ -96,23 +103,6 @@
                             <option value="12">DEC</option>
                         </select>
                     </div>
-                    <!-- <div class="col-lg-6">
-                        <label>Month</label>
-                        <select class="js-example-basic-multiple form-control" id="month" name="month[]" multiple="multiple" style="width: 10.75em;border-color: #E8ECEF;">
-                            <option value="01">JAN</option>
-                            <option value="02">FEB</option>
-                            <option value="03">MAR</option>
-                            <option value="04">APR</option>
-                            <option value="05">MAY</option>
-                            <option value="06">JUN</option>
-                            <option value="07">JUL</option>
-                            <option value="08">AUG</option>
-                            <option value="09">SEP</option>
-                            <option value="10">OCT</option>
-                            <option value="11">ONV</option>
-                            <option value="12">DEC</option>
-                        </select>
-                    </div> -->
                 </div>
 
                 <div class="row form-group">

@@ -58,6 +58,7 @@
     pointer-events: none;
     opacity: 0.4;
 }
+
 </style>
 <body>
 
@@ -80,8 +81,9 @@
                 </div>
             </div>
             <div class="docs-body on-simple-bar">
-                <div class="docs-pane">
-                    <div class="py-2" style="width: 1040px;">
+                <!-- <div class="docs-pane"> -->
+                <div style="position: relative;display: block;align-items: center;justify-content: space-between;max-width: 95%;margin: 0 auto;">
+                    <div class="py-2">
                         <form method="post" action="{{ url('timesheetInsert') }}">
                             {{ csrf_field() }} 
                             <input type="hidden" id="id" name="id" value="{{ Auth::user()->id }}">
@@ -92,15 +94,15 @@
                                     <table id="list_sm" class="listed table table-hover display responsive nowrap w-100">
                                         <thead>
                                             <tr>
-                                                <th width="30">#</th>
-                                                <th width="40">Date</th>
-                                                <th width="130">File No.</th>
-                                                <th width="40">Code</th>
-                                                <th style="padding-left:1.25rem;" width="80">From</th>
-                                                <th style="padding-left:1.25rem;" width="80">To</th>
-                                                <th style="padding-left:1.25rem;" width="80">Time</th>
-                                                <th style="padding-left:1.25rem;" width="150">Woek Performed</th>
-                                                <th width="120" class="text-center"><i class="material-icons md-12">settings</i></th>
+                                                <th>#</th>
+                                                <th>Date</th>
+                                                <th>File No.</th>
+                                                <th>Code</th>
+                                                <th>From</th>
+                                                <th>To</th>
+                                                <th>Time</th>
+                                                <th>Work Performed</th>
+                                                <th  class="text-center"><i class="material-icons md-12">settings</i></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -130,7 +132,6 @@
             </div>
         </div>
     </div>
-
     <!-- page-wrapper -->
 
    <!-- site scripts -->
@@ -138,6 +139,8 @@
     <script src="{{ asset('asset/js/simplebar.min.js') }}"></script>
     <script src="{{ asset('asset/js/sidebar-main.js') }}"></script>
     <script src="{{ asset('asset/js/script.js') }}"></script>
+    <!-- textarea Auto Size -->
+    <script src="{{ asset('asset/js/autosize.js') }}"></script>
 
     <script src="{{ asset('asset/js/dropzone') }}"></script>
     <script src="{{ asset('asset/js/cropperjs') }}"></script>
@@ -177,18 +180,18 @@
                     $(".clonefile:last").after("<tr class='clonefile' id='div_"+ nextindex +"'></tr>");
                     // Adding element to <div>
                     var table = '<td>'+nextindex+'</td>';
-                        table += '<td><input style=" width: 144px; " type="date" id="ts_date'+nextindex+'" name="ts_date[]" class="form-control form-control-sm border-0 rounded-0" ></td>';
-                        table += '<div><input id="ts_no'+nextindex+'" name="ts_no[]" type="text" class="form-control form-control-sm border-0 rounded-0" style="width: 88px;" disabled /></div>';
+                        table += '<td><input type="date" id="ts_date'+nextindex+'" name="ts_date[]" class="form-control form-control-sm border-0 rounded-0" ></td>';
+                        table += '<div><input" id="ts_no'+nextindex+'" name="ts_no[]" type="text" class="form-control form-control-sm border-0 rounded-0" disabled /></div>';
                         table += '<td><input type="text" onChange="selectTime('+nextindex+'),confirm('+nextindex+')" autocomplete="off" list="masterfiles" id="master_'+nextindex+'" name="master_name[]" class="form-control"></td>';
-                        table += '<td><div><input id="ts_law_id'+nextindex+'" name="ts_law_id[]" type="text" class="form-control form-control-sm border-0 rounded-0" style="width: 60px;" /></div></td>';
+                        table += '<td><div><input id="ts_law_id'+nextindex+'" name="ts_law_id[]" type="text" class="form-control form-control-sm border-0 rounded-0" /></div></td>';
                         table += '<td><div><input id="ts_form'+nextindex+'" name="ts_form[]" type="time" value="08:00" class="form-control form-control-sm border-0 rounded-0" /></div></td>';
                         table += '<td><div><input id="ts_to'+nextindex+'" name="ts_to[]" type="time" value="08:00" class="form-control form-control-sm border-0 rounded-0" onChange="calculate('+nextindex+')" /></div></td>';
                         table += '<td><div><input id="ts_total_time'+nextindex+'" name="ts_total_time[]" type="text" class="form-control form-control-sm border-0 rounded-0 text-blue bg-transparent"></div></td>';
-                        table += '<td><textarea class="form-control" rows="1" cols="50" id="ts_woek'+nextindex+'" name="ts_woek[]"></textarea></td>';
-                        table += '<td width="100">';
-                        table += '<button type="button" onclick="add_list('+nextindex+')" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">add_circle_outline</span></button>';
-                        table += '<button type="button" onclick="copy_list('+nextindex+')" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">reply_all</span></button>';
-                        table += '<button type="button" class="remove" id="remove_'+nextindex+'" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">delete</span></button>';
+                        table += '<td><textarea style="margin-top: 0px;margin-bottom: 0px;height: 49px;width: 510px;" class="form-control textarea" id="ts_woek'+nextindex+'" name="ts_woek[]"></textarea></td>';
+                        table += '<td style=" width: 150px; ">';
+                            table += '<button type="button" onclick="add_list('+nextindex+')" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">add_circle_outline</span></button>';
+                            table += '<button type="button" onclick="copy_list('+nextindex+')" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">reply_all</span></button>';
+                            table += '<button type="button" class="remove" id="remove_'+nextindex+'" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">delete</span></button>';
                         table += '</td>';
                     
                         $("#div_" + nextindex).append(table);
@@ -203,7 +206,6 @@
                     $("#div_" + deletenextindex).remove();
                     });
             });   
-
         });
 
         function add_list(element)
@@ -237,8 +239,8 @@
                     table += '<td><div><input id="ts_form'+nextindex+'" name="ts_form[]" type="time" value="08:00" class="form-control form-control-sm border-0 rounded-0" /></div></td>';
                     table += '<td><div><input id="ts_to'+nextindex+'" name="ts_to[]" type="time" value="08:00" class="form-control form-control-sm border-0 rounded-0" onChange="calculate('+nextindex+')" /></div></td>';
                     table += '<td><div><input id="ts_total_time'+nextindex+'" name="ts_total_time[]" type="text" class="form-control form-control-sm border-0 rounded-0 text-blue bg-transparent"></div></td>';
-                    table += '<td><textarea class="form-control" rows="1" cols="50" id="ts_woek'+nextindex+'" name="ts_woek[]"></textarea></td>';
-                    table += '<td width="100">';
+                    table += '<td><textarea class="form-control" id="ts_woek'+nextindex+'" name="ts_woek[]"></textarea></td>';
+                    table += '<td style=" width: 150px; ">';
                     table += '<button type="button" onclick="add_list('+nextindex+')" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">add_circle_outline</span></button>';
                     table += '<button type="button" onclick="copy_list('+nextindex+')" id="copy_'+nextindex+'" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">reply_all</span></button>';
                     table += '<button type="button" class="remove" id="remove_'+nextindex+'" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">delete</span></button>';
@@ -288,8 +290,8 @@
                         table += '<td><div><input value="'+form+'" id="ts_form'+nextindex+'" name="ts_form[]" type="time" value="08:00" class="form-control form-control-sm border-0 rounded-0" /></div></td>';
                         table += '<td><div><input value="'+to+'" id="ts_to'+nextindex+'" name="ts_to[]" type="time" value="08:00" class="form-control form-control-sm border-0 rounded-0" onChange="calculate('+nextindex+')" /></div></td>';
                         table += '<td><div><input value="'+total+'" id="ts_total_time'+nextindex+'" name="ts_total_time[]" type="text" class="form-control form-control-sm border-0 rounded-0 text-blue bg-transparent"></div></td>';
-                        table += '<td><textarea class="form-control" rows="1" cols="50" id="ts_woek'+nextindex+'" name="ts_woek[]">'+work+'</textarea></td>';
-                        table += '<td width="100">';
+                        table += '<td><textarea class="form-control" id="ts_woek'+nextindex+'" name="ts_woek[]">'+work+'</textarea></td>';
+                        table += '<td style=" width: 150px; ">';
                         table += '<button type="button" onclick="add_list('+nextindex+')" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">add_circle_outline</span></button>';
                         table += '<button type="button" onclick="copy_list('+nextindex+')" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">reply_all</span></button>';
                         table += '<button type="button" class="remove" id="remove_'+nextindex+'" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">delete</span></button>';
@@ -379,6 +381,14 @@
                 swal("Error filling in time slot. Please try again.");
             } 
 
+            /* check time */
+            var time = index-1;
+            var i;
+            for (var i = time; i > time.length; i--) {
+                console.log(i);
+            }
+            /* ----------------------------- */
+
             start = start.split(":");
             end = end.split(":");
             var startDate = new Date(0, 0, 0, start[0], start[1], 0);
@@ -390,8 +400,6 @@
             var Law = $('#ts_law_id'+index+'').val();
 
             $('#ts_total_time'+index+'').val((hours < 9 ? "0" : "") + hours + ":" + (minutes < 9 ? "0" : "") + minutes);
-            // console.log("Total time -> "+(hours < 9 ? "0" : "") + hours + ":" + (minutes < 9 ? "0" : "") + minutes);
-            // console.log("Law Code -> "+Law);
 
             if($('#ts_total_time'+index+'').val() != ""){
                 var fileno = document.getElementById("master_"+index+"").value;
@@ -463,7 +471,7 @@
         }
 
     </script>
-   
+  
 
 </body>
 </html>

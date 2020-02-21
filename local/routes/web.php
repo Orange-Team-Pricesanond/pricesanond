@@ -76,6 +76,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('clientinsertsubmit', 'yellowfileController@Submitcl');
     Route::post('yellow_edit_rate', 'yellowfileController@rates');
 
+    Route::get('copyClientAjax', 'ClientController@copyClientAjax');
+
     // New
     Route::get('yellow-file/{id}', 'yellowfileController@showyellow');
 

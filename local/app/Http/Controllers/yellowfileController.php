@@ -248,6 +248,7 @@ class yellowfileController extends Controller
         $currencyter = $request->input('yf_currencyter');
         $partner = $request->input('yf_partner');
         $fix = $request->input('yf_fixfee');
+        $annual = $request->input('yf_annual_fee');
         $estimate = $request->input('yf_estimate');
         $dis = $request->input('yf_discount');
         $time = $request->input('time');
@@ -295,6 +296,7 @@ class yellowfileController extends Controller
             'yf_partner' => $partner,
             'yf_currencyter' => $currencyter,
             'yf_fixfee' => $fix,
+            'yf_annual_fee' => $annual,
             'yf_fixfee_month' => $month,
             'yf_estimate' => $estimate,
             'yf_discount' => $dis,
@@ -394,7 +396,12 @@ class yellowfileController extends Controller
     }
     public function Master_yellow_edit(Request $request)
     {
-        $month = implode(',',$request->input('month'));
+        if (!empty($request->input('month'))) {
+            $month = implode(',',$request->input('month'));
+        } else {
+            $month = '';
+        }
+        
         $yf_fileno = $request->input('yf_fileno');
         $remark = $request->input('yf_remark');
         $fullname = $request->input('id_ct_yf');
@@ -403,6 +410,7 @@ class yellowfileController extends Controller
         $currencyter = $request->input('yf_currencyter');
         $partner = $request->input('yf_partner');
         $fix = $request->input('yf_fixfee');
+        $annual = $request->input('yf_annual_fee');
         $estimate = $request->input('yf_estimate');
         $dis = $request->input('yf_discount');
         $time = $request->input('time');
@@ -449,6 +457,7 @@ class yellowfileController extends Controller
             'yf_partner' => $partner,
             'yf_currencyter' => $currencyter,
             'yf_fixfee' => $fix,
+            'yf_annual_fee' => $annual,
             'yf_fixfee_month' => $month,
             'yf_estimate' => $estimate,
             'yf_discount' => $dis,
@@ -754,7 +763,7 @@ class yellowfileController extends Controller
         }
         return redirect('masterpage');
     }
-   
+
 
 
 }

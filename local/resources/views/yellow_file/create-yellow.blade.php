@@ -71,9 +71,17 @@
                 $month = explode(',',$yellows->yf_fixfee_month);
             @endphp
         <div class="row form-group">
-            <div class="col-lg-6">
+            <div class="col-lg-3">
                 <label>Fix Fee</label>
                 <input type="number" min="0" class="form-control" id="yf_fixfee" name="yf_fixfee" value="{{$yellows->yf_fixfee}}">
+            </div>  
+            <div class="col-lg-3">
+            
+                <label>Annual Fee</label>
+                <select class="form-control" id="yf_annual_fee" name="yf_annual_fee">
+                    <option value="0" {{ ($yellows->yf_annual_fee == 0)? 'selected' : '' }}>Inctive</option>  
+                    <option value="1" {{ ($yellows->yf_annual_fee == 1)? 'selected' : '' }}>Active</option>  
+                </select>    
             </div>            
             <div class="col-lg-6">
                 <label>Month</label>
