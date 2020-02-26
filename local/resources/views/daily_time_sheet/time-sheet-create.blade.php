@@ -235,7 +235,7 @@
                     table += '<td><input style=" width: 144px; " type="date" id="ts_date'+nextindex+'" name="ts_date[]" class="form-control form-control-sm border-0 rounded-0" value="'+getdate+'"></td>';
                     table += '<div><input id="ts_no'+nextindex+'" name="ts_no[]" type="text" class="form-control form-control-sm border-0 rounded-0" style="width: 88px;" disabled /></div>';
                     table += '<td><input type="text" onChange="selectTime('+nextindex+'),confirm('+nextindex+')" autocomplete="off" list="masterfiles" id="master_'+nextindex+'" name="master_name[]" class="form-control"></td>';
-                    table += '<td><div><input id="ts_law_id'+nextindex+'" name="ts_law_id[]" type="text" class="form-control form-control-sm border-0 rounded-0" style="width: 60px;" /></div></td>';
+                    table += '<td><div><input id="ts_law_id'+nextindex+'" name="ts_law_id[]" type="text" class="form-control form-control-sm border-0 rounded-0" /></div></td>';
                     table += '<td><div><input id="ts_form'+nextindex+'" name="ts_form[]" type="time" value="08:00" class="form-control form-control-sm border-0 rounded-0" /></div></td>';
                     table += '<td><div><input id="ts_to'+nextindex+'" name="ts_to[]" type="time" value="08:00" class="form-control form-control-sm border-0 rounded-0" onChange="calculate('+nextindex+')" /></div></td>';
                     table += '<td><div><input id="ts_total_time'+nextindex+'" name="ts_total_time[]" type="text" class="form-control form-control-sm border-0 rounded-0 text-blue bg-transparent"></div></td>';
@@ -286,7 +286,8 @@
                         table += '<td><input value="'+date+'" style="width: 144px;" type="date" id="ts_date'+nextindex+'" name="ts_date[]" class="form-control form-control-sm border-0 rounded-0" ></td>';
                         table += '<div><input value="'+no+'" id="ts_no'+nextindex+'" name="ts_no[]" type="text" class="form-control form-control-sm border-0 rounded-0" style="width: 88px;" disabled /></div>';
                         table += '<td><input value="'+master+'" type="text" onChange="selectTime('+nextindex+'),confirm('+nextindex+')" autocomplete="off" list="masterfiles" id="master_'+nextindex+'" name="master_name[]" class="form-control"></td>';
-                        table += '<td><div><input value="'+law+'" value="'+law+'" id="ts_law_id'+nextindex+'" name="ts_law_id[]" type="text" class="form-control form-control-sm border-0 rounded-0" style="width: 60px;" /></div></td>';
+                        // table += '<td><div><input value="'+law+'" value="'+law+'" id="ts_law_id'+nextindex+'" name="ts_law_id[]" type="text" class="form-control form-control-sm border-0 rounded-0" style="width: 60px;" /></div></td>';
+                        table += '<td><div><input id="ts_law_id'+nextindex+'" name="ts_law_id[]" type="text" class="form-control form-control-sm border-0 rounded-0" /></div></td>';
                         table += '<td><div><input value="'+form+'" id="ts_form'+nextindex+'" name="ts_form[]" type="time" value="08:00" class="form-control form-control-sm border-0 rounded-0" /></div></td>';
                         table += '<td><div><input value="'+to+'" id="ts_to'+nextindex+'" name="ts_to[]" type="time" value="08:00" class="form-control form-control-sm border-0 rounded-0" onChange="calculate('+nextindex+')" /></div></td>';
                         table += '<td><div><input value="'+total+'" id="ts_total_time'+nextindex+'" name="ts_total_time[]" type="text" class="form-control form-control-sm border-0 rounded-0 text-blue bg-transparent"></div></td>';
@@ -468,6 +469,11 @@
 							});
 					}
 				});
+        }
+
+        function checklist(index)
+        {
+            console.log(index);
         }
 
     </script>
