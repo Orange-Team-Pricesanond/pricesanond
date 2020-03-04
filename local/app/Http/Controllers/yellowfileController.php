@@ -12,6 +12,7 @@ use App\timerecordModel;
 use App\logyellowfileModel;
 use App\yellowdetailModel;
 use App\yellowfilesDetailModel;
+use App\moneyunitModel;
 use DB;
 use Image;
 
@@ -212,7 +213,7 @@ class yellowfileController extends Controller
         $random = mt_rand(000000, 999999);
         $partner = partnerModel::all();
         $client = tb_client::all();
-        $money = moneyModel::all();
+        $money = moneyunitModel::all();
         $yellowfile = yellowfileModel::all();
         $TimeSheet = timerecordModel::all();
         $address = addressModel::all();
@@ -672,6 +673,7 @@ class yellowfileController extends Controller
        $address = addressModel::all();
        $detail = DB::table('tb_yellowfiles_detail')->where('id_yf',$id)->get();
        $TimeSheet = timerecordModel::where('ts_id_yf', $id)->get();
+       $unit = moneyunitModel::all();
 
        return view('yellow_file.yellow-file',[
            'yellows' => $select,
@@ -680,6 +682,7 @@ class yellowfileController extends Controller
            'partner' => $partner,
            'address' => $address,
            'record' => $TimeSheet,
+           'unit' => $unit,
        ]);
     }
     public function rates(Request $request)

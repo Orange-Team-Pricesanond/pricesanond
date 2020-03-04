@@ -111,6 +111,7 @@ class TimeController extends Controller
     }
     public function viewsheetadd()
     {       
+        $random_number = mt_rand(100000, 999999);
         $date = date("d/m/Y");
         $yellow = yellowfileModel::all();
         $sheet = timerecordModel::all();
@@ -119,7 +120,8 @@ class TimeController extends Controller
             return view('daily_time_sheet.time-sheet-create', [
                 'yellow' => $yellow ,
                 'sheet' => $sheet ,
-                'count' => $count ,                
+                'count' => $count , 
+                'random' => $random_number,               
             ]);
     }
     public function delete($id)
@@ -144,7 +146,7 @@ class TimeController extends Controller
     }
     public function insert(Request $request)
     {
-        // dd($request->input());
+        $num_random = $request->random; 
         $date = date('ym');  
         for($i=0 ; $i < count($request->input('ts_law_id')) ; $i++){
 
@@ -206,7 +208,7 @@ class TimeController extends Controller
             ];
             DB::table('tb_logtimesheet')->insert($data);
         }
-
+        DB::table('logts')->where('log_random', $num_random)->delete();
         return redirect('dailytime');
     }
     public function deleteAjax(Request $request)
@@ -347,7 +349,7 @@ class TimeController extends Controller
                 $cal_rat = number_format($Cal*$rate);
 
                 $data['data'][]= array(
-                    "ref" => $_val->ts_no,
+                    "ref" => $yellow->yf_fileno,
                     "id" => '<a data-toggle="modal" onClick="selectSorttime('.$sl_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$i.'</a>',
                     "date" => '<a data-toggle="modal" onClick="selectSorttime('.$sl_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_date.'</a>',
                     "code" => '<a data-toggle="modal" onClick="selectSorttime('.$sl_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_law_id.'</a>',
@@ -380,26 +382,12 @@ class TimeController extends Controller
                
                 if (!empty($ref)) {
                     
-                    if (!empty($atten)) { // have dates , code , ref , atten
-
-                        $ywl = yellowfileModel::where('yf_fileno',$ref)->first();
-                        $select = timerecordModel::where('ts_date',$dates)->where('ts_law_id',$code)->where('ts_id_yf',$ywl->id_yf)->where('ts_status',$atten)->get();
-                        
-                    } else { // have dates , code , ref | No atten
-                        $ywl = yellowfileModel::where('yf_fileno',$ref)->first();
-                        $select = timerecordModel::where('ts_date',$dates)->where('ts_law_id',$code)->where('ts_id_yf',$ywl->id_yf)->get();
-                        
-                    }
+                    $ywl = yellowfileModel::where('yf_fileno',$ref)->first();
+                    $select = timerecordModel::where('ts_date',$dates)->where('ts_law_id',$code)->where('ts_id_yf',$ywl->id_yf)->get();
                     
                 } else { 
                     
-                    if (!empty($atten)) { // have dates , code , atten | No ref
-                        $select = timerecordModel::where('ts_date',$dates)->where('ts_law_id',$code)->where('ts_status',$atten)->get();
-                        
-                    } else { // have dates , code | No ref , atten
-                        $select = timerecordModel::where('ts_date',$dates)->where('ts_law_id',$code)->get();
-                        
-                    }
+                    $select = timerecordModel::where('ts_date',$dates)->where('ts_law_id',$code)->get();
 
                 }
 
@@ -407,26 +395,12 @@ class TimeController extends Controller
                 
                 if (!empty($ref)) {  
                     
-                    if (!empty($atten)) { // have dates , ref , atten | No code
-
-                        $ywl = yellowfileModel::where('yf_fileno',$ref)->first();
-                        $select = timerecordModel::where('ts_date',$dates)->where('ts_id_yf',$ywl->id_yf)->where('ts_status',$atten)->get();
-                        
-                    } else { // have dates , ref  | No code , atten
-                        $ywl = yellowfileModel::where('yf_fileno',$ref)->first();
-                        $select = timerecordModel::where('ts_date',$dates)->where('ts_id_yf',$ywl->id_yf)->get();
-                    }
+                    $ywl = yellowfileModel::where('yf_fileno',$ref)->first();
+                    $select = timerecordModel::where('ts_date',$dates)->where('ts_id_yf',$ywl->id_yf)->get();
 
                 } else {  // have dates | No code , ref
                     
-                    if (!empty($atten)) { // have date , atten | No code , ref
-                        $select = timerecordModel::where('ts_date',$dates)->where('ts_status',$atten)->get();
-                        
-                    } else { // have date | No code , ref , atten 
-                        $select = timerecordModel::where('ts_date',$dates)->get();
-
-                    }
-                    
+                    $select = timerecordModel::where('ts_date',$dates)->get();                    
                     
                 }
 
@@ -438,64 +412,27 @@ class TimeController extends Controller
                 
                 if (!empty($ref)) {
                     
-                    if (!empty($atten)) { // have , code , ref , atten | No dates
-                        $ywl = yellowfileModel::where('yf_fileno',$ref)->first();
-                        $select = timerecordModel::where('ts_id_yf',$ywl->id_yf)->where('ts_status',$atten)->get();
-                        
-                    } else { // have , code , ref | No atten , dates
-                        $ywl = yellowfileModel::where('yf_fileno',$ref)->first();
-                        $select = timerecordModel::where('ts_id_yf',$ywl->id_yf)->where('ts_status',$atten)->get();
-                        
-                    }
-                    
+                    $ywl = yellowfileModel::where('yf_fileno',$ref)->first();
+                    $select = timerecordModel::where('ts_id_yf',$ywl->id_yf)->get();
 
                 } else { 
                     
-                    if (!empty($atten)) {  // have code , atten | No ref , dates
-                        
-                        $select = timerecordModel::where('ts_law_id',$code)->where('ts_status',$atten)->get();
-                        
-                    } else { // have , code | No atten , dates , ref
-                        
-                        $select = timerecordModel::where('ts_law_id',$code)->get();
-                        
-                    }
-
+                    $select = timerecordModel::where('ts_law_id',$code)->get();
                 }
-                
 
             } else { //  | No code , dates
                 
                 if (!empty($ref)) {  // have ref | No code , dates
 
-                    if (!empty($atten)) {   // have ref , atten | No code , dates
-                        
-                        $ywl = yellowfileModel::where('yf_fileno',$ref)->first();
-                        $select = timerecordModel::where('ts_id_yf',$ywl->id_yf)->where('ts_status',$atten)->get();
-                        
-                    } else {    // have ref | No code , dates , atten
-                        
-                        $ywl = yellowfileModel::where('yf_fileno',$ref)->first();
+                    $ywl = yellowfileModel::where('yf_fileno',$ref)->first();
                         $select = timerecordModel::where('ts_id_yf',$ywl->id_yf)->get();
-                        
-                    }
-                    
 
                 }else{  
 
-                    if (!empty($atten)) { // have atten  | No code , dates , ref
-                        $select = timerecordModel::where('ts_status',$atten)->get();
-                    } else { //  | No code , dates , ref , atten
-                        $select = timerecordModel::all();
-                    }
-                    
+                    $select = timerecordModel::all();
                 }
-
             }
-
        }
-       
-
 
         $i = 1;
         foreach($select as $_val){
@@ -543,7 +480,7 @@ class TimeController extends Controller
             $cal_rat = number_format($Cal*$rate);
 
             $data['data'][]= array(
-                "ref" => $_val->ts_no,
+                "ref" => $yellow->yf_fileno,
                 "id" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$i.'</a>',
                 "date" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_date.'</a>',
                 "code" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_law_id.'</a>',
@@ -711,10 +648,57 @@ class TimeController extends Controller
         $cilents = DB::table('tb_clients')->where('id_ct',$yellow->id_ct_yf)->first();
 
         $text = "Files No. : ".$request->val;
-        $text .= "\n Matter Name. : ".$yellow->yf_mtt;
         $text .= "\n Client Name. : ".$cilents->ct_fn;
+        $text .= "\n Matter Name. : ".$yellow->yf_mtt;
 
         echo $text;
     }
+    public function saveLogRowAjax(Request $request)
+    {
+        $random = $request->random;
+        $code = $request->law;
+
+        $form = date("Y-m-d H:i:s", strtotime($request->date." ".$request->form));
+        $to = date("Y-m-d H:i:s", strtotime($request->date." ".$request->to));
+
+        $ch = DB::table('logts')->whereBetween('log_ts_form', [$form, $to])->orWhereBetween('log_ts_to', [$form, $to])->get();
+        $wordCount = $ch->count();
+        if ($wordCount<1) {
+            echo "True";
+        }else{
+            echo "False";
+        }
+        // if ($wordCount>0) {
+            // $count = 0;
+            // foreach($ch as $_val){
+            //     if ($_val->log_random == $random) {
+            //         if ($_val->log_ts_law_id == $code) {
+            //             $count += 1;
+            //         } else {
+            //             $count += 0;
+            //         }
+            //     }else{
+            //         $count += 0;
+            //     }
+            // }
+            // if ($count>0) {
+            //     echo "False";
+            // } else {
+            //     $data = [
+            //         'log_random' => $random,
+            //         'log_ts_id_yf' => $request->master,
+            //         'log_ts_law_id' => $request->law,
+            //         'log_ts_form' => $form,
+            //         'log_ts_to' => $to,
+            //         'log_created_at' => date('Y-m-d H:i:s'),
+            //         'log_updated_at' => date('Y-m-d H:i:s'),
+            //     ];
+            //     DB::table('logts')->insert($data);
+            //     echo "True 1 ";
+            // }
+
+        // }
+    }
+
    
 }

@@ -131,12 +131,10 @@
             var date = document.getElementById("search_date").value; 
             var code = document.getElementById("search_code").value; 
             var ref = document.getElementById("search_ref").value; 
-            var atten = document.getElementById("search_att").value; 
 
-            console.log(date);
-            console.log(code);
-            console.log(ref);
-            console.log(atten);
+            console.log("date -> " +date);
+            console.log("code -> " +code);
+            console.log("ref -> " +ref);
 
             $('#list_index').DataTable( {
                 scrollY: true,
@@ -148,7 +146,6 @@
 			        "date": date,
 			        "code": code,
 			        "ref": ref,
-			        "atten": atten,
 			        "_token": token,
 			    },
 			  },
@@ -204,8 +201,7 @@
             $('#ts_total_time_'+index).val((hours < 9 ? "0" : "") + hours + ":" + (minutes < 9 ? "0" : "") + minutes);
         }
         
-
     </script>
-
+  
 </body>
 </html>

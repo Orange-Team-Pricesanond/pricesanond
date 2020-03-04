@@ -12,6 +12,7 @@ use App\moneyModel;
 use App\timerecordModel;
 use App\logyellowfileModel;
 use App\User;
+use App\user_detailModel;
 use DB;
 use Image;
 
@@ -20,13 +21,14 @@ class PersonalController extends Controller
     public function index(Request $request)
     {
         $User = User::all();
+        // $detail = user_detailModel::all();
         return view('personal.index',[
-            'userlist' => $User
+            'userlist' => $User,
+            // 'detail' => $detail,
         ]);
     }
     public function getPersonal(Request $request)
     {
-        
         $data['data'] = [];                
         $i = 1;    
 
@@ -55,6 +57,19 @@ class PersonalController extends Controller
             }
             
             foreach($personal as $_val){
+                $array = [];
+                $detail = DB::table('user_detail')->where('id',$_val->id)->get();
+                $wordCount = $detail->count();
+                if ($wordCount != 0) {
+                    foreach($detail as $_detail)
+                    {
+                        $array[] = $_detail->code;
+                    }
+                    $user_dt = implode(",",$array);
+                }else{
+                    $user_dt = "-";
+                }
+                
                 //1 = lawyer , 2 = admin , 3 = partner , 4 = audit	
                 if($_val->user_type == 1){
                     $Role = 'LAWYER';
@@ -75,10 +90,11 @@ class PersonalController extends Controller
                     $imgval = '<p style="color: darkgray;">Not Found</p>';
                 }
     
+                // <button class="dropdown-item d-flex justify-content-between align-items-center" onclick="clone_personal('.$_val->id.')">Copy</button>
 
                 $data['data'][] = array(
                     "Pic" =>  $imgval,
-                    "Name" => '<div onclick="openpreson('.$_val->id.')">'.$_val->name.'</div><div><span class="text-grey">Code</span><strong class="text-blue ml-2">'.(($_val->code != null) ? $_val->code : '-').'</strong>
+                    "Name" => '<div onclick="openpreson('.$_val->id.')">'.$_val->name.'</div><div><span class="text-grey">Code</span><strong class="text-blue ml-2">'.$user_dt.'</strong>
                     </div>',
                     "Role" => '<div onclick="openpreson('.$_val->id.')" class="d-block py-2 badge badge-pill badge-secondary">'.$Role.'</div>',
                     "Email" => '<div onclick="openpreson('.$_val->id.')">'.$_val->email.'</div><div class="text-grey">Email</div>',
@@ -87,7 +103,6 @@ class PersonalController extends Controller
                     "action" => '<span class="more material-icons md-14" id="ac_dts_1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">more_vert</span>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="ac_dts_1">
                         <button class="dropdown-item d-flex justify-content-between align-items-center" onclick="delete_personal('.$_val->id.')">Delete</button>
-                        <button class="dropdown-item d-flex justify-content-between align-items-center" onclick="clone_personal('.$_val->id.')">Copy</button>
                     </div>
                     ',
                 );
@@ -103,6 +118,19 @@ class PersonalController extends Controller
             }
 
             foreach($personal as $_val){
+                $array = [];
+                $detail = DB::table('user_detail')->where('id',$_val->id)->get();
+                $wordCount = $detail->count();
+                if ($wordCount != 0) {
+                    foreach($detail as $_detail)
+                    {
+                        $array[] = $_detail->code;
+                    }
+                    $user_dt = implode(",",$array);
+                }else{
+                    $user_dt = "-";
+                }
+
                 //1 = lawyer , 2 = admin , 3 = partner , 4 = audit	
                 if($_val->user_type == 1){
                     $Role = 'LAWYER';
@@ -125,7 +153,7 @@ class PersonalController extends Controller
     
                 $data['data'][] = array(
                     "Pic" =>  $imgval,
-                    "Name" => '<div onclick="openpreson('.$_val->id.')">'.$_val->name.'</div><div><span class="text-grey">Code</span><strong class="text-blue ml-2">'.(($_val->code != null) ? $_val->code : '-').'</strong>
+                    "Name" => '<div onclick="openpreson('.$_val->id.')">'.$_val->name.'</div><div><span class="text-grey">Code</span><strong class="text-blue ml-2">'.$user_dt.'</strong>
                     </div>',
                     "Role" => '<div onclick="openpreson('.$_val->id.')" class="d-block py-2 badge badge-pill badge-secondary">'.$Role.'</div>',
                     "Email" => '<div onclick="openpreson('.$_val->id.')">'.$_val->email.'</div><div class="text-grey">Email</div>',
@@ -134,7 +162,6 @@ class PersonalController extends Controller
                     "action" => '<span class="more material-icons md-14" id="ac_dts_1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">more_vert</span>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="ac_dts_1">
                         <button class="dropdown-item d-flex justify-content-between align-items-center" onclick="delete_personal('.$_val->id.')">Delete</button>
-                        <button class="dropdown-item d-flex justify-content-between align-items-center" onclick="clone_personal('.$_val->id.')">Copy</button>
                     </div>',
                 );
     
@@ -146,21 +173,17 @@ class PersonalController extends Controller
     public function inserpersonal(Request $request)
     {
         $fullname = $request->input('name');
-        $code = $request->input('code');
         $email = $request->input('email');
         $phone = $request->input('phone');
-        $rate = $request->input('rates');
         $role = $request->input('role');
         $status = $request->input('status');
         $pass =   $request->input('password');
 
         $data = [
             'name' => $fullname,
-            'code' => $code,
             'email' => $email,
             'phone' => $phone,
             'password' =>  Hash::make($pass),
-            'lw_yf_rates' =>  $rate,
             'user_type' => $role,
             'status' => $status,
             'created_at' => date('Y-m-d H:i:s'),
@@ -180,7 +203,20 @@ class PersonalController extends Controller
 
             $data['images'] = $imagename;
         }   
-        User::insert($data); 
+        $last_id = DB::table('users')->insertGetId($data);
+
+        $count_input = count($request->input('code'));
+        for ($i=0; $i < $count_input ; $i++) { 
+            $detail_user = [
+                'id' => $last_id,
+                'code' => $request->input('code')[$i],
+                'lw_yf_rates' => $request->input('rates')[$i],
+                'updated_at' => date("Y-m-d H:i:s"),
+                'create_at' => date("Y-m-d H:i:s"),
+            ];
+            DB::table('user_detail')->insert($detail_user);  
+        }
+        
         return redirect('personal');
 
     }

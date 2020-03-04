@@ -69,7 +69,7 @@
                             <a id="yellow_tab_1" href="#yellow_con_1" aria-controls="yellow_con_1" class="nav-item nav-link active" data-toggle="tab" role="tab" aria-selected="true">YELLOW FILE</a>
                             <a id="yellow_tab_2" href="#yellow_con_2" aria-controls="yellow_con_2" class="nav-item nav-link" data-toggle="tab" role="tab" aria-selected="false">TIME RECORD</a>
                         </nav>
-
+    
                         <div class="tab-content my-3" id="yellow-tabContent">
                             <div id="yellow_con_1" aria-labelledby="yellow_tab_1" role="tabpanel" class="tab-pane tab1 fade show active">
                                 @include('yellow_file.create-yellow')
@@ -139,6 +139,14 @@
             });
         }
         
+    </script>
+
+    <script>
+        $('.open_history').click(function() {
+            $('.history_rate').slideToggle("slow");
+        });
+        $('.select2').select2(); 
+
     </script>
 
 </body>

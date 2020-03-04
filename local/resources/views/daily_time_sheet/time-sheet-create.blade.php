@@ -21,44 +21,48 @@
     <link rel="stylesheet" href="{{ asset('asset/css/dropzone.css') }}">
     <link rel="stylesheet" href="{{ asset('asset/css/cropper.css') }}">
     
-    <!-- Bootstrap CSS -->
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-markdown/2.10.0/css/bootstrap-markdown.min.css">
-
+    <!-- datetime picker -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
 
 </head>
 <style>
-.docs-pane {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    max-width: 1040px;
-    width: 100%;
-    height: 100%;
-    margin: 0 auto;
-    padding: 15px;   
-}
-.docs-head {
-    color: #036;
-    position: relative;
-    border-bottom: 1px solid #f1f1f1;
-    z-index: 1;
-    background-color: white;
-}
-.page-wrapper {
-    position: relative;
-    height: 100vh;
-    max-height: 100vh;
-    background-color: #f8fafb;
-    border-top: 1px solid #f1f1f1;
-}
-/* add disable */
-.disabledbutton {
-    pointer-events: none;
-    opacity: 0.4;
-}
+    .docs-pane {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1040px;
+        width: 100%;
+        height: 100%;
+        margin: 0 auto;
+        padding: 15px;   
+    }
+    .docs-head {
+        color: #036;
+        position: relative;
+        border-bottom: 1px solid #f1f1f1;
+        z-index: 1;
+        background-color: white;
+    }
+    .page-wrapper {
+        position: relative;
+        height: 100vh;
+        max-height: 100vh;
+        background-color: #f8fafb;
+        border-top: 1px solid #f1f1f1;
+    }
+    /* add disable */
+    .disabledbutton {
+        pointer-events: none;
+        opacity: 0.4;
+    }
 
+    .bootstrap-datetimepicker-widget .timepicker-hour, .bootstrap-datetimepicker-widget .timepicker-minute, .bootstrap-datetimepicker-widget .timepicker-second {
+        width: 54px;
+        font-weight: bold;
+        font-size: 2.2em !important;
+        margin: 0;
+    }
 </style>
 <body>
 
@@ -87,10 +91,9 @@
                         <form method="post" action="{{ url('timesheetInsert') }}">
                             {{ csrf_field() }} 
                             <input type="hidden" id="id" name="id" value="{{ Auth::user()->id }}">
-                            <div class="card shadow-on">
-                                
+                            <input type="" id="random" name="random" value="{{ $random }}">
+                            <div class="card shadow-on">                                
                                 <div class="card-body">
-
                                     <table id="list_sm" class="listed table table-hover display responsive nowrap w-100">
                                         <thead>
                                             <tr>
@@ -100,7 +103,7 @@
                                                 <th>Code</th>
                                                 <th>From</th>
                                                 <th>To</th>
-                                                <th>Time</th>
+                                                <th>Total</th>
                                                 <th>Work Performed</th>
                                                 <th  class="text-center"><i class="material-icons md-12">settings</i></th>
                                             </tr>
@@ -132,10 +135,11 @@
             </div>
         </div>
     </div>
+
     <!-- page-wrapper -->
 
    <!-- site scripts -->
-   <script src="{{ asset('asset/js/popper.min.js') }}"></script>
+    <script src="{{ asset('asset/js/popper.min.js') }}"></script>
     <script src="{{ asset('asset/js/simplebar.min.js') }}"></script>
     <script src="{{ asset('asset/js/sidebar-main.js') }}"></script>
     <script src="{{ asset('asset/js/script.js') }}"></script>
@@ -145,15 +149,20 @@
     <script src="{{ asset('asset/js/dropzone') }}"></script>
     <script src="{{ asset('asset/js/cropperjs') }}"></script>
 
-    <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-markdown/2.10.0/js/bootstrap-markdown.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-markdown/2.10.0/js/bootstrap-markdown.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-markdown/2.10.0/js/bootstrap-markdown.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-markdown/2.10.0/js/bootstrap-markdown.min.js"></script> -->
+    
     <!-- sweetalert -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    
+    <!-- datetime picker -->
+    <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
 
     <script>
         $(document).ready(function(){
@@ -184,8 +193,8 @@
                         table += '<div><input" id="ts_no'+nextindex+'" name="ts_no[]" type="text" class="form-control form-control-sm border-0 rounded-0" disabled /></div>';
                         table += '<td><input type="text" onChange="selectTime('+nextindex+'),confirm('+nextindex+')" autocomplete="off" list="masterfiles" id="master_'+nextindex+'" name="master_name[]" class="form-control"></td>';
                         table += '<td><div><input id="ts_law_id'+nextindex+'" name="ts_law_id[]" type="text" class="form-control form-control-sm border-0 rounded-0" /></div></td>';
-                        table += '<td><div><input id="ts_form'+nextindex+'" name="ts_form[]" type="time" value="08:00" class="form-control form-control-sm border-0 rounded-0" /></div></td>';
-                        table += '<td><div><input id="ts_to'+nextindex+'" name="ts_to[]" type="time" value="08:00" class="form-control form-control-sm border-0 rounded-0" onChange="calculate('+nextindex+')" /></div></td>';
+                        table += '<td><div><input id="ts_form'+nextindex+'" name="ts_form[]" type="text" class="form-control datetimepicker" ref="'+nextindex+'" /></div></td>';
+                        table += '<td><div><input id="ts_to'+nextindex+'" name="ts_to[]" type="text" class="form-control datetimepicker" ref="'+nextindex+'" onblur="calculate('+nextindex+')" /></div></td>';
                         table += '<td><div><input id="ts_total_time'+nextindex+'" name="ts_total_time[]" type="text" class="form-control form-control-sm border-0 rounded-0 text-blue bg-transparent"></div></td>';
                         table += '<td><textarea style="margin-top: 0px;margin-bottom: 0px;height: 49px;width: 510px;" class="form-control textarea" id="ts_woek'+nextindex+'" name="ts_woek[]"></textarea></td>';
                         table += '<td style=" width: 150px; ">';
@@ -198,7 +207,6 @@
                     }
                     $('.remove').click(function(){
                     var id = this.id;
-                    // console.log(id);
 
                     var split_id = id.split("_");
                     var deletenextindex = split_id[1];
@@ -240,6 +248,7 @@
                     table += '<td><div><input id="ts_to'+nextindex+'" name="ts_to[]" type="time" value="08:00" class="form-control form-control-sm border-0 rounded-0" onChange="calculate('+nextindex+')" /></div></td>';
                     table += '<td><div><input id="ts_total_time'+nextindex+'" name="ts_total_time[]" type="text" class="form-control form-control-sm border-0 rounded-0 text-blue bg-transparent"></div></td>';
                     table += '<td><textarea class="form-control" id="ts_woek'+nextindex+'" name="ts_woek[]"></textarea></td>';
+                    // table += '<td><textarea style="margin-top: 0px;margin-bottom: 0px;height: 49px;width: 510px;" class="form-control textarea" id="ts_woek'+nextindex+'" name="ts_woek[]"></textarea></td>';
                     table += '<td style=" width: 150px; ">';
                     table += '<button type="button" onclick="add_list('+nextindex+')" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">add_circle_outline</span></button>';
                     table += '<button type="button" onclick="copy_list('+nextindex+')" id="copy_'+nextindex+'" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">reply_all</span></button>';
@@ -291,7 +300,8 @@
                         table += '<td><div><input value="'+form+'" id="ts_form'+nextindex+'" name="ts_form[]" type="time" value="08:00" class="form-control form-control-sm border-0 rounded-0" /></div></td>';
                         table += '<td><div><input value="'+to+'" id="ts_to'+nextindex+'" name="ts_to[]" type="time" value="08:00" class="form-control form-control-sm border-0 rounded-0" onChange="calculate('+nextindex+')" /></div></td>';
                         table += '<td><div><input value="'+total+'" id="ts_total_time'+nextindex+'" name="ts_total_time[]" type="text" class="form-control form-control-sm border-0 rounded-0 text-blue bg-transparent"></div></td>';
-                        table += '<td><textarea class="form-control" id="ts_woek'+nextindex+'" name="ts_woek[]">'+work+'</textarea></td>';
+                        // table += '<td><textarea class="form-control" id="ts_woek'+nextindex+'" name="ts_woek[]">'+work+'</textarea></td>';
+                        table += '<td><textarea style="margin-top: 0px;margin-bottom: 0px;height: 49px;width: 510px;" class="form-control textarea" id="ts_woek'+nextindex+'" name="ts_woek[]"></textarea></td>';
                         table += '<td style=" width: 150px; ">';
                         table += '<button type="button" onclick="add_list('+nextindex+')" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">add_circle_outline</span></button>';
                         table += '<button type="button" onclick="copy_list('+nextindex+')" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">reply_all</span></button>';
@@ -312,31 +322,29 @@
         function selectTime(index)
         {
             var master = $('#master_'+index+'').val();
-            // console.log(master);
+            console.log("Ref No. -> "+master);
             $.ajax({
                 url: '{{url("selectTime")}}',
                 type: "get",
                 data : {master:master},
                 datatype: "text",
                 success: function (data) {
-                    $('#time_'+index+'').val(data);
-                    if(data == 5){
-                        $step = 300;
-                    }else if(data == 6){
-                        $step = 360;
-                    }else{
-                        $step = data*60;
-                    }
-
-                    document.getElementById("ts_form"+index+"").step = $step; 
-                    document.getElementById("ts_to"+index+"").step = $step; 
+                   
+                    $('#ts_form'+index+'').datetimepicker({
+                        format: 'HH:mm',
+                        stepping: data,
+                    });
+                    $('#ts_to'+index+'').datetimepicker({
+                        format: 'HH:mm',
+                        stepping: data,           
+                    })
                    
                 },error: function(err){
 					alert(err);
                 }
             });
         }
-        function confirm(index)
+        function confirm(index) // confirm FileNo. (Yellows Files)
         {
             var val = $('#master_'+index+'').val();
             $.ajax({
@@ -354,7 +362,7 @@
                     })
                     .then((willDelete) => {
                         if (willDelete) {
-                            swal("Choose successful!");
+                            // swal("Choose successful!");
                         }else{
                             $('#master_'+index+'').val("");
                         }
@@ -368,28 +376,11 @@
 
         }
         function calculate(index)
-        {            
+        {        
             var start = $('#ts_form'+index+'').val();
             var end = $('#ts_to'+index+'').val();
+            var Law = $('#ts_law_id'+index+'').val();
             
-            var datetime1 = $('#ts_date'+index+'').val()+' '+start;
-            var datetime2 = $('#ts_date'+index+'').val()+' '+end;
-
-            var startDate = new Date(datetime1);
-            var endDate   = new Date(datetime2);
-            
-            if (endDate>startDate == false) {
-                swal("Error filling in time slot. Please try again.");
-            } 
-
-            /* check time */
-            var time = index-1;
-            var i;
-            for (var i = time; i > time.length; i--) {
-                console.log(i);
-            }
-            /* ----------------------------- */
-
             start = start.split(":");
             end = end.split(":");
             var startDate = new Date(0, 0, 0, start[0], start[1], 0);
@@ -398,39 +389,79 @@
             var hours = Math.floor(diff / 1000 / 60 / 60);
             diff -= hours * 1000 * 60 * 60;
             var minutes = Math.floor(diff / 1000 / 60);
-            var Law = $('#ts_law_id'+index+'').val();
 
-            $('#ts_total_time'+index+'').val((hours < 9 ? "0" : "") + hours + ":" + (minutes < 9 ? "0" : "") + minutes);
+            if (endDate>startDate == false) {
+               
+                swal("Error filling in time slot. Please try again.");
+                $('#ts_to'+index+'').val("");
 
-            if($('#ts_total_time'+index+'').val() != ""){
-                var fileno = document.getElementById("master_"+index+"").value;
+                $('#ts_total_time'+index+'').val("ERROR");
+                $('#ts_total_time'+index+'').css("color", "red");
+
+            }else{ // total time is not empty or error
+
+                $('#ts_total_time'+index+'').val((hours < 9 ? "0" : "") + hours + ":" + (minutes < 9 ? "0" : "") + minutes);
+
+                /* Check time repeatedly  */
+                var date = $('#ts_date'+index+'').val();
+                var no = $('#ts_no'+index+'').val();
+                var master = $('#master_'+index+'').val();
+                var law = $('#ts_law_id'+index+'').val();
+                var form = $('#ts_form'+index+'').val();
+                var to = $('#ts_to'+index+'').val();
+                var total = $('#ts_total_time'+index+'').val();
+                var work = $('#ts_woek'+index+'').val();
+                var random = $('#random').val();
+
                 $.ajax({
-                    url: '{{url("selectFixFee")}}',
+                    url: '{{url("getBetweentime")}}',
                     type: "get",
-                    data : {hours:hours , minutes:minutes , fileno:fileno , Law:Law},
+                    data : {index:index,date:date,master:master,law:law,form:form,to:to,total:total,work:work,random:random},
                     datatype: "text",
                     success: function (data) {
-                        if(data == 1) {
-                            
-                            swal({
-                                title: "Excess FixFee!. Do you want to continue using it?",
-                                buttons: true,
-                                dangerMode: true,
-                            })
-                                .then((willDelete) => {
-                                    if (willDelete) { // Yes -> next step
-                                    }else{
-                                        $("#allButton").addClass("disabledbutton");
+                        console.log(data);
+                        if(data == "False"){
+                        
+                            swal("Incorrect time filling","","error");
+                        
+                        }else{
+                            if($('#ts_total_time'+index+'').val() != ""){
+                                var fileno = document.getElementById("master_"+index+"").value;
+                                $.ajax({
+                                    url: '{{url("selectFixFee")}}',
+                                    type: "get",
+                                    data : {hours:hours , minutes:minutes , fileno:fileno , Law:Law},
+                                    datatype: "text",
+                                    success: function (data) {
+                                        if(data == 1) {
+                                            
+                                            swal({
+                                                title: "Excess FixFee!. Do you want to continue using it?",
+                                                buttons: true,
+                                                dangerMode: true,
+                                            })
+                                                .then((willDelete) => {
+                                                    if (willDelete) { // Yes -> next step
+                                                    }else{
+                                                        $("#allButton").addClass("disabledbutton");
+                                                    }
+                                                });
+                                        }
+
+                                    },error: function(err){
+                                        swal(err);
                                     }
                                 });
+                            }
 
                         }
-
                     },error: function(err){
-                        swal(err);
+                    alert(err);
                     }
                 });
-            }
+
+            }           
+
         }
         function deltesheet(id)
         {
@@ -470,14 +501,9 @@
 					}
 				});
         }
-
-        function checklist(index)
-        {
-            console.log(index);
-        }
-
+      
     </script>
-  
-
+ 
+        
 </body>
 </html>

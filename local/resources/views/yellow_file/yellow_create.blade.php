@@ -56,7 +56,7 @@
                         </select>
                     </div>
                     <div class="col-lg-3">
-                        <label>Converter to</label>
+                        <label>Converter To</label>
                         <select id="yf_currencyter" name="yf_currencyter" class="form-control" data-live-search="true" title="Please select">
                             @foreach ($money as $_money)
                                 <option value="{{ $_money->mu_name }}"> {{ $_money->mu_name }} </option>
@@ -197,7 +197,7 @@
                
                 <div class="row form-group">
                     <div class="col-lg-6">
-                        <label>Remark condition</label>
+                        <label>Remark Condition</label>
                         <textarea class="form-control" id="yf_remark" name="yf_remark" rows="3"></textarea>
                     </div>
                     <div class="col-lg-6">
@@ -219,11 +219,11 @@
                         </select>
                     </div>
                     <div class="col-lg-4">
-                        <label>Company's tax id number</label>
+                        <label>Company's Tax Id Number</label>
                         <input type="number" class="form-control" id="yf_taxnumber" name="yf_taxnumber" />
                     </div>
                     <div class="col-lg-4">
-                        <label>Company's name</label>
+                        <label>Company's Name</label>
                         <input type="text" class="form-control" id="yf_inv_num" name="yf_inv_num" />
                     </div>
                 </div> 
@@ -243,7 +243,7 @@
                         <input type="text" class="form-control" id="yf_fax" name="yf_fax" />
                     </div>
                     <div class="col-lg-4">
-                        <label>Email address</label>
+                        <label>Email Address</label>
                         <input type="email" class="form-control" id="yf_email" name="yf_email" />
                     </div>
                 </div>                
@@ -253,13 +253,13 @@
                         <input type="text" class="form-control" id="yf_atten" name="yf_atten" />
                     </div>
                     <div class="col-lg-4">
-                        <label>How to send</label>
+                        <label>How To Send</label>
                         <input type="text" class="form-control" id="yf_invioctext" name="yf_invioctext" />
                     </div>
                 </div>
 
                 <hr class="my-5">
-                <h6 class="card-title mb-4"><strong>03. Document delivery location</strong></h6>
+                <h6 class="card-title mb-4"><strong>03. Document Delivery Location</strong></h6>
                 <div class="row form-group">
                     <!-- <div class="col-lg-4">
                         <label>Branch</label>
@@ -270,11 +270,11 @@
                         </select>
                     </div> -->
                     <div class="col-lg-6">
-                        <label>Company's tax id number</label>
+                        <label>Company's Tax Id Number</label>
                         <input type="number" class="form-control" id="dy_taxnumber" name="dy_taxnumber" />
                     </div>
                     <div class="col-lg-6">
-                        <label>Company's name</label>
+                        <label>Company's Name</label>
                         <input type="text" class="form-control" id="dy_inv_num" name="dy_inv_num" />
                     </div>
                 </div>
@@ -322,7 +322,7 @@
                         <input type="text" class="form-control" id="dy_fax" name="dy_fax" />
                     </div>
                     <div class="col-lg-4">
-                        <label>Email address</label>
+                        <label>Email Address</label>
                         <input type="email" class="form-control" id="dy_email" name="dy_email" />
                     </div>
                 </div>
@@ -338,7 +338,7 @@
                 </div>
 
                 <hr class="my-5">
-                <h6 class="card-title mb-4"><strong>04. Document delivery location</strong></h6>
+                <h6 class="card-title mb-4"><strong>04. Document Delivery Location</strong></h6>
                 <div class="row form-group">
                     <!-- <div class="col-lg-4">
                     <input class="form-control" type="text" id="yf_location" name="yf_location" />
@@ -356,7 +356,7 @@
                 </div>
 
                 <hr class="my-5">
-                <h6 class="card-title mb-4"><strong>05. Refered by</strong></h6>
+                <h6 class="card-title mb-4"><strong>05. Refered By</strong></h6>
                 <div class="row form-group">
                     <div class="col-lg-4">
                     <input class="form-control" type="text" id="yf_refer" name="yf_refer" />
@@ -364,7 +364,7 @@
                 </div>
 
                 <hr class="my-5">
-                <h6 class="card-title mb-4"><strong>06. Conflict check completed</strong></h6>
+                <h6 class="card-title mb-4"><strong>06. Conflict Check Completed</strong></h6>
                 <div class="row form-group">
                     <div class="col-lg-4">
                         <div class="custom-control custom-radio custom-control-inline mt-2">

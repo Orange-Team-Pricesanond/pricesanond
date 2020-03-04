@@ -44,16 +44,19 @@
         <div class="row form-group">
             <div class="col-lg-3">
                 <label>Currency</label>
-                <select id="yf_currency" name="yf_currency" class="form-control" data-live-search="true" title="Please select">
-                    <option {{ ( $yellows->yf_currency == "USD") ? "selected" : "" }}>USD</option>
-                    <option {{ ( $yellows->yf_currency == "TH") ? "selected" : "" }}>THB</option>
+                <select id="yf_currency" name="yf_currency" class="form-control select2" data-live-search="true" title="Please select">
+                    @foreach ($unit as $_unit)   
+                        <option value="{{ $_unit->id_mu }}" {{ ( $_unit->mu_name == $yellows->yf_currency) ? "selected" : "" }}> {{ $_unit->mu_name }} </option>
+                    @endforeach
+
                 </select>
             </div>
             <div class="col-lg-3">
-                <label>Converter to</label>
-                <select id="yf_currencyter" name="yf_currencyter" class="form-control" data-live-search="true" title="Please select">
-                    <option {{ ( $yellows->yf_currencyter == "USD") ? "selected" : "" }}>USD</option>
-                    <option {{ ( $yellows->yf_currencyter == "TH") ? "selected" : "" }}>THB</option>
+                <label>Converter To</label>
+                <select id="yf_currencyter" name="yf_currencyter" class="form-control select2" data-live-search="true" title="Please select">
+                    @foreach ($unit as $_unit)   
+                        <option value="{{ $_unit->id_mu }}" {{ ( $_unit->mu_name == $yellows->yf_currencyter) ? "selected" : "" }}> {{ $_unit->mu_name }} </option>
+                    @endforeach
                 </select>
             </div>
            
@@ -100,10 +103,9 @@
                 </select>
             </div>
         </div>
-
         <div class="row form-group">
             <div class="col-lg-3">
-                <label class="d-block">Currency Both option</label>
+                <label class="d-block">Currency Both Option</label>
                 <div class="custom-control custom-radio custom-control-inline mt-2">
                     <input type="radio" id="both_1" name="yf_bothcurrency" class="custom-control-input" value="1" {{ ( $yellows->yf_bothcurrency == "1" ) ? "checked" : "" }}>
                     <label class="custom-control-label" for="both_1">THB</label>
@@ -114,11 +116,11 @@
                 </div>
             </div>
 
-            <div class="col-lg-2">
+            <div class="col-lg-1">
                 <label>Vat</label>
                 <input type="number" min="7" class="form-control" id="yf_vat" name="yf_vat" value="{{$yellows->yf_vat}}">
             </div> 
-            <div class="col-lg-4">
+            <div class="col-lg-6">
                 <label class="d-block">Time</label>
                 <div class="custom-control custom-radio custom-control-inline mt-2">
                     <input type="radio" id="time_1" name="time" class="custom-control-input" value="5" {{ ( $yellows->yf_time == "5" ) ? "checked" : "" }}>
@@ -128,131 +130,144 @@
                     <input type="radio" id="time_2" name="time" class="custom-control-input" value="6" {{ ( $yellows->yf_time == "6" ) ? "checked" : "" }}>
                     <label class="custom-control-label" for="time_2">6 Increment</label>
                 </div>
+                <div class="custom-control custom-radio custom-control-inline  mt-2">
+                    <input style=" width: 60px; " type="text" id="time_3" name="time" class="form-control" value="{{( $yellows->yf_time != 6 || $yellows->yf_time != 5) ? $yellows->yf_time : '' }}">
+                    <label class="form-control" for="time_3" style="border: none;">Other</label>
+                </div>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-2">
                 <label>Group</label>
                 <input type="text" min="7" class="form-control" id="yt_group" name="yt_group" value="{{$yellows->yt_group}}">
             </div>
         </div>
 
-        <!-- <div class="row form-group">
-            <label class="col-12">Hourly rates</label>            
-            <div class="col-lg-2">
-                <div class="input-group mb-2">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text border-0">A</div>
-                    </div>
-                    <input type="text" class="form-control" id="yf_rates_a" name="yf_rates_a" value="{{$val->yfd_rates_a}}">
-                </div>
-            </div>
-            <div class="col-lg-2">
-                <div class="input-group mb-2">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text border-0">B</div>
-                    </div>
-                    <input type="text" class="form-control" id="yf_rates_b" name="yf_rates_b" value="{{$val->yfd_rates_b}}">
-                </div>
-            </div>
-            <div class="col-lg-2">
-                <div class="input-group mb-2">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text border-0">C</div>
-                    </div>
-                    <input type="text" class="form-control" id="yf_rates_c" name="yf_rates_c" value="{{$val->yfd_rates_c}}">
-                </div>
-            </div>
-            <div class="col-lg-2">
-                <div class="input-group mb-2">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text border-0">D</div>
-                    </div>
-                    <input type="text" class="form-control" id="yf_rates_d" name="yf_rates_d" value="{{$val->yfd_rates_d}}">
-                </div>
-            </div>
-            <div class="col-lg-2">
-                <div class="input-group mb-2">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text border-0">E</div>
-                    </div>
-                    <input type="text" class="form-control" id="yf_rates_e" name="yf_rates_e" value="{{$val->yfd_rates_e}}">
-                </div>
-            </div>
-            <div class="col-lg-2">
-                <div class="input-group mb-2">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text border-0">F</div>
-                    </div>
-                    <input type="text" class="form-control" id="yf_rates_f" name="yf_rates_f" value="{{$val->yfd_rates_f}}">
-                </div>
-            </div>
-        </div> -->
-
         @foreach ($detail as $val)
-        <div class="row form-group">
-            <label class="col-12">Hourly rates</label>            
-            <div class="col-lg-2">
-                <div class="input-group mb-2">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text border-0">A</div>
+        @if ($val->yfd_style == 1)
+            <div class="row form-group">
+                <label class="col-12">Hourly Rates</label>            
+                <div class="col-lg-2">
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text border-0">A</div>
+                        </div>
+                        <p class="form-control">{{$val->yfd_rates_a}}</p>
                     </div>
-                    <p class="form-control">{{$val->yfd_rates_a}}</p>
+                </div>
+                <div class="col-lg-2">
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text border-0">B</div>
+                        </div>
+                        <p class="form-control">{{$val->yfd_rates_b}}</p>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text border-0">C</div>
+                        </div>
+                        <p class="form-control">{{$val->yfd_rates_c}}</p>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text border-0">D</div>
+                        </div>
+                        <p class="form-control">{{$val->yfd_rates_d}}</p>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text border-0">E</div>
+                        </div>
+                        <p class="form-control">{{$val->yfd_rates_e}}</p>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text border-0">F</div>
+                        </div>
+                        <p class="form-control">{{$val->yfd_rates_f}}</p>
+                    </div>
+                </div>
+                <div class="col-lg-2" style="margin-left: 90%;">
+                    <div class="input-group mb-2 open_history">
+                        + Review
+                    </div>
                 </div>
             </div>
-            <div class="col-lg-2">
-                <div class="input-group mb-2">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text border-0">B</div>
+        @else
+            <div class="row form-group history_rate" style="display:none;">
+                <div class="col-lg-2">
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text border-0">A</div>
+                        </div>
+                        <p class="form-control">{{$val->yfd_rates_a}}</p>
                     </div>
-                    <p class="form-control">{{$val->yfd_rates_b}}</p>
+                </div>
+                <div class="col-lg-2">
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text border-0">B</div>
+                        </div>
+                        <p class="form-control">{{$val->yfd_rates_b}}</p>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text border-0">C</div>
+                        </div>
+                        <p class="form-control">{{$val->yfd_rates_c}}</p>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text border-0">D</div>
+                        </div>
+                        <p class="form-control">{{$val->yfd_rates_d}}</p>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text border-0">E</div>
+                        </div>
+                        <p class="form-control">{{$val->yfd_rates_e}}</p>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text border-0">F</div>
+                        </div>
+                        <p class="form-control">{{$val->yfd_rates_f}}</p>
+                    </div>
                 </div>
             </div>
-            <div class="col-lg-2">
-                <div class="input-group mb-2">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text border-0">C</div>
-                    </div>
-                    <p class="form-control">{{$val->yfd_rates_c}}</p>
-                </div>
-            </div>
-            <div class="col-lg-2">
-                <div class="input-group mb-2">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text border-0">D</div>
-                    </div>
-                    <p class="form-control">{{$val->yfd_rates_d}}</p>
-                </div>
-            </div>
-            <div class="col-lg-2">
-                <div class="input-group mb-2">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text border-0">E</div>
-                    </div>
-                    <p class="form-control">{{$val->yfd_rates_e}}</p>
-                </div>
-            </div>
-            <div class="col-lg-2">
-                <div class="input-group mb-2">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text border-0">F</div>
-                    </div>
-                    <p class="form-control">{{$val->yfd_rates_f}}</p>
-                </div>
-            </div>
-        </div>
+        @endif
         @endforeach
         <div class="row form-group">
-            <div class="col-lg-4">
+            <div class="col-lg-12">
                 <div class="form-group">
-                    <label>Invoice name</label>
+                    <label>Invoice Name</label>
                     <input type="text" class="form-control" id="yf_inv_num" name="yf_inv_num" value="{{$yellows->yf_inv_num}}">
                 </div>
-                <div class="form-group">
-                    <label>Company's tax id number</label>
+             
+            </div>
+            <div class="col-lg-4">
+                   <div class="form-group">
+                    <label>Company's Tax Id Number</label>
                     <input type="text" class="form-control" id="yf_taxnumber" name="yf_taxnumber" value="{{$yellows->yf_taxnumber}}">
                 </div>
             </div>
             <div class="col-lg-8">
-                <label>Remark condition</label>
+                <label>Remark Condition</label>
                 <textarea class="form-control" rows="4" id="yf_remark" name="yf_remark">{{$yellows->yf_remark}}</textarea>
             </div>
         </div>
@@ -269,11 +284,11 @@
                 </select>
             </div>
             <div class="col-lg-4">
-                <label>Invoice name</label>
+                <label>Invoice Name</label>
                 <input type="text" class="form-control" id="yf_taxnumber" name="yf_taxnumber" value="{{$yellows->yf_taxnumber}}">
             </div>
             <div class="col-lg-4">
-                <label>Company's tax id number</label>
+                <label>Company's Tax Id Number</label>
                 <input type="text" class="form-control" id="yf_inv_num" name="yf_inv_num" value="{{$yellows->yf_inv_num}}">
             </div>
         </div>
@@ -293,7 +308,7 @@
                 <input type="text" class="form-control" id="yf_fax" name="yf_fax" value="{{$yellows->yf_fax}}">
             </div>
             <div class="col-lg-4">
-                <label>Email address</label>
+                <label>Email Address</label>
                 <input type="text" class="form-control" id="yf_email" name="yf_email" value="{{$yellows->yf_email}}">
             </div>
         </div>
@@ -303,21 +318,21 @@
                 <input type="text" class="form-control" id="yf_atten" name="yf_atten" value="{{$yellows->yf_atten}}">
             </div>
             <div class="col-lg-4">
-                <label>How to send</label>
+                <label>How To Send</label>
                 <input type="text" class="form-control" id="yf_invioctext" name="yf_invioctext" value="{{$yellows->yf_invioctext}}">
             </div>
         </div>
 
         <hr class="my-5">
-        <h6 class="card-title mb-4"><strong>03. Document delivery location</strong></h6>
+        <h6 class="card-title mb-4"><strong>03. Document Delivery Location</strong></h6>
        
         <div class="row form-group">
             <div class="col-lg-6">
-                <label>Company's tax id number</label>
+                <label>Company's Tax Id Number</label>
                 <input type="number" class="form-control" id="dy_taxnumber" name="dy_taxnumber" value="{{$yellows->dy_taxnumber}}">
             </div>
             <div class="col-lg-6">
-                <label>Company's name</label>
+                <label>Company's Name</label>
                 <input type="text" class="form-control" id="dy_inv_num" name="dy_inv_num" value="{{$yellows->dy_inv_num}}">
             </div>
         </div>
@@ -338,7 +353,7 @@
                 <input type="text" class="form-control" id="dy_fax" name="dy_fax" value="{{$yellows->dy_fax}}">
             </div>
             <div class="col-lg-4">
-                <label>Email address</label>
+                <label>Email Address</label>
                 <input type="text" class="form-control" id="dy_email" name="dy_email" value="{{$yellows->dy_email}}">
             </div>
         </div>
@@ -351,7 +366,7 @@
 
 
         <hr class="my-5">
-        <h6 class="card-title mb-4"><strong>04. Refered by</strong></h6>
+        <h6 class="card-title mb-4"><strong>04. Refered By</strong></h6>
         <div class="row form-group">
             <div class="col-lg-4">
                 <input type="text" class="form-control" id="yf_refer" name="yf_refer" value="{{$yellows->yf_refer}}">
@@ -359,7 +374,7 @@
         </div>
 
         <hr class="my-5">
-        <h6 class="card-title mb-4"><strong>05. Conflict check completed</strong></h6>
+        <h6 class="card-title mb-4"><strong>05. Conflict Check Completed</strong></h6>
         <div class="row form-group">
             <div class="col-lg-4">
                 <div class="custom-control custom-radio custom-control-inline mt-2">

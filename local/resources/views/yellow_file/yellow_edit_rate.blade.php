@@ -7,22 +7,17 @@
             {{ csrf_field() }}
             
                 <div class="row form-group">
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <label class="d-block">Option</label>
                         <select id="option" name="option" class="form-control" style="width:100%; height:37px;" onclick="getData(this)">
                             <option value="1"> Group </option>
                             <option value="2"> Partner </option>
                             <option value="3"> Hold Work </option>
-                            <option value="0"> Chang Rate </option>
+                            <option value="0"> Files No. </option>
                         </select>
-                    </div>   
-                    <div class="col-lg-6">
-                        <label class="d-block">Date</label>
-                        <input type="date" class="form-control" id="adjust" name="adjust" value="{{$datenow}}">
-                    </div>                
-                </div>
-                <div class="row form-group">  
-                <div class="col-lg-4" id="div_chang" style=" display: none; ">
+                    </div>
+
+                    <div class="col-lg-4" id="div_chang" style=" display: none; ">
                         <label>Files No.</label>
                         <input type="text" class="form-control" id="file_no" name="file_no" />
                     </div>  
@@ -37,11 +32,16 @@
                                 <option value="{{ $val->pt_id }}"> {{ $val->pt_name }} </option>
                             @endforeach
                         </select>
-                    </div>
-                </div>    
+                    </div>   
 
+                    <div class="col-lg-4">
+                        <label class="d-block">Effective Date</label>
+                        <input type="date" class="form-control" id="adjust" name="adjust" value="{{$datenow}}">
+                    </div>                
+                </div>
+               
                 <div class="row form-group">
-                    <label class="col-12">Hourly rates</label>
+                    <label class="col-12">Hourly Rates</label>
                     <div class="col-lg-2">
                         <div class="input-group mb-2">
                             <div class="input-group-prepend">

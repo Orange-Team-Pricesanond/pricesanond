@@ -103,6 +103,61 @@
     <script type="text/javascript" src="{{ asset('asset/DataTables/datatables.min.js')}}"></script>
 
     <script>
+         $(document).ready(function(){
+            // Add new element
+            $(".add").click(function(){
+
+                 // Finding total number of elements added
+                 var total_element = $(".add_code").length;
+
+                // last <div> with element class id
+                var lastid = $(".add_code:last").attr("id");
+                var split_id = lastid.split("_");
+
+                var nextindex = Number(split_id[1]) + 1;
+                var max = 20;
+                var idv = nextindex; 
+                var int = nextindex-1;
+                var tem = nextindex+1;
+
+                // Check total number elements
+                if(total_element < max ){
+                    // Adding new div container after last occurance of element class
+                    $(".add_code:last").after("<div class='add_code col-md-12' id='div_"+ nextindex +"'></div>");
+                    // Adding element to <div>
+                    
+                    var table = '<div class="col-md-12">';
+                        table += '<div class="form-group">';
+                            table += '<label>code</label>';
+                            table += ' <input name="code[]" id="code" type="text" class="form-control">';
+                        table += '</div>';
+                    table += '</div>';
+
+                    table += '<div class="col-md-12">';
+                        table += '<div class="form-group">';
+                            table += '<label>Rate</label>';
+                            table += ' <input name="rates[]" id="rates" type="text" class="form-control">';
+                        table += '</div>';
+                    table += '</div>';
+                    table += '<button type="button" class="remove" id="remove_'+nextindex+'" style="background-color: #ffffff00;border-color: #f0f8ff00;"><span class="more material-icons md-12">delete</span></button>';
+
+                    $("#div_" + nextindex).append(table);
+                }
+                $('.remove').click(function(){
+                    var id = this.id;
+                    // console.log(id);
+
+                    var split_id = id.split("_");
+                    var deletenextindex = split_id[1];
+                    // Remove <div> with id
+                    $("#div_" + deletenextindex).remove();
+                });
+            });
+         });
+
+    </script>
+
+    <script>
         $(document).ready(function() {
             $('.tbpersonal').DataTable( 
                 {
@@ -192,7 +247,6 @@
         {
             document.getElementById("side_person_clone_"+id+"").classList.add('active');
         }
-   
    
     </script>
 
