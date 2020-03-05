@@ -107,6 +107,14 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('deletepersonal', 'PersonalController@delete');
     Route::post('updatepersonal', 'PersonalController@update');
 
+    //---------------------------- Receive -----------------------------
+    Route::get('receive', function () {
+        return view('receive');
+    });
+    Route::get('note', function () {
+        return view('credit-not');
+    });
+
 });
 
 //----------------------- Login --------------------------------

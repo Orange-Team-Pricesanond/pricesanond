@@ -347,6 +347,12 @@ class TimeController extends Controller
 
                 $Cal = number_format($_total/60 ,2, '.','');
                 $cal_rat = number_format($Cal*$rate);
+                
+                if (strlen($_val->ts_woek) > 100) {
+                    $workper = substr($_val->ts_woek,0,100)."...";
+                }else{
+                    $workper = $_val->ts_woek;
+                }
 
                 $data['data'][]= array(
                     "ref" => $yellow->yf_fileno,
@@ -357,7 +363,7 @@ class TimeController extends Controller
                     "To" => '<a data-toggle="modal" onClick="selectSorttime('.$sl_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_to.'</a>',
                     "Total" => '<a data-toggle="modal" onClick="selectSorttime('.$sl_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.number_format($_total/60 ,2, '.','').'</a>',
                     "rate" =>  $cal_rat,
-                    "work" => '<a data-toggle="modal" onClick="selectSorttime('.$sl_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_woek.'</a>',
+                    "work" => '<a data-toggle="modal" onClick="selectSorttime('.$sl_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$workper.'</a>',
                     "status" => '<a data-toggle="modal" onClick="selectSorttime('.$sl_time.','.$_val->ts_ref.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$status.'</a>',
                     "delete" => '<i class="material-icons md-12">delete</i>',
                 );
@@ -435,64 +441,75 @@ class TimeController extends Controller
        }
 
         $i = 1;
-        foreach($select as $_val){
-            
-            $yellow = yellowfileModel::where('id_yf',$_val->ts_id_yf)->first();
+        if($select->count()>0){
+            foreach($select as $_val){
 
-            if($_val->ts_status == 1 ){
-                $status = "Lawyer";
-            }elseif( $_val->ts_status == 2 ){
-                $status = "Admin";
-            }elseif( $_val->ts_status == 3 ){
-                $status = "Partner";
-            }else{
-                $status = "Audit";    
-            }
+                $yellow = yellowfileModel::where('id_yf',$_val->ts_id_yf)->first();
 
-            // search rate
-            if($_val->ts_reate_work == 'A')
-            {
-                $rate = $yellow->yf_rates_a;
-            }
-            elseif($_val->ts_reate_work == 'B')
-            {   
-                $rate = $yellow->yf_rates_b;
-            }
-            elseif($_val->ts_reate_work == "C")
-            {
-                $rate = $yellow->yf_rates_c;
-            }
-            elseif($_val->ts_reate_work == "D")
-            {
-                $rate = $yellow->yf_rates_d;
-            }
-            elseif($_val->ts_reate_work == "E")
-            {   
-                $rate = $yellow->yf_rates_e;
-            }else{ // F
-                $rate = $yellow->yf_rates_f;
-            }
+                if($_val->ts_status == 1 ){
+                    $status = "Lawyer";
+                }elseif( $_val->ts_status == 2 ){
+                    $status = "Admin";
+                }elseif( $_val->ts_status == 3 ){
+                    $status = "Partner";
+                }else{
+                    $status = "Audit";    
+                }
 
-            $time = explode(':', $_val->ts_total_time);
-            $_total = (($time[0]*60) + ($time[1]))+ ($time[2]/60);
+                // search rate
+                if($_val->ts_reate_work == 'A')
+                {
+                    $rate = $yellow->yf_rates_a;
+                }
+                elseif($_val->ts_reate_work == 'B')
+                {   
+                    $rate = $yellow->yf_rates_b;
+                }
+                elseif($_val->ts_reate_work == "C")
+                {
+                    $rate = $yellow->yf_rates_c;
+                }
+                elseif($_val->ts_reate_work == "D")
+                {
+                    $rate = $yellow->yf_rates_d;
+                }
+                elseif($_val->ts_reate_work == "E")
+                {   
+                    $rate = $yellow->yf_rates_e;
+                }else{ // F
+                    $rate = $yellow->yf_rates_f;
+                }
 
-            $Cal = number_format($_total/60 ,2, '.','');
-            $cal_rat = number_format($Cal*$rate);
+                $time = explode(':', $_val->ts_total_time);
+                $_total = (($time[0]*60) + ($time[1]))+ ($time[2]/60);
 
-            $data['data'][]= array(
-                "ref" => $yellow->yf_fileno,
-                "id" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$i.'</a>',
-                "date" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_date.'</a>',
-                "code" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_law_id.'</a>',
-                "Form" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_form.'</a>',
-                "To" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_to.'</a>',
-                "Total" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.number_format($_total/60 ,2, '.','').'</a>',
-                "rate" => $cal_rat,
-                "work" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_woek.'</a>',
-                "status" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$status.'</a>',
-                "delete" => '<i class="material-icons md-12">delete</i>',
-            );
-        $i++; }
+                $Cal = number_format($_total/60 ,2, '.','');
+                $cal_rat = number_format($Cal*$rate);
+                
+                if (strlen($_val->ts_woek) > 100) {
+                    $workper = substr($_val->ts_woek,0,100)."...";
+                }else{
+                    $workper = $_val->ts_woek;
+                }
+
+                $data['data'][]= array(
+                    "ref" => $yellow->yf_fileno,
+                    "id" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$i.'</a>',
+                    "date" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_date.'</a>',
+                    "code" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_law_id.'</a>',
+                    "Form" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_form.'</a>',
+                    "To" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$_val->ts_to.'</a>',
+                    "Total" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.number_format($_total/60 ,2, '.','').'</a>',
+                    "rate" => $cal_rat,
+                    "work" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'"><abbr title="'.$_val->ts_woek.'">'.$workper.'</abbr></a>',
+                    "status" => '<a data-toggle="modal" onClick="selectSorttime('.$yellow->yf_time.')" data-target="#pop_matter'.$_val->ts_ref.'">'.$status.'</a>',
+                    "delete" => '<i class="material-icons md-12">delete</i>',
+                );
+            $i++; }
+        }else{
+            $data['data'] = [];
+        }        
+
         echo json_encode($data);        
     }
     public function showDetaileTimesheet(Request $request)
@@ -660,45 +677,29 @@ class TimeController extends Controller
 
         $form = date("Y-m-d H:i:s", strtotime($request->date." ".$request->form));
         $to = date("Y-m-d H:i:s", strtotime($request->date." ".$request->to));
+        
+        $selectTime = DB::table('logts')->whereBetween('log_ts_form', [$form, $to])->orWhereBetween('log_ts_to', [$form, $to])->where('log_ts_law_id',$code)->get();
+        $Count = $selectTime->count();
 
-        $ch = DB::table('logts')->whereBetween('log_ts_form', [$form, $to])->orWhereBetween('log_ts_to', [$form, $to])->get();
-        $wordCount = $ch->count();
-        if ($wordCount<1) {
-            echo "True";
-        }else{
+        if ($Count>0) { 
             echo "False";
+        } else {
+            $data = [
+                'log_random' => $random,
+                'log_ts_id_yf' => $request->master,
+                'log_ts_law_id' => $request->law,
+                'log_ts_form' => $form,
+                'log_ts_to' => $to,
+                'log_created_at' => date('Y-m-d H:i:s'),
+                'log_updated_at' => date('Y-m-d H:i:s'),
+            ];
+            DB::table('logts')->insert($data);
+            echo "True";
         }
-        // if ($wordCount>0) {
-            // $count = 0;
-            // foreach($ch as $_val){
-            //     if ($_val->log_random == $random) {
-            //         if ($_val->log_ts_law_id == $code) {
-            //             $count += 1;
-            //         } else {
-            //             $count += 0;
-            //         }
-            //     }else{
-            //         $count += 0;
-            //     }
-            // }
-            // if ($count>0) {
-            //     echo "False";
-            // } else {
-            //     $data = [
-            //         'log_random' => $random,
-            //         'log_ts_id_yf' => $request->master,
-            //         'log_ts_law_id' => $request->law,
-            //         'log_ts_form' => $form,
-            //         'log_ts_to' => $to,
-            //         'log_created_at' => date('Y-m-d H:i:s'),
-            //         'log_updated_at' => date('Y-m-d H:i:s'),
-            //     ];
-            //     DB::table('logts')->insert($data);
-            //     echo "True 1 ";
-            // }
-
-        // }
+        
+        
     }
+    
 
    
 }

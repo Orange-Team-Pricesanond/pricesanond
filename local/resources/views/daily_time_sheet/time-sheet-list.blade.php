@@ -32,7 +32,7 @@
     <div class="card-body">
         <!-- <table id="list_sm" class="listed table table-hover display responsive nowrap w-100"> -->
         
-        <table id="list_index" class="table hover">        
+        <table id="list_index" class="table hover nowrap  ">        
             <thead>
                 <tr>
                     <th width="30">#</th>

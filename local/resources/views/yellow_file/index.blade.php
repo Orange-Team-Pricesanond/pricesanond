@@ -23,7 +23,7 @@
 
     <link rel="stylesheet" type="text/css" href="{{ asset('asset/DataTables/datatables.min.css') }}"/>
 
-    <style>
+<style>
 
 
     .select2-selection{
